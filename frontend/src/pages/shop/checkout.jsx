@@ -15,6 +15,7 @@ const ShoppingCheckOut = () => {
     const { approvalURL } = useSelector(state => state.shopOrder)
     const [selectedAddress, setSelectedAddress] = useState(null)
     const [isPaymentStart, setIsPaymentStart] = useState(false)
+    const [isCODPaymentStart, setCODIsPaymentStart] = useState(false)
     const dispatch = useDispatch()
 
     const totalCartAmout = cartItems && cartItems.items && cartItems.items.length > 0 ?
@@ -42,7 +43,7 @@ const ShoppingCheckOut = () => {
             userId: user?.id,
             cartId: cartItems?._id,
             cartItems: cartItems.items.map((item) => ({
-                productId: item?._id,
+                productId: item?.productId,
                 image: item?.image,
                 title: item?.title,
                 price: item?.salePrice > 0 ? item?.salePrice : item?.price,
@@ -57,7 +58,7 @@ const ShoppingCheckOut = () => {
                 notes: selectedAddress?.notes
             },
             orderStatus: 'pending',
-            paymentMethod: 'paypal',
+            paymentMethod: 'PayPal',
             paymentStatus: 'pending',
             totalAmount: totalCartAmout,
             orderDate: new Date(),
@@ -74,6 +75,62 @@ const ShoppingCheckOut = () => {
 
         })
     }
+
+    const handleCODPayment = () => {
+        if (cartItems.length === 0) {
+            toast({
+                title: 'Your cart is empty. Please add items to proceed',
+                variant: 'destructive'
+            });
+            return
+        }
+        if (selectedAddress === null) {
+            toast({
+                title: 'Please select one address to proceed',
+                variant: 'destructive'
+            });
+            return
+        }
+        const orderData = {
+            userId: user?.id,
+            cartId: cartItems?._id,
+            cartItems: cartItems.items.map((item) => ({
+                productId: item?.productId,
+                image: item?.image,
+                title: item?.title,
+                price: item?.salePrice > 0 ? item?.salePrice : item?.price,
+                quantity: item?.quantity
+            })),
+            address: {
+                addressId: selectedAddress?._id,
+                address: selectedAddress?.address,
+                city: selectedAddress?.city,
+                pincode: selectedAddress?.pincode,
+                phone: selectedAddress?.phone,
+                notes: selectedAddress?.notes
+            },
+            orderStatus: 'pending',
+            paymentMethod: 'COD',
+            paymentStatus: 'pending',
+            totalAmount: totalCartAmout,
+            orderDate: new Date(),
+            orderUpdateDate: new Date(),
+            paymentId: '',
+            payerId: ''
+        }
+        dispatch(createNewOrder(orderData)).then(data => {
+            if (data?.payload?.success) {
+                setCODIsPaymentStart(true)
+                window.location.href = '/shop/paypal-return'
+
+            } else {
+                setCODIsPaymentStart(false)
+            }
+
+        })
+    }
+
+
     if (approvalURL) {
         window.location.href = approvalURL
     }
@@ -96,10 +153,14 @@ const ShoppingCheckOut = () => {
                             <span className='font-bold'>${totalCartAmout.toFixed(2)}</span>
                         </div>
                     </div>
-                    <div className='mt-4 w-full'>
+                    <div className='mt-4 w-full flex items-center gap-4'>
                         <Button onClick={handlePaypalPayment}>{isPaymentStart
                             ? "Processing Paypal Payment..."
-                            : "Checkout with Paypal"}
+                            : "PayPal"}
+                        </Button>
+                        <Button onClick={handleCODPayment}>{isCODPaymentStart
+                            ? "Processing COD Payment..."
+                            : "Cash on Delivery"}
                         </Button>
                     </div>
                 </div>
@@ -107,5 +168,6 @@ const ShoppingCheckOut = () => {
         </div>
     )
 }
+
 
 export default ShoppingCheckOut

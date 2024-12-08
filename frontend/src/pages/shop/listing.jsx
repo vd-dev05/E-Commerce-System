@@ -33,6 +33,8 @@ const ShoppingListing = () => {
     const [sort, setSort] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
 
+    const categorySearchParam = searchParams.get('category')
+
     const handleSort = (value) => {
         setSort(value)
     }
@@ -85,7 +87,7 @@ const ShoppingListing = () => {
     useEffect(() => {
         setSort('default')
         setFilters(JSON.parse(sessionStorage.getItem('filters')) || {})
-    }, [])
+    }, [categorySearchParam])
 
     useEffect(() => {
         if (filters && Object.keys(filters).length > 0) {

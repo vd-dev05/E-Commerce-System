@@ -22,6 +22,14 @@ const PaypalReturnPage = () => {
                     window.location.href = '/shop/payment-success'
                 }
             })
+        } else {
+            const orderId = JSON.parse(sessionStorage.getItem('OrderId'))
+            dispatch(capturePayment({ orderId })).then(data => {
+                if (data?.payload?.success) {
+                    sessionStorage.removeItem('OrderId')
+                    window.location.href = '/shop/payment-success'
+                }
+            })
         }
     }, [payerId, paymentId, dispatch])
 

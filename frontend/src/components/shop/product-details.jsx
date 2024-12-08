@@ -84,7 +84,15 @@ const ShopProductDetails = () => {
 
                     <p className='mt-5 text-gray-600 md:w-4/5 my-8'>{productDetails.description}</p>
                     <div className='flex items-center gap-4 mt-4 '>
-                        <Button onClick={() => handleAddToCart(productDetails?._id)}>ADD TO CARD</Button>
+                        {
+                            productDetails.totalStock === 0 ?
+                                (
+                                    <Button className="opacity-60 cursor-not-allowed bg-gray-500">Out Of Stock</Button>
+                                ) : (
+                                    <Button onClick={() => handleAddToCart(productDetails?._id)}>ADD TO CARD</Button>
+                                )
+                        }
+
                     </div>
 
                     <hr className='mt-8 sm:w-4/5' />
