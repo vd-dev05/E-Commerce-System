@@ -6,7 +6,7 @@ const backendUrl = 'http://localhost:5000';
 
 
 export const fetchAllFilteredProducts = createAsyncThunk('/products/fetchAllProducts',
-    async ({ filterParams, sortParams, page = 1, limit = 10, search }) => {
+    async ({ filterParams, sortParams, page = 1, limit = 12, search }) => {
 
         const query = new URLSearchParams({
             ...filterParams,

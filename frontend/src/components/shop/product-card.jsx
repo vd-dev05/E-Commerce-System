@@ -34,17 +34,6 @@ const ShoppingProductCard = ({ product }) => {
                     </div>
                 </div>
             </Link>
-            {/* {
-                product?.totalStock === 0 ? (
-                    <Button className='absolute right-4 bottom-4 opacity-60 cursor-not-allowed bg-gray-500' onClick={() => handleAddToCart(product._id)}>
-                        <ShoppingCart size={16} />
-                    </Button>
-                ) : (
-                    <Button className='absolute right-4 bottom-4' onClick={() => handleAddToCart(product._id)}>
-                        <ShoppingCart size={16} />
-                    </Button>
-                )
-            } */}
         </div>
 
     )

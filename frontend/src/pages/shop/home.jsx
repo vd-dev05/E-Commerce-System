@@ -12,6 +12,8 @@ import { SiAdidas, SiNike, SiPuma, SiZara } from "react-icons/si";
 import { FaWatchmanMonitoring } from "react-icons/fa6";
 import { useNavigate } from 'react-router'
 import { addToCart, fetchCartItems } from '@/store/shop-slice/cart-slice'
+import OurPolicy from '@/components/shop/OurPolicy'
+import NewsletterBox from '@/components/shop/NewsletterBox'
 
 
 
@@ -40,7 +42,6 @@ const ShoppingHome = () => {
     const [currentSlide, setCurrentSlide] = useState(0)
     const dispatch = useDispatch()
     const { products } = useSelector(state => state.shopProducts)
-    const { user } = useSelector(state => state.auth)
     const navigate = useNavigate()
 
     const handleToListingPage = (getItem, section) => {
@@ -53,25 +54,6 @@ const ShoppingHome = () => {
 
     }
 
-    const handleAddToCart = (productId) => {
-
-        dispatch(addToCart({
-            userId: user?.id,
-            productId: productId,
-            quantity: 1
-        })).then(data => {
-            if (data?.payload?.success) {
-                dispatch(fetchCartItems(user?.id))
-                toast({
-                    title: 'Successfully added to the cart.'
-                })
-            }
-        }
-        )
-    }
-
-
-
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length)
@@ -81,7 +63,7 @@ const ShoppingHome = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(fetchAllFilteredProducts({ filterParmas: {}, sortParams: '' }))
+        dispatch(fetchAllFilteredProducts({ filterParmas: {}, sortParams: '', search: '' }))
     }, [dispatch])
 
 
@@ -160,7 +142,7 @@ const ShoppingHome = () => {
                         {
                             products && products.length > 0 ? (
                                 products.slice(0, 10).map((product, index) => (
-                                    <ShoppingProductCard product={product} handleAddToCart={handleAddToCart} key={index} />
+                                    <ShoppingProductCard product={product} key={index} />
                                 ))
                             ) : null
                         }
@@ -168,7 +150,8 @@ const ShoppingHome = () => {
                     </div>
                 </div>
             </section>
-
+            <OurPolicy />
+            <NewsletterBox />
         </div>
     )
 }
