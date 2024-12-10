@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Badge } from '../ui/badge'
-import { Button } from '../ui/button'
-import { ShoppingCart } from 'lucide-react'
 
-const ShoppingProductCard = ({ product, handleAddToCart }) => {
+
+const ShoppingProductCard = ({ product }) => {
 
     return (
         <div className='text-gray-700 cursor-pointer rounded-xl border border-gray-300 overflow-hidden relative'>
@@ -27,7 +26,7 @@ const ShoppingProductCard = ({ product, handleAddToCart }) => {
                 </div>
                 <div className='flex items-center px-4 py-2 gap-2'>
                     <div className='flex flex-col gap-3'>
-                        <p className='text-lg font-medium'>{product.title}</p>
+                        <p className='text-sm font-medium'>{product.title}</p>
                         <div className='flex items-center gap-6'>
                             <p className={`${product.salePrice > 0 ? 'line-through text-gray-400' : ""} text-base font-normal`}>${product.price}</p>
                             <p className={`${product.salePrice > 0 ? "text-base font-bold" : 'hidden'}`}>${product.salePrice}</p>
@@ -35,7 +34,7 @@ const ShoppingProductCard = ({ product, handleAddToCart }) => {
                     </div>
                 </div>
             </Link>
-            {
+            {/* {
                 product?.totalStock === 0 ? (
                     <Button className='absolute right-4 bottom-4 opacity-60 cursor-not-allowed bg-gray-500' onClick={() => handleAddToCart(product._id)}>
                         <ShoppingCart size={16} />
@@ -45,8 +44,7 @@ const ShoppingProductCard = ({ product, handleAddToCart }) => {
                         <ShoppingCart size={16} />
                     </Button>
                 )
-            }
-
+            } */}
         </div>
 
     )

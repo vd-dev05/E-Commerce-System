@@ -12,6 +12,8 @@ import cartRouter from './routes/shop/cartRoutes.js';
 import addressRouter from './routes/shop/addressRoutes.js';
 import orderRouter from './routes/shop/orderRoutes.js';
 import adminOrderRouter from './routes/admin/orderRouter.js';
+import searchRouter from './routes/shop/searchRoutes.js';
+import commentRouter from './routes/shop/commentRoutes.js';
 
 
 dotenv.config();
@@ -47,6 +49,8 @@ app.use('/api/shop/products', shopRouter)
 app.use('/api/shop/cart', cartRouter)
 app.use('/api/shop/address', addressRouter)
 app.use('/api/shop/order', orderRouter)
+app.use('/api/shop/search', searchRouter)
+app.use('/api/shop/comment', commentRouter)
 
 
 app.listen(port, () => {

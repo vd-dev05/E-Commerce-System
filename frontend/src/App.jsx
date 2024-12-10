@@ -23,6 +23,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import ShopProductDetails from "./components/shop/product-details"
 import PaypalReturnPage from "./pages/shop/paypal-return"
 import PaymentSuccessPage from "./pages/shop/payment-success"
+import SearchProducts from "./pages/shop/search"
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
           <Route path="account" element={<ShoppingAccount />} />
           <Route path="paypal-return" element={<PaypalReturnPage />} />
           <Route path="payment-success" element={<PaymentSuccessPage />} />
+          <Route path="search" element={<SearchProducts />} />
         </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="/unauth" element={<UnauthPage />} />

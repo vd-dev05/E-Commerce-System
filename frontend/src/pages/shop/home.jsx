@@ -159,7 +159,7 @@ const ShoppingHome = () => {
                     <div className='grid grid-clos-2 md:grid-cols-3 lg:grid-cols-5 gap-y-6 gap-10 mt-10 text-start'>
                         {
                             products && products.length > 0 ? (
-                                products.slice(0, 5).map((product, index) => (
+                                products.slice(0, 10).map((product, index) => (
                                     <ShoppingProductCard product={product} handleAddToCart={handleAddToCart} key={index} />
                                 ))
                             ) : null

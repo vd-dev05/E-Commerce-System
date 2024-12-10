@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import { Button } from '../ui/button'
-import { LogOut, Menu, Settings, ShoppingCart, User, UserCog, UserCog2 } from 'lucide-react'
+import { LogOut, Menu, Settings, ShoppingCart, User, UserCog2 } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import ShopMenuItems from './menu'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
@@ -49,7 +49,7 @@ const ShoppingHeader = () => {
         <header className='sticky top-0 z-40 w-full border-b bg-background'>
             <div className='flex items-center justify-between h-24 px-4 py-2 md:px-10'>
                 <Link to='/shop/home' >
-                    <img src={assets.logo} alt="" className='w-60' />
+                    <img src={assets.logo} alt="" className='w-40' />
                 </Link>
                 <Sheet >
                     <SheetTrigger asChild>

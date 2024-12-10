@@ -27,7 +27,6 @@ const createSearchParamsHelper = (filterParams) => {
 const ShoppingListing = () => {
 
     const { products } = useSelector(state => state.shopProducts)
-    const { user } = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [filters, setFilters] = useState({})
     const [sort, setSort] = useState(null)
@@ -61,27 +60,6 @@ const ShoppingListing = () => {
 
         setFilters(copyFilters)
         sessionStorage.setItem('filters', JSON.stringify(copyFilters))
-    }
-
-    const handleAddToCart = (productId) => {
-
-        dispatch(addToCart({
-            userId: user?.id,
-            productId: productId,
-            quantity: 1
-        })).then(data => {
-            if (data?.payload?.success) {
-                dispatch(fetchCartItems(user?.id))
-                toast({
-                    title: 'Successfully added to the cart.'
-                })
-            } else {
-                toast({
-                    title: 'Please log in to make a purchase.'
-                })
-            }
-        }
-        )
     }
 
     useEffect(() => {
@@ -135,7 +113,7 @@ const ShoppingListing = () => {
                     {
                         products && products.length > 0 ? (
                             products.map((product, index) => (
-                                <ShoppingProductCard product={product} key={index} handleAddToCart={handleAddToCart} />
+                                <ShoppingProductCard product={product} key={index} />
                             ))
                         ) : (
                             <div className='flex items-center justify-center'>
