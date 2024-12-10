@@ -1,12 +1,10 @@
 import { LayoutPanelLeft, Shirt, Truck } from 'lucide-react'
-import { useNavigate } from 'react-router'
 import { NavLink } from 'react-router-dom'
 
 
 
 const MenuItems = ({ setOpen }) => {
 
-    const navigate = useNavigate()
 
     const adminSidebarMenuItems = [
         {

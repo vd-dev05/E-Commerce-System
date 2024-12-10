@@ -7,7 +7,6 @@ import AdminLayout from "./components/admin/layout"
 import AdminDashBoard from "./pages/admin/dashboard"
 import AdminProducts from "./pages/admin/products"
 import AdminOrders from "./pages/admin/orders"
-import AdminFeatures from "./pages/admin/features"
 import ShoppingLayout from "./components/shop/layout"
 import NotFound from "./pages/not-found"
 import ShoppingHome from "./pages/shop/home"
@@ -59,8 +58,6 @@ function App() {
           <Route path="dashboard" element={<AdminDashBoard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
-          <Route path="features" elemen
-            t={<AdminFeatures />} />
         </Route>
         <Route path="/shop" element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>

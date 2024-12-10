@@ -6,11 +6,14 @@ const backendUrl = 'http://localhost:5000';
 
 
 export const fetchAllFilteredProducts = createAsyncThunk('/products/fetchAllProducts',
-    async ({ filterParams, sortParams }) => {
+    async ({ filterParams, sortParams, page = 1, limit = 10, search }) => {
 
         const query = new URLSearchParams({
             ...filterParams,
-            sortBy: sortParams
+            sortBy: sortParams,
+            page,
+            limit,
+            search
         })
         const response = await axios.get(backendUrl + `/api/shop/products/get?${query}`)
 
