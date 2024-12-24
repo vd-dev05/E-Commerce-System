@@ -15,6 +15,7 @@ const ShoppingOrders = () => {
     const { user } = useSelector(state => state.auth)
     const { orderList, orderDetails } = useSelector(state => state.shopOrder)
 
+
     const handleOrderDetails = (id) => {
         dispatch(getOrderDetails(id))
     }

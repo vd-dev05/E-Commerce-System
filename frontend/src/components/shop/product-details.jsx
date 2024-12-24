@@ -30,7 +30,15 @@ const ShopProductDetails = () => {
 
     const handleAddToCart = (productId, getTotalStock) => {
 
-        let getCartItems = cartItems.items || []
+        if (!user) {
+            toast({
+                title: 'Please log in to make a purchase.',
+                variant: "destructive",
+            })
+            return
+        }
+
+        let getCartItems = cartItems?.items || []
         if (getCartItems.length) {
             const indexItem = getCartItems.findIndex(
                 item => item.productId === productId
@@ -56,10 +64,6 @@ const ShopProductDetails = () => {
                 dispatch(fetchCartItems(user?.id))
                 toast({
                     title: 'Successfully added to the cart.'
-                })
-            } else {
-                toast({
-                    title: 'Please log in to make a purchase.'
                 })
             }
         }

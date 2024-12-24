@@ -42,7 +42,7 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
     }, [orderDetails])
 
     return (
-        <DialogContent className='sm:max-w-[600px] overflow-y-auto'>
+        <DialogContent className='sm:max-w-[600px] h-full overflow-auto'>
             <div className='grid gap-6'>
                 <div className='grid gap-2 gap-y-4'>
                     <div className='flex items-center justify-between mt-6'>
@@ -90,7 +90,7 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
                                     orderDetails?.cartItems.map((item, index) => (
                                         <li className='grid grid-cols-[0.2fr_3fr_1fr_1fr] items-center gap-2' key={index}>
                                             <span className='pl-2'>{index + 1}</span>
-                                            <span>{item.title}</span>
+                                            <span className='flex gap-1 items-center'><img src={item?.image} alt="" className='w-16' />{item.title}</span>
                                             <span className='mx-8'>{item.quantity}</span>
                                             <span>${item.quantity * item.price}</span>
                                         </li>
