@@ -1,0 +1,9 @@
+fe/node_modules
+be/node_modules
+
+node_modules
+dist
+dist-ssr
+*.local
+
+
