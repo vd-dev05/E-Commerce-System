@@ -37,7 +37,7 @@ const ShoppingHome = () => {
                 {/* siler */}
                 <section>
                     <div className="flex  w-full">
-                        <div className={`w-3/4 `}>
+                        <div className={`w-3/4  `}>
                             <SilderHome slides={slides} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
                         </div>
                         <div>
@@ -53,12 +53,12 @@ const ShoppingHome = () => {
                 </section>
                 {/* danh muc */}
                 <section>
-                <div className="py-10">
+                <div className="py-5">
                     <h2 className="text-xl font-normal">Danh mục</h2>
-                    <div className="grid grid-cols-6 gap-4">
+                    <div className="grid grid-cols-10 py-2 ">
                        {categoryList.map((item) => (
                             
-                            <Link key={item.id} to={`/shop/listing?category=${item.path}`} className="flex flex-col items-center py-5 bg-slate-500 gap-2 cursor-pointer">
+                            <Link key={item.id} to={`/shop/listing?category=${item.path}`} className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:border-[1px] hover:scale-105 drop-shadow-sm duration-100 hover:border-gray-400">
                                 <img
                                     className="w-20 h-20 object-cover"
                                     src={item.url} alt="" /> 
@@ -68,6 +68,12 @@ const ShoppingHome = () => {
                     </div>
                 
                 </div>
+                </section>
+                {/* sale do theo date */}
+                <section>
+                    <div className="py-5  "> 
+                        <h2 className="text-xl font-normal">Deal chớp nhoáng </h2>
+                    </div>
                 </section>
             </main>
         </div>
