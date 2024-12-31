@@ -3,17 +3,17 @@ import jwt from 'jsonwebtoken'
 import UserModel from '../../models/auth/userModel.js';
 
 const register = async (req, res) => {
-    const { username, email, password, gender, brithday, phone } = req.body;
+    const { username, email, password, gender, birthday, phone } = req.body;
 
     try {
 
         const hashPassword = await bcrypt.hash(password, 10);
-        const formattedBrithday = new Intl.DateTimeFormat('en-GB').format(new Date(brithday))
+        const formattedBirthday = new Intl.DateTimeFormat('en-GB').format(new Date(birthday))
         const newUser = new UserModel({
             username,
             email,
             gender,
-            brithday: formattedBrithday,
+            birthday: formattedBirthday,
             phone,
             password: hashPassword
         })
@@ -57,7 +57,7 @@ const login = async (req, res) => {
             email: user.email,
             gender: user.gender,
             phone: user.phone,
-            brithday: user.brithday,
+            birthday: user.birthday,
             username: user.username
         }, process.env.JWT_SECRET, { expiresIn: '60m' })
 
@@ -73,7 +73,7 @@ const login = async (req, res) => {
                 email: user.email,
                 gender: user.gender,
                 phone: user.phone,
-                brithday: user.brithday,
+                birthday: user.birthday,
                 username: user.username
             }
         })

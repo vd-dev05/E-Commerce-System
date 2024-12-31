@@ -2,15 +2,15 @@ import jwt from 'jsonwebtoken'
 import UserModel from '../models/auth/userModel.js';
 
 const validateUserInput = async (req, res, next) => {
-    const { username, email, password, gender, brithday, phone } = req.body;
+    const { username, email, password, gender, birthday, phone } = req.body;
     try {
-        if (!username || !email || !password || !gender || !brithday || !phone) {
+        if (!username || !email || !password || !gender || !birthday || !phone) {
             return res.json({
                 success: false,
                 message: 'Vui lòng điền các vào chỗ trống'
             })
         }
-        const usernameRegex = /^[A-Za-z]+$/;
+        const usernameRegex = /^[A-Za-z\s]+$/;
         if (!usernameRegex.test(username)) {
             return res.json({
                 success: false,
@@ -28,7 +28,7 @@ const validateUserInput = async (req, res, next) => {
         if (!phoneRegex.test(phone)) {
             return res.json({
                 success: false,
-                message: 'Số điện thoại phải định dạng và có 10 chữ số'
+                message: 'Số điện thoại phải là số và có 10 chữ số'
             });
         }
 
