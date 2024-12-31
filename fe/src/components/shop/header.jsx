@@ -1,70 +1,123 @@
-import { assets } from "@/assets/assets";
 import { shoppingHeaderItems } from "@/config";
-import { Link } from "react-router";
-import { Search, ShoppingCart } from 'lucide-react'
+import { Link, useNavigate } from "react-router";
+import { LogOut, Search, Settings, ShoppingCart, User, UserCog2 } from 'lucide-react'
+import { useDispatch, useSelector } from "react-redux";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
+import { useEffect } from "react";
+
+const dataFakeSearch = [
+    {
+        id: 1,
+        label: "Áo thun",
+        qery: "ao-thun"
+    },
+    {
+        id: 2,
+        label: "Quan",
+        qery: "quan"
+    },
+    {
+        id: 3,
+        label: "Giay",
+        qery: "giay"
+    },
+
+]
+
 const ShoppingHeader = () => {
-    const dataFakeSearch = [
-        {
-            id : 1,
-            label : "Áo thun",
-            qery : "ao-thun"
-        },
-        {
-            id : 2,
-            label : "Quan",
-            qery : "quan"
-        },
-        {
-            id : 3,
-            label : "Giay",
-            qery : "giay"
-        },
-       
-    ]
+
+    const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        dispatch(logoutUser()).then(data => {
+            if (data?.payload?.success) {
+                navigate('/shop/login')
+            }
+        })
+    }
+    useEffect(() => {
+        dispatch(checkAuthUser())
+    }, [dispatch])
+
+    const filteredHeaderItems = shoppingHeaderItems.filter(item => {
+        if (isAuthenticated && (item.name === "login" || item.name === "register")) {
+            return false;
+        }
+        return true;
+    });
     return (
-        <header className="sticky top-0  bg-white py-2 z-50-">
-            <div className="min-w-full px-5 ">
-                <div className="flex justify-end gap-4 p-4">
-                    {shoppingHeaderItems.map((item) => (
-                        <Link key={item.id} to={item.path}>
-                            {item.label}
-                        </Link>
-                    ))}
+        <header className="sticky top-0  bg-white z-50-">
+            <div className="min-w-full ">
+                <div className="flex justify-end gap-4 text-[12px] bg-slate-200 py-1 pr-4">
+                    {
+                        filteredHeaderItems.map((item) => (
+                            <Link key={item.id} to={item.path} className="hover:text-red-500">
+                                {item.label}
+                            </Link>
+                        ))
+                    }
                 </div>
-                <div className=" flex items-center justify-center">
-                    <Link
-                    className="w-1/4"
-                    to="/shop/home">e-com</Link>
-                    <div className="w-2/3  translate-y-3">
-                        <div className=" flex w-full border-2 border-gray-300 ">
-                            <input type="text"
-                                placeholder="Tìm kiếm sản phẩm"
-                                className="  p-2 pl-8 w-full"
-                            />
-                          < Search 
-                            size={30}
-                            className=" p-2 m-2 cursor-pointer  h-full  bg-red-400 flex items-center justify-center"
-                            color="white"/>
-                          
+                <div className=" flex items-center justify-between px-4 py-2">
+                    <div className="w-64">
+                        <Link to="/shop/home">
+                            <h1 className="text-2xl font-bold">
+                                E-Commerce
+                            </h1>
+                        </Link>
+                    </div>
+                    <div className="w-2/3  translate-y-3 flex flex-col gap-2">
+                        <div className=" flex w-full border-2 border-gray-300 relative items-center">
+                            <input type="text" placeholder="Tìm kiếm sản phẩm" className="py-2 pl-8 w-full" />
+                            < Search size={30} className="cursor-pointer size-8 absolute right-2 text-gray-400 hover:text-red-600" />
                         </div>
                         <div className="  flex px-4 gap-x-4">
-                            { dataFakeSearch.map((item) => (
+                            {dataFakeSearch.map((item) => (
                                 <Link
-                                className="text-xs"
-                                key={item.id} to={`/shop/search?q=${item.qery}`}>{item.label}</Link>
+                                    className="text-xs"
+                                    key={item.id} to={`/shop/search?q=${item.qery}`}>{item.label}</Link>
                             ))}
                         </div>
                     </div>
-                    <div className="px-10">
-                    <ShoppingCart />
-                    </div>
-                    <div>
-                        <div>
-                            Avartar
+                    <div className="flex items-center justify-center gap-8">
+                        <div className="cursor-pointer relative">
+                            <ShoppingCart size={28} />
+                            <p className="absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white">0</p>
                         </div>
+                        {
+                            isAuthenticated ? (<DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Avatar className="bg-black">
+                                        <AvatarFallback className="bg-black text-white flex items-center font-extralight">
+                                            <p>{user?.username[0].toUpperCase()}</p>
+                                        </AvatarFallback>
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent side="bottom" className="w-56 mr-8 mt-4">
+                                    <DropdownMenuLabel className="text-md">Hello, {user?.username}</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <UserCog2 className='mr-2 size-4' />
+                                        <p>Account</p>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <Settings className='mr-2 size-4' />
+                                        <p>Settings</p>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={handleLogout}>
+                                        <LogOut className='mr-2 size-4' />
+                                        <p>Logout</p>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>) : <User size={32} className="cursor-pointer" onClick={() => navigate('/shop/login')} />
+                        }
                     </div>
                 </div>
-
             </div>
         </header>
     );
