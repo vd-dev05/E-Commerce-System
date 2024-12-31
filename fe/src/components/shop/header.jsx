@@ -1,10 +1,11 @@
 import { shoppingHeaderItems } from "@/config";
 import { Link, useNavigate } from "react-router";
-import { LogOut, Search, Settings, ShoppingCart, User, UserCog2 } from 'lucide-react'
+import { LogOut, Search, Settings, ShoppingCart, User, UserCog2  } from 'lucide-react'
 import { useDispatch, useSelector } from "react-redux";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
+import { FaCartShopping } from "react-icons/fa6";
 import { useEffect } from "react";
 
 const dataFakeSearch = [
@@ -101,17 +102,22 @@ const ShoppingHeader = () => {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
                                         <UserCog2 className='mr-2 size-4' />
-                                        <p>Account</p>
+                                        <p>Tài khoản</p>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <FaCartShopping  className='mr-2 size-4' />
+                                        <p>Đơn mua</p>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
                                         <Settings className='mr-2 size-4' />
-                                        <p>Settings</p>
+                                        <p>Cài đặt</p>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={handleLogout}>
                                         <LogOut className='mr-2 size-4' />
-                                        <p>Logout</p>
+                                        <p>Đăng xuất</p>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>) : <User size={32} className="cursor-pointer" onClick={() => navigate('/shop/login')} />
