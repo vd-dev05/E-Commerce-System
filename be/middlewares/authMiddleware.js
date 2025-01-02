@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import UserModel from '../models/auth/userModel.js';
+import ManagerModel from '../models/shop/managerModel.js';
 
 const validateUserInput = async (req, res, next) => {
     const { username, email, password, gender, birthday, phone } = req.body;
@@ -55,8 +56,6 @@ const validateUserInput = async (req, res, next) => {
         })
     }
 }
-
-
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
     if (!token) return res.json({
@@ -78,4 +77,76 @@ const authMiddleware = async (req, res, next) => {
     }
 }
 
-export { authMiddleware, validateUserInput }
+const validateManagerInput = async (req, res, next) => {
+    const { manager_name, email, password, phone } = req.body;
+    try {
+        if (!manager_name || !email || !password || !phone) {
+            return res.json({
+                success: false,
+                message: 'Vui lòng điền các vào chỗ trống'
+            })
+        }
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            return res.json({
+                success: false,
+                message: 'Định dạng email không hợp lệ'
+            });
+        }
+        const phoneRegex = /^0[1-9][0-9]{8}$/;
+        if (!phoneRegex.test(phone)) {
+            return res.json({
+                success: false,
+                message: 'Số điện thoại phải là số và có 10 chữ số'
+            });
+        }
+
+        const emailExists = await ManagerModel.findOne({ email })
+        if (emailExists) {
+            return res.json({
+                success: false,
+                message: "Địa chỉ email này đã tồn tại"
+            });
+        }
+        const phoneExists = await ManagerModel.findOne({ phone })
+        if (phoneExists) {
+            return res.json({
+                success: false,
+                message: "Số điện thoại này đã tồn tại"
+            });
+        }
+        next()
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+
+}
+const managerAuthMiddleware = async (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) return res.json({
+        success: false,
+        message: 'Unauthorised user !'
+
+    })
+    try {
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.manager = decoded;
+        next()
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+
+
+export { authMiddleware, validateUserInput, validateManagerInput, managerAuthMiddleware }
