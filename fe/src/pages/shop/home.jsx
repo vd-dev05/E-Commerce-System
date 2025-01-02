@@ -11,19 +11,19 @@ const ShoppingHome = () => {
     const slides = [assets.banner_1, assets.banner_2, assets.banner_3, assets.banner_4]
     const slides_card = [assets.mbbankbanner, assets.shoppebanner]
     const [currentSlide, setCurrentSlide] = useState(0)
-   
+
 
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length)
 
         }, 10000)
-      
+
         return () => clearInterval(timer)
     }, [])
-    
- 
-    
+
+
+
     return (
         <div className="">
             {/* img header */}
@@ -42,11 +42,11 @@ const ShoppingHome = () => {
                             <SilderHome slides={slides} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
                         </div>
                         <div>
-                            {Array.from({ length: slides_card.length }).map((_, index) => ( 
+                            {Array.from({ length: slides_card.length }).map((_, index) => (
                                 <div key={index} className="p-[2px]">
                                     <img
-                                    className="w-full h-full object-cover"
-                                    src={slides_card[index]} alt="" />
+                                        className="w-full h-full object-cover"
+                                        src={slides_card[index]} alt="" />
                                 </div>
                             ))}
                         </div>
@@ -54,25 +54,25 @@ const ShoppingHome = () => {
                 </section>
                 {/* danh muc */}
                 <section>
-                <div className="py-5">
-                    <h2 className="text-xl font-normal">Danh mục</h2>
-                    <div className="grid grid-cols-10 py-2 ">
-                       {categoryList.map((item) => (
-                            
-                            <Link key={item.id} to={`/shop/listing?category=${item.path}`} className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:border-[1px] hover:scale-105 drop-shadow-sm duration-100 hover:border-gray-400">
-                                <img
-                                    className="w-20 h-20 object-cover"
-                                    src={item.url} alt="" /> 
-                                <span className="text-xs ">{item.label}</span>
-                            </Link>   
-                        ))}
+                    <div className="py-5">
+                        <h2 className="text-xl font-normal">Danh mục</h2>
+                        <div className="grid grid-cols-10 py-2 ">
+                            {categoryList.map((item) => (
+
+                                <Link key={item.id} to={`/shop/listing?category=${item.path}`} className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:shadow-lg hover:border-slate-400 border border-gray-300">
+                                    <img
+                                        className="w-20 h-20 object-cover"
+                                        src={item.url} alt="" />
+                                    <span className="text-xs ">{item.label}</span>
+                                </Link>
+                            ))}
+                        </div>
+
                     </div>
-                
-                </div>
                 </section>
                 {/* sale do theo date */}
                 <section>
-                < SaleProducts />
+                    < SaleProducts />
                 </section>
             </main>
         </div>

@@ -3,5 +3,5 @@ import ManagerProductController from "../../../controllers/manager/products/prod
 
 const manageRouter = express.Router();
 
-manageRouter.post('/create',ManagerProductController.createProducts)
+manageRouter.post('/create', ManagerProductController.createProducts)
 export default manageRouter
