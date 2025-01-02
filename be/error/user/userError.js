@@ -1,6 +1,6 @@
-// import { Error } from "./error";
 
-export class ManagerError extends Error {
+
+export class UserError extends Error {
    constructor
     (message , statusCode,details =null ,isOpenrational = true)
     {
@@ -12,8 +12,8 @@ export class ManagerError extends Error {
     }
 }
 
-export class NotfoundError extends ManagerError {
-    constructor(message = 'Not found' , details = null ) { 
-        super(message, 404 , details)
+export class TimeOutError extends UserError {
+    constructor(message = 'Time out' , details = null ) { 
+        super(message, 408 , details)
     }
 }
