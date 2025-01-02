@@ -1,5 +1,6 @@
 import { assets } from "@/assets/assets";
 import ShoppingHeader from "@/components/shop/header";
+import SaleProducts from "@/components/shop/sale";
 import { SilderHome } from "@/components/shop/slides";
 import { categoryList } from "@/config";
 import { useEffect, useState } from "react";
@@ -71,9 +72,7 @@ const ShoppingHome = () => {
                 </section>
                 {/* sale do theo date */}
                 <section>
-                    <div className="py-5  "> 
-                        <h2 className="text-xl font-normal">Deal chớp nhoáng </h2>
-                    </div>
+                < SaleProducts />
                 </section>
             </main>
         </div>

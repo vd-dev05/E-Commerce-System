@@ -4,7 +4,7 @@ import shoppingAuthSlice from '../store/Shop/auth'
 
 const store = configureStore({
     reducer: {
-        shoppingAuth: shoppingAuthSlice
+        shoppingAuth: shoppingAuthSlice,
     }
 })
 
