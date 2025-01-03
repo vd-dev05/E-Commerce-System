@@ -118,4 +118,3 @@ const checkAuth = (req, res) => {
 }
 
 export { register, login, logout, checkAuth }
-

@@ -1,77 +1,63 @@
-import mongoose, { Schema }  from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const brandsSchema = mongoose.Schema({
     name: { type: String, required: true },
-    description : { type: String, required: true },
-    create_at: { type: Date, default: Date.now },
-    update_at: { type: Date, default: Date.now }
-}, { timestamps: true , id : false})
+    description: { type: String, required: true },
+}, { timestamps: true, id: false })
 
-const imagesSchema =new Schema({
+const imagesSchema = new Schema({
     url: { type: String, required: true },
-    create_at: { type: Date, default: Date.now },
-    update_at: { type: Date, default: Date.now }
-}, { timestamps: true , id : false})
+}, { timestamps: true, id: false })
 
-const videoSchema  =new Schema({
+const videoSchema = new Schema({
     url: { type: String, required: true },
-    create_at: { type: Date, default: Date.now },
-    update_at: { type: Date, default: Date.now }
-}, { timestamps: true , id : false})
+}, { timestamps: true, id: false })
 
-const discountSchema =new Schema({
+const discountSchema = new Schema({
     name: { type: String, required: true },
-    description : { type: String, required: true },
+    description: { type: String, required: true },
     discount: { type: Number, required: true },
     discount_type: ["percent", "price"],
-    create_at: { type: Date, default: Date.now },
-    update_at: { type: Date, default: Date.now }
-}, { timestamps: true , id : false})
+}, { timestamps: true, id: false })
 
-const attributesSchema =new Schema({
+const attributesSchema = new Schema({
     name: { type: String, required: true },
-    value : { type: String, required: true },
-    create_at: { type: Date, default: Date.now },
-    update_at: { type: Date, default: Date.now }
-}, { timestamps: true , id : false})
+    value: { type: String, required: true },
+}, { timestamps: true, id: false })
 
-const productvariantsSchema =new Schema({
+const productvariantsSchema = new Schema({
     sku: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    create_at: { type: Date, default: Date.now },
-    update_at: { type: Date, default: Date.now },
-    images : [imagesSchema],
-    video  : [videoSchema],
-    discount :[discountSchema],
-    attributes : [attributesSchema]
-}, { timestamps: true , id : false})
+    images: [imagesSchema],
+    video: [videoSchema],
+    discount: [discountSchema],
+    attributes: [attributesSchema]
+}, { timestamps: true, id: false })
 
-const reviewSchema =new Schema({
-    name: { type: String, required: true , ref : 'user' },
-    avartar : { type: String, required: true , ref : 'user' },
+const reviewSchema = new Schema({
+    name: { type: String, required: true, ref: 'user' },
+    avartar: { type: String, required: true, ref: 'user' },
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
-    media_url : [{ type: String, required: true }],
-    media_type : ["image", "video"],
-    create_at: { type: Date, default: Date.now },
-    update_at: { type: Date, default: Date.now }
-}, { timestamps: true , id : false})
+    media_url: [{ type: String, required: true }],
+    media_type: ["image", "video"],
+}, { timestamps: true, id: false })
 
-const productsSchema =new Schema({
-    categrory_id : {
+const productsSchema = new Schema({
+    categrory_id: {
         type: Schema.Types.ObjectId,
         ref: 'brands',
         required: true
     },
-    variants : [productvariantsSchema],
-    review : [reviewSchema],
+    variants: [productvariantsSchema],
+    review: [reviewSchema],
 }, { timestamps: true })
 
-const ProductModel = mongoose.model('products',  productsSchema)
-export const BrandsModel = mongoose.model('brands',  brandsSchema)
-export default ProductModel 
-// data fake 
+const ProductModel = mongoose.model('products', productsSchema)
+export const BrandsModel = mongoose.model('brands', brandsSchema)
+export default ProductModel
+// data fake
 // {
 //     "categrory_id": {
 //       "name": "Electronics",
@@ -154,4 +140,3 @@ export default ProductModel
 //       }
 //     ]
 //   }
-  
