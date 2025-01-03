@@ -1,26 +1,25 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import UserModel from '../../models/auth/userModel.js';
+import ManagerModel from '../../../models/shop/managerModel.js';
+
 
 const register = async (req, res) => {
-    const { username, email, password, gender, birthday, phone } = req.body;
+    const { manager_name, email, password, phone, logo } = req.body;
 
     try {
 
         const hashPassword = await bcrypt.hash(password, 10);
-        const formattedBirthday = new Intl.DateTimeFormat('en-GB').format(new Date(birthday))
-        const newUser = new UserModel({
-            username,
+        const newManager = new ManagerModel({
+            manager_name,
             email,
-            gender,
-            birthday: formattedBirthday,
             phone,
-            password: hashPassword
+            password: hashPassword,
+            logo: logo === "" ? null : logo
         })
-        await newUser.save()
+        await newManager.save()
         res.json({
             success: true,
-            message: 'Đăng ký tài khoàn thành công'
+            message: 'Đăng ký nhà bán hàng thành công'
         })
 
     } catch (error) {
@@ -33,18 +32,21 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, phone, password } = req.body;
 
     try {
 
-        const user = await UserModel.findOne({ email })
-        if (!user) {
+        const manager = await ManagerModel.findOne({
+            $or: [{ email }, { phone }]
+        })
+
+        if (manager) {
             return res.json({
                 success: false,
-                message: "Tài khoản Email không tồn tại"
+                message: "Tài khoản không tồn tại"
             })
         }
-        const passwordMath = await bcrypt.compare(password, user.password)
+        const passwordMath = await bcrypt.compare(password, manager.password)
         if (!passwordMath) {
             return res.json({
                 success: false,
@@ -52,29 +54,25 @@ const login = async (req, res) => {
             })
         };
         const token = jwt.sign({
-            id: user._id,
-            role: user.role,
-            email: user.email,
-            gender: user.gender,
-            phone: user.phone,
-            birthday: user.birthday,
-            username: user.username
+            id: manager._id,
+            role: manager.role,
+            email: manager.email,
+            phone: manager.phone,
+            manager_name: manager.manager_name
         }, process.env.JWT_SECRET, { expiresIn: '60m' })
 
-        res.cookie('token', token, {
+        res.cookie('manager_token', token, {
             httpOnly: true,
             secure: false
         }).json({
             success: true,
             message: 'Đăng nhập thành công',
-            user: {
-                id: user._id,
-                role: user.role,
-                email: user.email,
-                gender: user.gender,
-                phone: user.phone,
-                birthday: user.birthday,
-                username: user.username
+            manager: {
+                id: manager._id,
+                role: manager.role,
+                email: manager.email,
+                phone: manager.phone,
+                manager_name: manager.manager_name
             }
         })
 
@@ -89,7 +87,7 @@ const login = async (req, res) => {
 
 const logout = (req, res) => {
     try {
-        res.clearCookie('token').json({
+        res.clearCookie('manager_token').json({
             success: true,
             message: "Đăng xuất thành công"
         })
@@ -104,10 +102,10 @@ const logout = (req, res) => {
 
 const checkAuth = (req, res) => {
     try {
-        const user = req.user;
+        const manager = req.manager;
         res.json({
             success: true,
-            message: 'Authenticated user !',
+            message: 'Authenticated manager !',
             user
         })
     } catch (error) {
@@ -120,3 +118,4 @@ const checkAuth = (req, res) => {
 }
 
 export { register, login, logout, checkAuth }
+
