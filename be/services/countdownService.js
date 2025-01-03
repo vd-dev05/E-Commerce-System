@@ -1,25 +1,49 @@
 // server/services/countdownService.js
 
-let timeLeft = 3600; // Khởi tạo thời gian đếm ngược (1 giờ = 3600 giây)
+let timeLeft = 3600; // Initialize countdown time
+
+let cache = {
+  timeStart  : 1 ,
+  timeEnd : 12,
+  timeLeft: timeLeft,
+  interval: null,
+};
 
 const startCountdown = (socket) => {
-  // Gửi thời gian đếm ngược khi có kết nối mới
-  socket.emit('countdown', timeLeft);
+  // Send the initial countdown time when a new connection is made
+  socket.emit('countdown', cache.timeLeft);
+  if (cache.interval) { clearInterval(cache.interval); }
+  if (cache.timeStart) { clearInterval(cache.timeStart); }
 
-  // Cập nhật thời gian mỗi giây và gửi tới tất cả các client
-  const interval = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(interval);
-      return;
-    }
-    timeLeft--;
-    socket.emit('countdown', timeLeft);
-  }, 1000);
+  cache.interval = setInterval(() => {
+    cache.timeLeft -= 1;
+    // cache.timeStart += 1;
+    if (cache.timeLeft <= 0 ) {
+      cache.timeLeft = timeLeft;
+      if (cache.timeStart === cache.timeEnd) {
+        cache.timeStart = 1;
+      }
+      cache.timeStart += 1;
+    } 
+    // if (cache.timeStart === cache.timeEnd && cache.timeLeft <= 0 ) {
+    //   cache.timeStart = 1;
+    // }
+    
 
-  // Xử lý khi client ngắt kết nối
+    socket.emit('countdown', {
+      timeLeft: cache.timeLeft,
+      timeStart: cache.timeStart,
+      
+    });
+  } , 1000);
+
+
+  // Handle client disconnection
   socket.on('disconnect', () => {
     console.log('A client disconnected');
+    clearInterval(cache.interval); // Stop updating time
   });
 };
 
-export default { startCountdown };
+
+export default { startCountdown  };

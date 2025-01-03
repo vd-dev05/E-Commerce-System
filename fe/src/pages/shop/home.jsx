@@ -1,6 +1,8 @@
 import { assets } from "@/assets/assets";
 import ShoppingHeader from "@/components/shop/header";
+import Recommend from "@/components/shop/recommend";
 import SaleProducts from "@/components/shop/sale";
+import SearchTop from "@/components/shop/search";
 import { SilderHome } from "@/components/shop/slides";
 import { categoryList } from "@/config";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
@@ -87,8 +89,15 @@ const ShoppingHome = () => {
                     </div>
                 </section>
                 {/* sale do theo date */}
-                <section>
+                <section className="">
                     < SaleProducts />
+                </section>
+                <section>
+                    <SearchTop/>
+                </section>
+                {/* recommend */}
+                <section>
+                    <Recommend/>
                 </section>
             </main>
         </div>

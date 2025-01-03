@@ -4,27 +4,24 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import RootRouter from './routes/index.js';
-import http from 'http';
-import { Server } from 'socket.io';
-import countdownController from './controllers/user/countdown/index.js';
+
+
 
 //Utiles
 import connectDB from './config/mongodb.js';
+import {server} from './socket.js';
 
+const app = express();
 
 dotenv.config();
 const port = process.env.PORT || 5000;
 
 connectDB()
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
-
 app.use(express.json())
 app.use(cors(
     {
-    origin : '*',
+    origin : 'http://localhost:5173',
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
         "Content-Type",
@@ -38,11 +35,16 @@ app.use(cors(
 ))
 app.use(cookieParser())
 
+// io.on('connection', countdownController.handleSocketConnection);
+
+
 app.get("/", (req, res) => {    
     res.send('API Working')
 })
 app.use(RootRouter)
-io.on('connection', countdownController.handleSocketConnection);
+// port server ( nhan request tu client)
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`)
 })
+
+export { app };
