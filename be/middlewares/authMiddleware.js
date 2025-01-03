@@ -126,7 +126,7 @@ const validateManagerInput = async (req, res, next) => {
 
 }
 const managerAuthMiddleware = async (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.cookies.manager_token;
     if (!token) return res.json({
         success: false,
         message: 'Unauthorised user !'
@@ -145,8 +145,5 @@ const managerAuthMiddleware = async (req, res, next) => {
         })
     }
 }
-
-
-
 
 export { authMiddleware, validateUserInput, validateManagerInput, managerAuthMiddleware }

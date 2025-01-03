@@ -1,12 +1,10 @@
 import { shoppingHeaderItems } from "@/config";
-import { Link, useNavigate } from "react-router";
-import { LogOut, Search, Settings, ShoppingCart, User, UserCog2  } from 'lucide-react'
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
+import { LogOut, Search, Settings, ShoppingCart, User, UserCog2 } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
 import { FaCartShopping } from "react-icons/fa6";
-import { useEffect } from "react";
+
 
 const dataFakeSearch = [
     {
@@ -27,22 +25,8 @@ const dataFakeSearch = [
 
 ]
 
-const ShoppingHeader = () => {
+const ShoppingHeader = ({ user, isAuthenticated, handleLogout }) => {
 
-    const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    const handleLogout = () => {
-        dispatch(logoutUser()).then(data => {
-            if (data?.payload?.success) {
-                navigate('/shop/login')
-            }
-        })
-    }
-    useEffect(() => {
-        dispatch(checkAuthUser())
-    }, [dispatch])
 
     const filteredHeaderItems = shoppingHeaderItems.filter(item => {
         if (isAuthenticated && (item.name === "login" || item.name === "register")) {
@@ -106,7 +90,7 @@ const ShoppingHeader = () => {
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
-                                        <FaCartShopping  className='mr-2 size-4' />
+                                        <FaCartShopping className='mr-2 size-4' />
                                         <p>Đơn mua</p>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />

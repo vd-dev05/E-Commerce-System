@@ -1,3 +1,6 @@
+import ManagerHome from "@/pages/manager/home";
+import ManagerLogin from "@/pages/manager/login";
+import ManagerRegister from "@/pages/manager/register";
 import ShoppingHome from "@/pages/shop/Home";
 import ShoppingLogin from "@/pages/shop/login";
 import ShoppingRegsiter from "@/pages/shop/regsiter";
@@ -14,6 +17,11 @@ const RootRouter = () => {
                     <Route path="home" element={<ShoppingHome />} />
                     <Route path="login" element={<ShoppingLogin />} />
                     <Route path="register" element={<ShoppingRegsiter />} />
+                </Route>
+                <Route path="/manager"  >
+                    <Route path="home" element={<ManagerHome />} />
+                    <Route path="login" element={<ManagerLogin />} />
+                    <Route path="register" element={<ManagerRegister />} />
                 </Route>
             </Routes>
         </div>

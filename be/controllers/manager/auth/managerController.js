@@ -32,15 +32,15 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { email, phone, password } = req.body;
+    const { emailOrPhone, password } = req.body;
 
     try {
 
         const manager = await ManagerModel.findOne({
-            $or: [{ email }, { phone }]
+            $or: [{ email: emailOrPhone }, { phone: emailOrPhone }]
         })
 
-        if (manager) {
+        if (!manager) {
             return res.json({
                 success: false,
                 message: "Tài khoản không tồn tại"
@@ -106,7 +106,7 @@ const checkAuth = (req, res) => {
         res.json({
             success: true,
             message: 'Authenticated manager !',
-            user
+            manager
         })
     } catch (error) {
         console.log(error);

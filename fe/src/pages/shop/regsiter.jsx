@@ -1,12 +1,11 @@
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/hooks/use-toast'
 import { registerUser } from '@/store/Shop/auth'
-import { Facebook ,  } from 'lucide-react'
+import { Facebook, } from 'lucide-react'
 import React, { useState } from 'react'
-import { FaGoogle , FaPassport } from 'react-icons/fa'
+import { FaGoogle } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router'
-import { MdVisibility } from "react-icons/md";
 const ShoppingRegsiter = () => {
 
     const [formData, setFormData] = useState({
@@ -78,7 +77,7 @@ const ShoppingRegsiter = () => {
                 <div className='inline-flex items-center gap-2 mb-2 mt-10'>
                     <p className='text-3xl'>Đăng Ký</p>
                     <hr className='border-none h-[1.5px] w-8 bg-gray-800' />
-                  
+
                 </div>
                 <input
                     type="text"
