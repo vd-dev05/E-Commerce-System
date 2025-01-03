@@ -22,8 +22,9 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(express.json())
-app.use(cors({
-    origin: "http://localhost:5173",
+app.use(cors(
+    {
+    origin : '*',
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
         "Content-Type",
@@ -33,10 +34,11 @@ app.use(cors({
         "Pragma",
     ],
     credentials: true,
-}))
+}
+))
 app.use(cookieParser())
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) => {    
     res.send('API Working')
 })
 app.use(RootRouter)

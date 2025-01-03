@@ -34,7 +34,6 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-
     try {
 
         const user = await UserModel.findOne({ email })
@@ -45,6 +44,7 @@ const login = async (req, res) => {
             })
         }
         const passwordMath = await bcrypt.compare(password, user.password)
+        
         if (!passwordMath) {
             return res.json({
                 success: false,
