@@ -12,3 +12,29 @@ export const TimeOutErrorResponse = (res, error, defaultStatusCode = 408) => {
     data : null
   });
 }
+export const ErrorResponse = (res, error, defaultStatusCode = 500) => {
+  const statusCode = error.statusCode || defaultStatusCode;
+  res.status(statusCode).json({
+    success: false,
+    message: error.message,
+    data : null
+  });
+}
+
+export const ErrorUnAuthorizedResponse = (res, error, defaultStatusCode = 401) => {
+  const statusCode = error.statusCode || defaultStatusCode;
+  res.status(statusCode).json({
+    success: false,
+    message: error.message,
+    data : null
+  });
+}
+
+export const ErrorNotFoundResponse = (res, error, defaultStatusCode = 404) => {
+  const statusCode = error.statusCode || defaultStatusCode;
+  res.status(statusCode).json({
+    success: false,
+    message: error.message,
+    data : null
+  });
+}

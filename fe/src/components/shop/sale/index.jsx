@@ -4,12 +4,13 @@ import { formatPrice, formatTitle } from '@/lib/utils';
 import { Link } from "react-router";
 import { HeartIcon } from 'lucide-react';
 
-const SaleProducts = () => {
+const SaleProducts = ({increment,count}) => {
     const [timeLeft, setTimeLeft] = useState(3600);
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
 
 
+    
     // Dữ liệu giả lập (12 giờ, mỗi giờ có 6 hay nhieu  sản phẩm)
     let dataFakeSale = [];
     for (let i = 0; i < 12; i++) {
@@ -77,7 +78,9 @@ const SaleProducts = () => {
                             <div className="w-full h-4/6 bg-gray-200 rounded-md overflow-hidden relative">
                                 <span className='absolute top-2 left-2 bg-red-500 text-white text-xs py-1 px-4 rounded-lg'>{item.discount_type ? '-' + item.discount_type + '%' : ''}</span>
                                 <img src={item.url} alt={item.name} className="w-full h-full object-cover " />
-                                <button className="absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button
+                                onClick={() => increment(count + 1)}
+                                className="absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     Add to Cart
                                 </button>
                                 <HeartIcon 

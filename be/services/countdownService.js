@@ -25,10 +25,7 @@ const startCountdown = (socket) => {
       }
       cache.timeStart += 1;
     } 
-    // if (cache.timeStart === cache.timeEnd && cache.timeLeft <= 0 ) {
-    //   cache.timeStart = 1;
-    // }
-    
+
 
     socket.emit('countdown', {
       timeLeft: cache.timeLeft,
@@ -40,7 +37,7 @@ const startCountdown = (socket) => {
 
   // Handle client disconnection
   socket.on('disconnect', () => {
-    console.log('A client disconnected');
+    // console.log('A client disconnected');
     clearInterval(cache.interval); // Stop updating time
   });
 };

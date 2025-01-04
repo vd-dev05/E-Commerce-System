@@ -25,8 +25,9 @@ const dataFakeSearch = [
 
 ]
 
-const ShoppingHeader = ({ user, isAuthenticated, handleLogout }) => {
-
+const ShoppingHeader = ({ user, isAuthenticated, handleLogout , count }) => {
+ 
+    
 
     const filteredHeaderItems = shoppingHeaderItems.filter(item => {
         if (isAuthenticated && (item.name === "login" || item.name === "register")) {
@@ -70,7 +71,7 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout }) => {
                     <div className="flex items-center justify-center gap-8">
                         <div className="cursor-pointer relative">
                             <ShoppingCart size={28} />
-                            <p className="absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white">0</p>
+                            <p className={`${count > 0 ? "visible" : "invisible"} absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white`}>{count}</p>
                         </div>
                         {
                             isAuthenticated ? (<DropdownMenu>

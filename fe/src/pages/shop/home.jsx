@@ -5,6 +5,7 @@ import SaleProducts from "@/components/shop/sale";
 import SearchTop from "@/components/shop/search";
 import { SilderHome } from "@/components/shop/slides";
 import { categoryList } from "@/config";
+import useCounter from "@/hooks/custom";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,10 +15,14 @@ const ShoppingHome = () => {
 
     const slides = [assets.banner_1, assets.banner_2, assets.banner_3, assets.banner_4]
     const slides_card = [assets.mbbankbanner, assets.shoppebanner]
+    
     const [currentSlide, setCurrentSlide] = useState(0)
     const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const [count, increment, decrement] = useCounter(localStorage.getItem('count') || 0);
+
 
     const handleLogout = () => {
         dispatch(logoutUser()).then(data => {
@@ -51,7 +56,7 @@ const ShoppingHome = () => {
                     src="https://img.lazcdn.com/us/domino/e3242ccf-1386-4b2a-822a-41be1c8cf28d_VN-1188-80.png_2200x2200q80.jpg" alt="" />
             </div>
             {/* header */}
-            <ShoppingHeader user={user} isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
+            <ShoppingHeader count={count} user={user} isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
             <main className='flex flex-col w-full px-5 py-5'>
                 {/* siler */}
                 <section>
@@ -90,7 +95,7 @@ const ShoppingHome = () => {
                 </section>
                 {/* sale do theo date */}
                 <section className="">
-                    < SaleProducts />
+                    < SaleProducts increment={increment} decrement={decrement} count={count}/>
                 </section>
                 <section>
                     <SearchTop/>

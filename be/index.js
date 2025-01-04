@@ -9,7 +9,7 @@ import RootRouter from './routes/index.js';
 
 //Utiles
 import connectDB from './config/mongodb.js';
-import {server} from './socket.js';
+
 
 const app = express();
 

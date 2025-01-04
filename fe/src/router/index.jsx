@@ -1,3 +1,7 @@
+import AdminLogin from "@/pages/admin/auth/login";
+import AdminHome from "@/pages/admin/home";
+import AdminUser from "@/pages/admin/home/delete/user";
+import StaTier from "@/pages/admin/home/statistical";
 import ManagerHome from "@/pages/manager/home";
 import ManagerLogin from "@/pages/manager/login";
 import ManagerRegister from "@/pages/manager/register";
@@ -22,6 +26,22 @@ const RootRouter = () => {
                     <Route path="home" element={<ManagerHome />} />
                     <Route path="login" element={<ManagerLogin />} />
                     <Route path="register" element={<ManagerRegister />} />
+                </Route>
+
+                {/* admin router */}
+                <Route path="/admin"  >
+                    <Route path="home" element={<AdminHome />} >
+                        <Route path="statier" element={<StaTier />} />
+                        <Route path="user" element={<AdminUser />} />
+                        <Route path="manager" element={<div>manager</div>} />
+                        <Route path="user/delete" element={<div>delete</div>} />
+                        <Route path="manager/delete" element={<div>delete</div>} />
+                        <Route path="user/block" element={<div></div>} />
+                        <Route path="manager/block" element={<div></div>} />
+                        <Route path="*" element={<Navigate to="/admin/home" />} />
+                    </Route>
+                    <Route path="login" element={<AdminLogin />} />
+
                 </Route>
             </Routes>
         </div>

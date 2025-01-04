@@ -33,7 +33,7 @@ const CountDown = {
         }
     },
     handleSocketConnection : (socket) => {
-        console.log('A client connected');
+        // console.log('A client connected');
         countdownService.startCountdown(socket);
     }
 }
