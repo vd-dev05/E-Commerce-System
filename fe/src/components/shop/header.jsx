@@ -36,7 +36,7 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout , count }) => {
         return true;
     });
     return (
-        <header className="sticky top-0  bg-white z-50">
+        <header className="sticky top-0  bg-white z-40">
             <div className="min-w-full ">
                 <div className="flex justify-end gap-4 text-[12px] bg-slate-200 py-1 pr-4">
                     {

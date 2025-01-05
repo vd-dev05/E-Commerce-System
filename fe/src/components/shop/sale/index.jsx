@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
-import { formatPrice, formatTitle } from '@/lib/utils';
+import { formatPrice, formatTimeCountDown, formatTitle } from '@/lib/utils';
 import { Link } from "react-router";
 import { HeartIcon } from 'lucide-react';
 
@@ -52,7 +52,7 @@ const SaleProducts = ({increment,count}) => {
         const hours = Math.floor(time / 3600);
         const minutes = Math.floor((time % 3600) / 60);
         const seconds = time % 60;
-        return `${hours}:${minutes}:${seconds}`;
+        return `${formatTimeCountDown(hours)}:${formatTimeCountDown(minutes)}:${formatTimeCountDown(seconds)}`;
     };
 
     return (
@@ -62,7 +62,7 @@ const SaleProducts = ({increment,count}) => {
                     <h2 className="text-xl font-normal">Deal chớp nhoáng</h2>
                     <div>
                         <div>
-                            {isLoading ? <div>Loading...</div> : <div>{formatTime(timeLeft)}</div>}
+                            <div>{isLoading ? "Loading..." : formatTime(timeLeft)}</div>
                         </div>
                     </div>
                 </div>

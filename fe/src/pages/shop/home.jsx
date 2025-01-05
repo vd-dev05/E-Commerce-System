@@ -1,4 +1,5 @@
 import { assets } from "@/assets/assets";
+import UserChat from "@/components/shop/chat";
 import ShoppingHeader from "@/components/shop/header";
 import Recommend from "@/components/shop/recommend";
 import SaleProducts from "@/components/shop/sale";
@@ -104,7 +105,12 @@ const ShoppingHome = () => {
                 <section>
                     <Recommend/>
                 </section>
+                <div className="fixed bottom-0 right-[5px] bg-white drop-shadow-md ">
+                <UserChat/>
+                </div>
+               
             </main>
+
         </div>
     );
 }

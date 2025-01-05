@@ -1,6 +1,6 @@
 // server/services/countdownService.js
 
-let timeLeft = 3600; // Initialize countdown time
+let timeLeft = 70; // Initialize countdown time
 
 let cache = {
   timeStart  : 1 ,
@@ -34,12 +34,6 @@ const startCountdown = (socket) => {
     });
   } , 1000);
 
-
-  // Handle client disconnection
-  socket.on('disconnect', () => {
-    // console.log('A client disconnected');
-    clearInterval(cache.interval); // Stop updating time
-  });
 };
 
 

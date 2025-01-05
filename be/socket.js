@@ -4,6 +4,8 @@ import express from 'express';
 
 const app = express();
 import countdownController from './controllers/user/countdown/index.js';
+// import ChatService from "./services/chatService.js";
+
 
 
 const server = http.createServer(app);
@@ -18,8 +20,14 @@ io.on("connect", (socket) => {
     countdownController.handleSocketConnection(socket);
 });
 
-// port socket real time ( nhan request tu client voi thoi gian thuc)
-server.listen(5001, () => {
-    console.log("Socket server running on port 5001");
-})
+const chatNamespace = io.of("chat-connect");
+chatNamespace.on("connect", (socket) => {
+ 
+
+    socket.on("chat", (msg) => {
+        socket.join(msg.room);
+        chatNamespace.to(msg.room).emit("chat", msg);
+    });
+});
+
 export { io, server };

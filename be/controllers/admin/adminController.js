@@ -23,13 +23,10 @@ const adminController = {
                 httpOnly: true,
                 secure: true,
                 sameSite: "none",
-            })
-
-            res.json({
+            }).json({
                 success: true,
-                message: "Login successfully",
+                message: "Admin logged in successfully",
             });
-     
             
         } catch (error) {
             ErrorNotFoundResponse(res, error);
