@@ -36,7 +36,7 @@ const adminSlice = createSlice({
             state.isLoading = false;
             state.dataUser = action.payload.data.users;
            
-            console.log(action.payload.data.users);
+            // console.log(action.payload.data.users);
             
         }).addCase(getUser.rejected, (state,action) => {
             state.isLoading = false;

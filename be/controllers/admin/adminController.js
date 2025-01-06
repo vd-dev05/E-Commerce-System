@@ -43,7 +43,10 @@ const adminController = {
         const totalPages = Math.ceil(totalItems / limit);
         const skip = (page - 1) * limit;
 
-        const users = await UserModel.find().skip(skip).limit(limit);
+        const users = await UserModel.find()
+        .skip(skip)
+        .limit(limit)
+        .select('-__v  -updatedAt -password') ;
         
         res.json({
             success: true,
