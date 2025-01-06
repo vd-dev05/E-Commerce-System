@@ -14,21 +14,25 @@ const AdminLogin = () => {
             const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/admin/login`, {
                 user : value.username,
                 password : value.password,
-               credentials: 'include'
+            },{
+                withCredentials: true,
             });
-           
+            // console.log(response);
             
+            if (response) {
+                toast({
+                    title: 'Đăng nhập thành công',
+                    variant: 'success',
+                    description: 'Chuyển hướng đến trang quản trị',
+                })
+                setTimeout(() => {
+                window.location.href = '/admin/home'
+               }, 1000)
+            }
             // console.log(response);
             
             
-            toast({
-                title: 'Đăng nhập thành công',
-                variant: 'success',
-                description: 'Chuyển hướng đến trang quản trị',
-            })
-            setTimeout(() => {
-            // window.location.href = '/admin/home'
-           }, 1000)
+          
         } else {
             toast({
                 // =))

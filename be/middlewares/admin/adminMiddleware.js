@@ -5,10 +5,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 const adminMiddleware = {
     isAdmin : (req, res, next) => {
-        const token = req.cookies.token;
+        const token = req.cookies.admin_token;
+
         if (!token) throw UnauthorizedError('Unauthorised user !');
         try {
+
             const decoded = jwt.verify(token, process.env.JWT_SECRET_ADMIN);
+           
+            
             if (decoded.role !== 'admin') {
                 return res.json({
                     success: false,
@@ -17,7 +21,6 @@ const adminMiddleware = {
             }
             next()
         } catch (error) {
-            // console.log(error);
             ErrorUnAuthorizedResponse(res, error)
         }
     }

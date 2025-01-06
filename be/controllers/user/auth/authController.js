@@ -61,7 +61,7 @@ const login = async (req, res) => {
             username: user.username
         }, process.env.JWT_SECRET, { expiresIn: '60m' })
 
-        res.cookie('token', token, {
+        res.cookie('token', token , {
             httpOnly: true,
             secure: false
         }).json({

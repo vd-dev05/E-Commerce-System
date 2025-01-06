@@ -6,6 +6,8 @@ const { Sider, Header, Content, Footer } = Layout;
 
 const AdminHome = () => {
     const localtion = useLocation();
+
+    
     return (
         <div>
             <Layout style={{ minHeight: '100vh' }}>
