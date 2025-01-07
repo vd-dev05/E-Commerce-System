@@ -1,13 +1,13 @@
-import { getUser } from "@/store/admin";
+import { getManager } from "@/store/admin";
 import { Table, Input, Button, notification, Select, Tooltip, Modal, Image } from 'antd';
 import { Edit, SearchIcon, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const AdminUser = () => {
+const AdminManager = () => {
     const [data, setData] = useState([])
     const dispath = useDispatch()
-    const { dataUser } = useSelector(state => state.adminAuth)    
+    const { dataManager } = useSelector(state => state.adminAuth)    
     const [isLoading, setIsLoading] = useState(false)
     const [totalUsers, setTotalUsers] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,19 +17,19 @@ const AdminUser = () => {
 
     useEffect(() => {
         const obj = { page: currentPage, limit: pageSize }
-        dispath(getUser( obj))
+        dispath(getManager( obj))
         setIsLoading(true)
     }, [dispath, currentPage, pageSize])
 
     useEffect(() => {
-        if (dataUser && dataUser.users && dataUser.users.length > 0) { 
-            setData(dataUser.users)
-            setTotalUsers(dataUser.totalItems)
+        if (dataManager && dataManager.manager && dataManager.users.length > 0) { 
+            setData(dataManager.users)
+            setTotalUsers(dataManager.totalItems)
             setIsLoading(false)
         } else {
             setIsLoading(true)
         }
-    }, [isLoading, dataUser])
+    }, [isLoading, dataManager])
 
     const columns = [
         {
@@ -101,7 +101,7 @@ const AdminUser = () => {
                             onClick={() => handleEditUsers(record)}
                         />
                     </Tooltip>
-                    <Tooltip title="Xóa người dùng">
+                    <Tooltip title="Xóa">
                         <Button
                             type="link"
                             icon={<Trash />}
@@ -129,7 +129,7 @@ const AdminUser = () => {
         setEditingUsers(null);
     };
     const handleSaveUsers = () => {
-        
+        // Implement save logic here
         notification.success({
             message: 'User Updated',
             description: 'User details have been updated successfully',
@@ -221,5 +221,5 @@ const AdminUser = () => {
     );
 }
 
-export default AdminUser;
+export default AdminManager;
 

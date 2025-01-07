@@ -8,34 +8,32 @@ const AdminLogin = () => {
         password : ''
     })
 
-
-    const handleLogin = async() => {
-        if (value.username === import.meta.env.VITE_REACT_APP_TK && value.password === import.meta.env.VITE_REACT_APP_MK && value.username !== '' && value.password !== '' ) {
+    const handleLogin = async() => {        
+        if (value.username === import.meta.env.VITE_REACT_APP_TK && value.password === import.meta.env.VITE_REACT_APP_MK) {
             const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/admin/login`, {
                 user : value.username,
                 password : value.password,
             },{
                 withCredentials: true,
             });
-            // console.log(response);
-            
+
             if (response) {
                 toast({
                     title: 'Đăng nhập thành công',
                     variant: 'success',
                     description: 'Chuyển hướng đến trang quản trị',
                 })
+                setValue({
+                    username : '',
+                    password : ''
+                })
                 setTimeout(() => {
                 window.location.href = '/admin/home'
                }, 1000)
             }
-            // console.log(response);
-            
-            
-          
         } else {
             toast({
-                // =))
+                
                 title: 'Sai tài khoản hoặc mật khấu', 
                 variant: 'destructive',
                 description: 'Vui lòng thử lại',

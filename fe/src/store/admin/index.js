@@ -4,18 +4,58 @@ import axios from 'axios'
 const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
 export const getUser = createAsyncThunk('/getUser',
-    async () => {
-        const response = await axios.get(`${backendUrl}/api/v1/admin/get-users`, {
+    async (credential) => {
+        const response = await axios.get(`${backendUrl}/api/v1/admin/get-users?page=${credential.page}&limit=${credential.limit}`, {
             withCredentials: true,
         })
         return response.data
     }
 )
+export const getManager = createAsyncThunk('/getManager',
+    async (credential) => {
+        const response = await axios.get(`${backendUrl}/api/v1/admin/get-managers?page=${credential.page}&limit=${credential.limit}`, {
+            withCredentials: true,
+        })
+        return response.data
+    }        
+)
+export const updateUser = createAsyncThunk('/updateUser',
+    async (data) => {
+        const response = await axios.put(`${backendUrl}/api/v1/admin/update-user`, data, {
+            withCredentials: true,
+        })
+        return response.data
+    }
+)
+export const deleteUser = createAsyncThunk('/deleteUser',
+    async (id) => {
+        const response = await axios.delete(`${backendUrl}/api/v1/admin/delete-user/${id}`, {
+            withCredentials: true,
+        })
+        return response.data
+    }
+)
+export const deleteManager = createAsyncThunk('/deleteManager',
+    async (id) => {
+        const response = await axios.delete(`${backendUrl}/api/v1/admin/delete-manager/${id}`, {
+            withCredentials: true,
+        })
+        return response.data
+    }
+)
+export const updateManager = createAsyncThunk('/updateManager',
+    async (data) => {
+        const response = await axios.put(`${backendUrl}/api/v1/admin/update-manager`, data, {
+            withCredentials: true,
+        })
+        return response.data  
+    }
 
+)
 const adminSlice = createSlice({
     name  : 'adminAuth',
     initialState : {
-        dataUser : null,
+        dataUser : [],
         isLoading : true,
         dataManager : null,
         message : null
@@ -30,13 +70,13 @@ const adminSlice = createSlice({
     },
     extraReducers : (builder) => {
         // getUser
-        builder.addCase(getUser.pending, (state) => {
+        builder.addCase(getUser.pending, (state,action) => {      
             state.isLoading = true
         }).addCase(getUser.fulfilled, (state,action) => {
             state.isLoading = false;
-            state.dataUser = action.payload.data.users;
+            state.dataUser = action.payload.data;
            
-            // console.log(action.payload.data.users);
+            // console.log(action.payload.data);
             
         }).addCase(getUser.rejected, (state,action) => {
             state.isLoading = false;
@@ -44,6 +84,17 @@ const adminSlice = createSlice({
             state.dataManager = null;
         })
         // update user
+
+        // get manager
+        builder.addCase(getManager.pending, (state,action) => {      
+            state.isLoading = true
+        }).addCase(getManager.fulfilled, (state,action) => {
+            state.isLoading = false;
+            state.dataManager = action.payload.data;
+        }).addCase(getManager.rejected, (state,action) => {
+            state.isLoading = false;
+            state.dataManager = null;
+        })
     }
 })
 

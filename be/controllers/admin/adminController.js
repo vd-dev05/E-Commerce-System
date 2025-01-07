@@ -16,7 +16,7 @@ const adminController = {
             const token = jwt.sign({
                 role: "admin",
                 id: 'admin-ecom'
-            }, process.env.JWT_SECRET_ADMIN, { expiresIn: "60m" });
+            }, process.env.JWT_SECRET_ADMIN);
             if (!token) {
                 throw new UnauthorizedError("Invalid token");
             }
@@ -24,21 +24,20 @@ const adminController = {
                 res.cookie("admin_token", token, {
                     httpOnly: true,
                     secure: true,
-                    sameSite: "none",
-                    maxAge : 900000
                 }).json({
                     success: true,
                     message: "Admin logged in successfully",
                 });
             }            
         } catch (error) {
-            ErrorNotFoundResponse(res, error);
+            ErrorNotFoundResponse(res, error.message = "Login failed");
         }
     
     },
     getUsers: async (req, res) => {
-        const {page = 1 , limit = 10} = req.query;
        try {
+        const {page = 1 , limit = 10} = req.query; 
+
         const totalItems = await UserModel.countDocuments();
         const totalPages = Math.ceil(totalItems / limit);
         const skip = (page - 1) * limit;
@@ -60,7 +59,7 @@ const adminController = {
         });
 
        } catch (error) {
-        
+        ErrorNotFoundResponse(res, error.message = "Get all users failed");
        }
     },
 }

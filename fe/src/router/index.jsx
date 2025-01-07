@@ -1,5 +1,6 @@
 import AdminLogin from "@/pages/admin/auth/login";
 import AdminHome from "@/pages/admin/home";
+import AdminManager from "@/pages/admin/home/delete/manager";
 import AdminUser from "@/pages/admin/home/delete/user";
 import StaTier from "@/pages/admin/home/statistical";
 import ManagerHome from "@/pages/manager/home";
@@ -33,7 +34,7 @@ const RootRouter = () => {
                     <Route path="home" element={<AdminHome />} >
                         <Route path="statier" element={<StaTier />} />
                         <Route path="user" element={<AdminUser />} />
-                        <Route path="manager" element={<div>manager</div>} />
+                        <Route path="manager" element={<AdminManager />} />
                         <Route path="user/delete" element={<div>delete</div>} />
                         <Route path="manager/delete" element={<div>delete</div>} />
                         <Route path="user/block" element={<div></div>} />
