@@ -2,6 +2,7 @@ import AdminLogin from "@/pages/admin/auth/login";
 import AdminHome from "@/pages/admin/home";
 import AdminUser from "@/pages/admin/home/delete/user";
 import StaTier from "@/pages/admin/home/statistical";
+import ManagerCategory from "@/pages/manager/category";
 import ManagerHome from "@/pages/manager/home";
 import ManagerLogin from "@/pages/manager/login";
 import ManagerRegister from "@/pages/manager/register";
@@ -22,12 +23,14 @@ const RootRouter = () => {
                     <Route path="login" element={<ShoppingLogin />} />
                     <Route path="register" element={<ShoppingRegsiter />} />
                 </Route>
+                {/* manager router */}
                 <Route path="/manager"  >
-                    <Route path="home" element={<ManagerHome />} />
+                    <Route path="home" element={<ManagerHome />}>
+                        <Route path="category" element={<ManagerCategory />} />
+                    </Route>
                     <Route path="login" element={<ManagerLogin />} />
                     <Route path="register" element={<ManagerRegister />} />
                 </Route>
-
                 {/* admin router */}
                 <Route path="/admin"  >
                     <Route path="home" element={<AdminHome />} >
