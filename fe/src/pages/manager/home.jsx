@@ -20,8 +20,6 @@ const ManagerHome = () => {
     useEffect(() => {
         dispatch(checkAuthManager())
     }, [dispatch])
-    console.log(manager);
-    console.log(isAuthenticated);
 
     return (
         <div className='flex min-h-screen w-full'>

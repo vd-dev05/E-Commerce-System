@@ -3,39 +3,45 @@ import ManagerModel from "../../../models/shop/managerModel.js"
 
 const createCategoryByManager = async (req, res) => {
     try {
-        const { managerId, code, name } = req.body
+        const { managerId, items } = req.body;
 
-        const manager = await ManagerModel.findById(managerId)
-        if (!manager) {
-            return res.json({
+        if (!managerId || !items || !items.code || !items.category_name) {
+            return res.status(400).json({
                 success: false,
-                message: 'Manager not found'
-            })
+                message: "Thiếu thông tin bắt buộc",
+            });
+        }
+
+        const manager = await ManagerModel.findById(managerId);
+        if (!manager) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy manager",
+            });
         }
 
         const category = await CategoryModel.findOne({ managerId })
         if (!category) {
-
             const newCategory = new CategoryModel({
                 managerId,
-                items: [{ code, name }]
+                items: [items]
             });
             await newCategory.save();
             return res.json({
                 success: true,
                 message: 'Tạo danh mục hàng thành công',
-                category: newCategory
+                data: newCategory
             })
         }
 
-        const codeExits = category.items.some((item) => item.code === code)
+        const codeExits = category.items.some((item) => item.code === items.code)
         if (codeExits) {
             return res.json({
                 success: false,
                 message: 'Mã mặt hàng đã tồn tại trong cửa hàng'
             })
         }
-        const nameExits = category.items.some((item) => item.name === name)
+        const nameExits = category.items.some((item) => item.category_name === items.category_name)
         if (nameExits) {
             return res.json({
                 success: false,
@@ -43,13 +49,16 @@ const createCategoryByManager = async (req, res) => {
             })
         }
 
-        category.items.push({ code, name })
+        category.items.push({
+            code: items.code,
+            category_name: items.category_name
+        })
         await category.save()
 
         res.json({
             success: true,
             message: 'Thêm danh mục mới thành công',
-            category,
+            data: category,
         })
 
     } catch (error) {
@@ -79,7 +88,7 @@ const deleteCategoryByManager = async (req, res) => {
         res.json({
             success: true,
             message: 'Xóa mục hàng thành công',
-            category,
+            data: category,
         });
     } catch (error) {
         console.log(error);
@@ -92,7 +101,7 @@ const deleteCategoryByManager = async (req, res) => {
 
 const updateCategoryByManager = async (req, res) => {
     try {
-        const { managerId, code, name } = req.body;
+        const { managerId, code, category_name } = req.body;
 
         const category = await CategoryModel.findOne({ managerId });
         if (!category) {
@@ -102,12 +111,12 @@ const updateCategoryByManager = async (req, res) => {
             })
         }
         const item = category.items.find(item => item.code === code);
-        item.name = name;
+        item.category_name = category_name;
 
         res.json({
             success: true,
             message: 'Cập nhập mục hàng thành công',
-            category
+            data: category
         })
     } catch (error) {
         console.log(error);
@@ -132,7 +141,7 @@ const listCategoryByManager = async (req, res) => {
 
         res.json({
             success: true,
-            items: category.items,
+            data: category.items,
         });
     } catch (error) {
         console.error(error);
