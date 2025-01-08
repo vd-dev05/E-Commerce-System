@@ -34,5 +34,5 @@ export {
   formatTitle,
   cn,
   formatTimeCountDown,
-  formatDate
+  formatDate,
 }

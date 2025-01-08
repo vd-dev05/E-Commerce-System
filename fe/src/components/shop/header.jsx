@@ -1,9 +1,12 @@
 import { shoppingHeaderItems } from "@/config";
-import { Link } from "react-router";
-import { LogOut, Search, Settings, ShoppingCart, User, UserCog2 } from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { FaCartShopping } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router";
+import { Search, ShoppingCart, User } from 'lucide-react'
+
+import { useDispatch } from "react-redux";
+import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
+import { useEffect } from "react";
+import AvartarHeader from "./avartar";
+
 
 
 const dataFakeSearch = [
@@ -25,16 +28,26 @@ const dataFakeSearch = [
 
 ]
 
-const ShoppingHeader = ({ user, isAuthenticated, handleLogout , count }) => {
- 
+const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
+    const dispatch = useDispatch()
     
-
+    useEffect(() => {
+        dispatch(checkAuthUser())
+    }, [dispatch]) 
     const filteredHeaderItems = shoppingHeaderItems.filter(item => {
         if (isAuthenticated && (item.name === "login" || item.name === "register")) {
             return false;
         }
         return true;
     });
+    const navigate = useNavigate()
+    // const handleLogout = () => {
+    //     dispatch(logoutUser()).then(data => {
+    //         if (data?.payload?.success) {
+    //             navigate('/shop/login')
+    //         }
+    //     })
+    // }
     return (
         <header className="sticky top-0  bg-white z-40">
             <div className="min-w-full ">
@@ -74,38 +87,7 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout , count }) => {
                             <p className={`${count > 0 ? "visible" : "invisible"} absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white`}>{count}</p>
                         </div>
                         {
-                            isAuthenticated ? (<DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Avatar className="bg-black">
-                                        <AvatarFallback className="bg-black text-white flex items-center font-extralight">
-                                            <p>{user?.username[0].toUpperCase()}</p>
-                                        </AvatarFallback>
-                                    </Avatar>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent side="bottom" className="w-56 mr-8 mt-4">
-                                    <DropdownMenuLabel className="text-md">Hello, {user?.username}</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <UserCog2 className='mr-2 size-4' />
-                                        <p>Tài khoản</p>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <FaCartShopping className='mr-2 size-4' />
-                                        <p>Đơn mua</p>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <Settings className='mr-2 size-4' />
-                                        <p>Cài đặt</p>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={handleLogout}>
-                                        <LogOut className='mr-2 size-4' />
-                                        <p>Đăng xuất</p>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>) : <User size={32} className="cursor-pointer" onClick={() => navigate('/shop/login')} />
+                            isAuthenticated ? <AvartarHeader user={user} handleLogout={handleLogout} /> : <User size={32} className="cursor-pointer" onClick={() => navigate('/shop/login')} />
                         }
                     </div>
                 </div>

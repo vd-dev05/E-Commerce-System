@@ -8,6 +8,8 @@ import ManagerCategory from "@/pages/manager/category";
 import ManagerHome from "@/pages/manager/home";
 import ManagerLogin from "@/pages/manager/login";
 import ManagerRegister from "@/pages/manager/register";
+import AllCategory from "@/pages/shop/allcategory";
+import ProductDetails from "@/pages/shop/details";
 import ShoppingHome from "@/pages/shop/Home";
 import ShoppingLogin from "@/pages/shop/login";
 import ShoppingRegsiter from "@/pages/shop/regsiter";
@@ -24,6 +26,8 @@ const RootRouter = () => {
                     <Route path="home" element={<ShoppingHome />} />
                     <Route path="login" element={<ShoppingLogin />} />
                     <Route path="register" element={<ShoppingRegsiter />} />
+                    <Route path="listing" element={<ProductDetails/>}/>
+                    <Route path="all_categories" element={<AllCategory/>} />
                 </Route>
                 {/* manager router */}
                 <Route path="/manager"  >

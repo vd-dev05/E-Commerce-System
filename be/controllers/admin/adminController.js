@@ -65,22 +65,22 @@ const adminController = {
     traficUser : async (req,res) => {
         try {
            
-            const users = await UserModel.find({})
-            .select('-__v  -updatedAt -password -phone -email  -birthday  -username -gender');
-            console.log(users);
-            
-            const data = {
-                total: users.length,
-                block_user : users.filter(user => user.isBlocked === true).length,
-                newUser : users.filter(user => user.createdAt >= Date.now() - 24 * 60 * 60 * 1000).length
-            }
-            
-            res.status(200).json({
-                success: true,
-                message: "Get all trafi users successfully",
-                data: data,
-                timestamp: new Date().toISOString()
-            });
+                const users = await UserModel.find({})
+                .select('-__v  -updatedAt -password -phone -email  -birthday  -username -gender');
+                console.log(users);
+                
+                const data = {
+                    total: users.length,
+                    block_user : users.filter(user => user.isBlocked === true).length,
+                    newUser : users.filter(user => user.createdAt >= Date.now() - 24 * 60 * 60 * 1000).length
+                }
+                
+                res.status(200).json({
+                    success: true,
+                    message: "Get all trafi users successfully",
+                    data: data,
+                    timestamp: new Date().toISOString()
+                });
         } catch (error) {
             // ErrorNotFoundResponse(res, error.message = "Get Trafic users failed");
         }

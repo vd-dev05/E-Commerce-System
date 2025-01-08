@@ -32,6 +32,7 @@ const ShoppingHome = () => {
             }
         })
     }
+
     useEffect(() => {
         dispatch(checkAuthUser())
     }, [dispatch])
