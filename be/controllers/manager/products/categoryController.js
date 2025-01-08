@@ -29,7 +29,7 @@ const createCategoryByManager = async (req, res) => {
             await newCategory.save();
             return res.json({
                 success: true,
-                message: 'Tạo danh mục hàng thành công',
+                message: 'Tạo danh mục mới thành công',
                 data: newCategory
             })
         }
@@ -73,7 +73,6 @@ const createCategoryByManager = async (req, res) => {
 const deleteCategoryByManager = async (req, res) => {
     try {
         const { managerId, code } = req.body;
-
         const category = await CategoryModel.findOne({ managerId });
         if (!category) {
             return res.json({
@@ -102,7 +101,6 @@ const deleteCategoryByManager = async (req, res) => {
 const updateCategoryByManager = async (req, res) => {
     try {
         const { managerId, code, category_name } = req.body;
-
         const category = await CategoryModel.findOne({ managerId });
         if (!category) {
             return res.json({
@@ -112,7 +110,7 @@ const updateCategoryByManager = async (req, res) => {
         }
         const item = category.items.find(item => item.code === code);
         item.category_name = category_name;
-
+        category.save()
         res.json({
             success: true,
             message: 'Cập nhập mục hàng thành công',
@@ -129,7 +127,7 @@ const updateCategoryByManager = async (req, res) => {
 
 const listCategoryByManager = async (req, res) => {
     try {
-        const { managerId } = req.query;
+        const { managerId } = req.params;
 
         const category = await CategoryModel.findOne({ managerId });
         if (!category) {

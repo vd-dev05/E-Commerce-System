@@ -10,10 +10,46 @@ export const createCategory = createAsyncThunk('/createCategory',
             const response = await axios.post(`${backendUrl}/api/v1/manager/category/create`,
                 formData
             )
-            console.log(response);
             return response.data;
         } catch (error) {
             console.log(error)
+        }
+    }
+)
+
+export const fetchCategory = createAsyncThunk('/fetchCategory',
+    async (managerId) => {
+        try {
+            const response = await axios.get(`${backendUrl}/api/v1/manager/category/list/${managerId}`)
+
+            return response.data
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+export const deleteCategory = createAsyncThunk('/deleteCategory',
+    async ({ managerId, code }) => {
+        try {
+            const response = await axios.delete(`${backendUrl}/api/v1/manager/category/delete`, {
+                data: { managerId, code }
+            })
+            return response.data
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+export const updateCategory = createAsyncThunk('/deleteCategory',
+    async (formData) => {
+        try {
+            const response = await axios.put(`${backendUrl}/api/v1/manager/category/update`,
+                formData
+            )
+            return response.data
+        } catch (error) {
+            console.log(error);
         }
     }
 )
@@ -30,9 +66,19 @@ const managerCategorySlice = createSlice({
             state.isLoading = true
         }).addCase(createCategory.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.categoryItems.push(action.payload.data);
+            if (action.payload?.success) {
+                state.categoryItems.push(action.payload.data);
+            }
         }).addCase(createCategory.rejected, (state) => {
             state.isLoading = false;
+        }).addCase(fetchCategory.pending, (state) => {
+            state.isLoading = true
+        }).addCase(fetchCategory.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.categoryItems = action.payload?.data || []
+        }).addCase(fetchCategory.rejected, (state) => {
+            state.isLoading = false;
+            state.categoryItems = []
         })
     }
 })
