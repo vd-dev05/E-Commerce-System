@@ -37,7 +37,7 @@ const ShoppingLogin = () => {
                     email: '',
                     password: '',
                 })
-                // navigate('/shop/home')
+                navigate('/shop/home')
             }
             else {
                 toast({

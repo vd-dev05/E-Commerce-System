@@ -19,6 +19,15 @@ export const getManager = createAsyncThunk('/getManager',
         return response.data
     }        
 )
+export const getTraficUser = createAsyncThunk('/getTraficUser',
+    async () => {
+        const response = await axios.get(`${backendUrl}/api/v1/admin/trafic-users`, {
+            withCredentials: true,
+        })
+     
+        return response.data
+    }
+)
 export const updateUser = createAsyncThunk('/updateUser',
     async (data) => {
         const response = await axios.put(`${backendUrl}/api/v1/admin/update-user`, data, {
@@ -56,6 +65,7 @@ const adminSlice = createSlice({
     name  : 'adminAuth',
     initialState : {
         dataUser : [],
+        traficUser : [],
         isLoading : true,
         dataManager : null,
         message : null
@@ -84,6 +94,19 @@ const adminSlice = createSlice({
             state.dataManager = null;
         })
         // update user
+
+        // get trafic user 
+        builder.addCase(getTraficUser.pending, (state,action) => {      
+            state.isLoading = true
+        }).addCase(getTraficUser.fulfilled, (state,action) => {
+            state.isLoading = false;
+            state.traficUser = action.payload.data;
+            console.log(action.payload.data);
+            
+        }).addCase(getTraficUser.rejected, (state,action) => {
+            state.isLoading = false;
+            state.traficUser = null;
+        })
 
         // get manager
         builder.addCase(getManager.pending, (state,action) => {      

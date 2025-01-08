@@ -21,9 +21,18 @@ function formatTitle(title) {
 function formatTimeCountDown(time) {
   return time < 10 ? "0" + time : time.toString();
 }
+
+function formatDate(date) {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date(date));
+}
 export {
   formatPrice,
   formatTitle,
   cn,
-  formatTimeCountDown
+  formatTimeCountDown,
+  formatDate
 }

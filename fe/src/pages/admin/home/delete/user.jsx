@@ -90,6 +90,15 @@ const AdminUser = () => {
             }
         },
         {
+            title : "thời gian  đăng nhập",
+            dataIndex: "last_login",
+            key: "last_login",
+            render: (text) => {
+                return new Date(text).toLocaleString();
+            },
+
+        },
+        {
             title: 'Thao tác',
             key: 'action',
             render: (_, record) => (

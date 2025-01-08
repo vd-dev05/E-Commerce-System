@@ -19,7 +19,7 @@ const AdminNavBar = () => {
         {
             key: '2',
             label: (
-                <Link to="staTier" className="flex items-center space-x-2">
+                <Link to="trafic" className="flex items-center space-x-2">
                     <FaAddressCard className="w-5 h-5 text-white" />
                     <span className="text-black">thông kê người dùng </span>
                 </Link>

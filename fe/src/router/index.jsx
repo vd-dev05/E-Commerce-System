@@ -1,8 +1,9 @@
 import AdminLogin from "@/pages/admin/auth/login";
 import AdminHome from "@/pages/admin/home";
+import BlockUser from "@/pages/admin/home/block";
 import AdminManager from "@/pages/admin/home/delete/manager";
 import AdminUser from "@/pages/admin/home/delete/user";
-import StaTier from "@/pages/admin/home/statistical";
+import AdminTrafic from "@/pages/admin/home/trafic";
 import ManagerCategory from "@/pages/manager/category";
 import ManagerHome from "@/pages/manager/home";
 import ManagerLogin from "@/pages/manager/login";
@@ -35,12 +36,12 @@ const RootRouter = () => {
                 {/* admin router */}
                 <Route path="/admin"  >
                     <Route path="home" element={<AdminHome />} >
-                        <Route path="statier" element={<StaTier />} />
+                        <Route path="trafic" element={<AdminTrafic />} />
                         <Route path="user" element={<AdminUser />} />
                         <Route path="manager" element={<AdminManager />} />
                         <Route path="user/delete" element={<div>delete</div>} />
                         <Route path="manager/delete" element={<div>delete</div>} />
-                        <Route path="user/block" element={<div></div>} />
+                        <Route path="user/block" element={<BlockUser />} />
                         <Route path="manager/block" element={<div></div>} />
                         <Route path="*" element={<Navigate to="/admin/home" />} />
                     </Route>
