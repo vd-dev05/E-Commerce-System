@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import UserModel from '../../../models/auth/userModel.js';
+import responseServer from '../../../services/configStatus.js';
 
 const register = async (req, res) => {
     const { username, email, password, gender, birthday, phone } = req.body;
@@ -15,7 +16,11 @@ const register = async (req, res) => {
             gender,
             birthday: formattedBirthday,
             phone,
-            password: hashPassword
+            password: hashPassword,
+            isActive: true,
+            last_login: Date.now(),
+            role: 'user',
+            is_temporary: false
         })
         await newUser.save()
         res.json({
@@ -43,6 +48,7 @@ const login = async (req, res) => {
                 message: "Tài khoản Email không tồn tại"
             })
         }
+   
         const passwordMath = await bcrypt.compare(password, user.password)
         
         if (!passwordMath) {
@@ -51,6 +57,10 @@ const login = async (req, res) => {
                 message: 'Mật khẩu không chính xác, vui lòng nhập lại'
             })
         };
+        user.last_login = Date.now()
+        await user.save()
+        console.log(user);
+        
         const token = jwt.sign({
             id: user._id,
             role: user.role,
@@ -58,9 +68,11 @@ const login = async (req, res) => {
             gender: user.gender,
             phone: user.phone,
             birthday: user.birthday,
-            username: user.username
+            username: user.username,
+            last_login : Date.now()
         }, process.env.JWT_SECRET, { expiresIn: '60m' })
-
+    
+        
         res.cookie('token', token , {
             httpOnly: true,
             secure: false
@@ -95,7 +107,7 @@ const logout = (req, res) => {
         })
     } catch (error) {
         console.log(error);
-        res.json({
+        res.status(responseServer.STATUS.SUCCESS).json({
             success: false,
             message: error.message
         })

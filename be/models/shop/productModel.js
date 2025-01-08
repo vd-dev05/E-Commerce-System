@@ -69,7 +69,7 @@ export default ProductModel
 //       {
 //         "sku": "ABC123",
 //         "price": 299.99,
-//         "quantity": 150,
+//         "quantity": 200 ( attributes.quantity ++ ),
 //         "create_at": "2024-12-31T12:00:00Z",
 //         "update_at": "2024-12-31T12:00:00Z",
 //         "images": [
@@ -105,12 +105,14 @@ export default ProductModel
 //           {
 //             "name": "Color",
 //             "value": "Black",
+//             "quantity": 100,
 //             "create_at": "2024-12-31T12:00:00Z",
 //             "update_at": "2024-12-31T12:00:00Z"
 //           },
 //           {
 //             "name": "Size",
 //             "value": "Medium",
+//             "quantity": 100,
 //             "create_at": "2024-12-31T12:00:00Z",
 //             "update_at": "2024-12-31T12:00:00Z"
 //           }

@@ -6,5 +6,5 @@ const adminRouter = express.Router();
 
 adminRouter.post('/login',adminController.login)
 adminRouter.get('/get-users',adminMiddleware.isAdmin, adminController.getUsers)
-
+adminRouter.get('/trafic-users',adminMiddleware.isAdmin, adminController.traficUser)
 export default adminRouter
