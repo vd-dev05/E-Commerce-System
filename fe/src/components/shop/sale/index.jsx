@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { formatPrice, formatTimeCountDown, formatTitle } from '@/lib/utils';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { HeartIcon } from 'lucide-react';
+import { isAction } from '@reduxjs/toolkit';
+import { toast } from '@/hooks/use-toast';
 
-const SaleProducts = ({increment,count}) => {
+const SaleProducts = ({increment,count,auth}) => {
     const [timeLeft, setTimeLeft] = useState(3600);
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
-
+    const navigate = useNavigate();
 
     
     // Dữ liệu giả lập (12 giờ, mỗi giờ có 6 hay nhieu  sản phẩm)
@@ -79,7 +81,25 @@ const SaleProducts = ({increment,count}) => {
                                 <span className='absolute top-2 left-2 bg-red-500 text-white text-xs py-1 px-4 rounded-lg'>{item.discount_type ? '-' + item.discount_type + '%' : ''}</span>
                                 <img src={item.url} alt={item.name} className="w-full h-full object-cover " />
                                 <button
-                                onClick={() => increment(count + 1)}
+                                onClick={() => {
+                                    if (auth === true) {
+                                        console.log(item);
+                                        
+                                        increment(count + 1);
+                                    }else if (auth === false) {
+                                        let Islogin = localStorage.getItem('Islogin') || 0;
+                                        const iscountlogin = parseInt(Islogin) + 1;
+                                        localStorage.setItem('Islogin', iscountlogin);
+                                        toast({
+                                            title: 'Vui lý đăng nhập',
+                                            description: 'Vui lý đăng nhập đầu tên để nhận thống tin trên website',
+                                        })
+                                        if (Islogin > 5) {
+                                            localStorage.removeItem('Islogin');
+                                            navigate('/shop/login');
+                                        }
+                                    }
+                                }}
                                 className="absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     Add to Cart
                                 </button>

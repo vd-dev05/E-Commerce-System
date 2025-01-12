@@ -1,4 +1,5 @@
 import { allcategory } from "@/config";
+import { Link } from "react-router";
 
 const AllCategory = () => {
     return ( 
@@ -13,7 +14,7 @@ const AllCategory = () => {
                 <ul className="list-disc pl-4">
                   {items.map(item => (
                     <li key={item.id} className="my-1">
-                      <a href={item.url} className="text-blue-500 hover:underline">{item.name}</a>
+                      <Link to={`/shop/listing${item.url}?category=${item.query}`} className="text-blue-500 hover:underline">{item.name}</Link>
                     </li>
                   ))}
                 </ul>

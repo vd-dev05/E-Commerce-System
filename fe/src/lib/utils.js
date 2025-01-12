@@ -1,3 +1,4 @@
+import { categoryMapping } from "@/config";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge"
 
@@ -29,10 +30,19 @@ function formatDate(date) {
     day: "numeric",
   }).format(new Date(date));
 }
+function mapCategoryFromUrl(path) {
+
+  return categoryMapping[path]
+}
+function formatTitleLenght(title,number =20) {
+  return title.length > number ? title.slice(0,number) + "..." : title;
+}
 export {
   formatPrice,
   formatTitle,
   cn,
   formatTimeCountDown,
   formatDate,
+  mapCategoryFromUrl,
+  formatTitleLenght
 }

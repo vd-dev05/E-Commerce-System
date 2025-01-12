@@ -45,292 +45,320 @@ export const shoppingHeaderItems = [
 
 // category list
 export const categoryList = [
-    { id: 1, label: "thoi trang nam", url: assets.men, path: "men" },
-    { id: 2, label: "thoi trang nu", url: assets.women, path: "women" },
-    { id: 3, label: "giay", url: assets.shoes, path: "shoes" },
-    { id: 4, label: "dong ho", url: assets.clock, path: "clock" },
-    { id: 5, label: "do gia dung", url: assets.appliances, path: "appliances" },
-    { id: 6, label: "dien thoai", url: assets.phone, path: "phone" },
+    { id: 1, label: "thoi trang nam", url: assets.men, path: "Thời Trang Nam" },
+    { id: 2, label: "thoi trang nu", url: assets.women, path: "Thời Trang Nữ" },
+    { id: 3, label: "giay dep nam", url: assets.shoes, path: "Giày Dép Nam" },
+    { id: 4, label: "dong ho", url: assets.clock, path: "Đồng Hồ" },
+    { id: 5, label: "thiet bi da dung", url: assets.appliances, path: "thiet-bi-dien-gia-dung" },
+    { id: 6, label: "dien thoai", url: assets.phone, path: "dien-thoai-va-phu-kien" },
 ]
 
-export const allcategory =  {
+export const allcategory = {
     // api , data shoppe clone 
-    B : {
-        "Balo_Túi_Ví_Nam" : [
-            { id: 1, name: "Ba lô nam", path: "ba-lo-nam" , url : '/balo-tui-vi-nam/ba-lo-nam' },
-            { id: 2, name: "Ba Lô Laptop Nam", url: "/balo-tui-vi-nam/ba-lo-laptop-nam" },
-            { id: 3, name: "Túi & Cặp Đựng Laptop", url: "/balo-tui-vi-nam/tui-cap-dung-laptop" },
-            { id: 4, name: "Túi Chống Sốc Laptop Nam", url: "/balo-tui-vi-nam/tui-chong-soc-laptop-nam" },
-            { id: 5, name: "Túi Tote Nam", url: "/balo-tui-vi-nam/tui-tote-nam" },
-            { id: 6, name: "Cặp Xách Công Sở Nam", url: "/balo-tui-vi-nam/cap-xach-cong-so-nam" },
-            { id: 7, name: "Ví Cầm Tay Nam", url: "/balo-tui-vi-nam/vi-cam-tay-nam" },
-            { id: 8, name: "Túi Đeo Hông & Túi Đeo Ngực Nam", url: "/balo-tui-vi-nam/tui-deo-hong-tui-deo-nguc-nam" },
-            { id: 9, name: "Túi Đeo Chéo Nam", url: "/balo-tui-vi-nam/tui-deo-cheo-nam" },
-            { id: 10, name: "Bóp/Ví Nam", url: "/balo-tui-vi-nam/bop-vi-nam" },
-            { id: 11, name: "Khác", url: "/balo-tui-vi-nam/khac" }
+    B: {
+        "Balo Túi Ví Nam": [
+            { id: 1, name: "Ba lô nam", path: "ba-lo-nam", query: "ba-lo-nam", url: "/Balo Túi Ví Nam" },
+            { id: 2, name: "Ba Lô Laptop Nam", query: "ba-lo-laptop-nam", path: "ba-lo-laptop-nam", url: "/Balo Túi Ví Nam" },
+            { id: 3, name: "Túi & Cặp Đựng Laptop", query: "tui-cap-dung-laptop", path: "tui-cap-dung-laptop", url: "/Balo Túi Ví Nam" },
+            { id: 4, name: "Túi Chống Sốc Laptop Nam", query: "tui-chong-soc-laptop-nam", path: "tui-chong-soc-laptop-nam", url: "/Balo Túi Ví Nam" },
+            { id: 5, name: "Túi Tote Nam", query: "tui-tote-nam", path: "tui-tote-nam", url: "/Balo Túi Ví Nam" },
+            { id: 6, name: "Cặp Xách Công Sở Nam", query: "cap-xach-cong-so-nam", path: "cap-xach-cong-so-nam", url: "/Balo Túi Ví Nam" },
+            { id: 7, name: "Ví Cầm Tay Nam", query: "vi-cam-tay-nam", path: "vi-cam-tay-nam", url: "/Balo Túi Ví Nam" },
+            { id: 8, name: "Túi Đeo Hông & Túi Đeo Ngực Nam", query: "tui-deo-hong-tui-deo-nguc-nam", path: "tui-deo-hong-tui-deo-nguc-nam", url: "/Balo Túi Ví Nam" },
+            { id: 9, name: "Túi Đeo Chéo Nam", query: "tui-deo-cheo-nam", path: "tui-deo-cheo-nam", url: "/Balo Túi Ví Nam" },
+            { id: 10, name: "Bóp/Ví Nam", query: "bop-vi-nam", path: "bop-vi-nam", url: "/Balo Túi Ví Nam" },
+            { id: 11, name: "Khác", query: "khac", path: "khac", url: "/Balo Túi Ví Nam" }
+        ]
+    },
+    D: {
+        "Dien_Thoai_Va_Phu_Kien": [
+            { id: 1, name: "Điện Thoại", path: "dien-thoai", query: "dien-thoai", url: "/dien-thoai-va-phu-kien" },
+            { id: 2, name: "Máy tính bảng", path: "may-tinh-bang", query: "may-tinh-bang", url: "/dien-thoai-va-phu-kien" },
+            { id: 3, name: "Pin Dự Phòng", path: "pin-du-phong", query: "pin-du-phong", url: "/dien-thoai-va-phu-kien" },
+            { id: 4, name: "Pin Gắn Trong, Cáp và Bộ Sạc", path: "pin-gan-trong-cap-va-bo-sac", query: "pin-gan-trong-cap-va-bo-sac", url: "/dien-thoai-va-phu-kien" },
+            { id: 5, name: "Ốp lưng, bao da, Miếng dán điện thoại", path: "op-lung-bao-da-mieng-dan-dien-thoai", query: "op-lung-bao-da-mieng-dan-dien-thoai", url: "/dien-thoai-va-phu-kien" },
+            { id: 6, name: "Bảo vệ màn hình", path: "bao-ve-man-hinh", query: "bao-ve-man-hinh", url: "/dien-thoai-va-phu-kien" },
+            { id: 7, name: "Đế giữ điện thoại", path: "de-giu-dien-thoai", query: "de-giu-dien-thoai", url: "/dien-thoai-va-phu-kien" },
+            { id: 8, name: "Thẻ nhớ", path: "the-nho", query: "the-nho", url: "/dien-thoai-va-phu-kien" },
+            { id: 9, name: "Sim", path: "sim", query: "sim", url: "/dien-thoai-va-phu-kien" },
+            { id: 10, name: "Phụ kiện khác", path: "phu-kien-khac", query: "phu-kien-khac", url: "/dien-thoai-va-phu-kien" },
+            { id: 11, name: "Thiết bị khác", path: "thiet-bi-khac", query: "thiet-bi-khac", url: "/dien-thoai-va-phu-kien" }
+        ],
+        "Dung_Cu_Va_Thiet_Bi_Tien_Ich": [
+            { id: 1, name: "Dụng cụ cầm tay", path: "dung-cu-cam-tay", query: "dung-cu-cam-tay", url: "/dung-cu-va-thiet-bi-tien-ich" },
+            { id: 2, name: "Dụng cụ điện và thiết bị lớn", path: "dung-cu-dien-va-thiet-bi-lon", query: "dung-cu-dien-va-thiet-bi-lon", url: "/dung-cu-va-thiet-bi-tien-ich" },
+            { id: 3, name: "Thiết bị mạch điện", path: "thiet-bi-mach-dien", query: "thiet-bi-mach-dien", url: "/dung-cu-va-thiet-bi-tien-ich" },
+            { id: 4, name: "Vật liệu xây dựng", path: "vat-lieu-xay-dung", query: "vat-lieu-xay-dung", url: "/dung-cu-va-thiet-bi-tien-ich" },
+            { id: 5, name: "Thiết bị và phụ kiện xây dựng", path: "thiet-bi-va-phu-kien-xay-dung", query: "thiet-bi-va-phu-kien-xay-dung", url: "/dung-cu-va-thiet-bi-tien-ich" },
+            { id: 6, name: "Khác", path: "khac", query: "khac", url: "/dung-cu-va-thiet-bi-tien-ich" }
+        ],
+        "Do_Choi_So_Thich": [
+            { id: 1, name: "Đồ chơi giải trí", path: "do-choi-giai-tri", query: "do-choi-giai-tri", url: "/do-choi-so-thich" },
+            { id: 2, name: "Đồ chơi giáo dục", path: "do-choi-giao-duc", query: "do-choi-giao-duc", url: "/do-choi-so-thich" },
+            { id: 3, name: "Đồ chơi cho trẻ sơ sinh & trẻ nhỏ", path: "do-choi-cho-tre-so-sinh-va-tre-nho", query: "do-choi-cho-tre-so-sinh-va-tre-nho", url: "/do-choi-so-thich" },
+            { id: 4, name: "Đồ chơi vận động & ngoài trời", path: "do-choi-van-dong-va-ngoai-troi", query: "do-choi-van-dong-va-ngoai-troi", url: "/do-choi-so-thich" },
+            { id: 5, name: "Búp bê & Đồ chơi nhồi bông", path: "bup-be-do-choi-nhoi-bong", query: "bup-be-do-choi-nhoi-bong", url: "/do-choi-so-thich" }
+        ],
+        "Đồng Hồ": [
+            { id: 1, name: "Đồng Hồ Nam", path: "dong-ho-nam", query: "dong-ho-nam", url: "/dong-ho" },
+            { id: 2, name: "Đồng Hồ Nữ", path: "dong-ho-nu", query: "dong-ho-nu", url: "/dong-ho" },
+            { id: 3, name: "Bộ Đồng Hồ & Đồng Hồ Cặp", path: "bo-dong-ho-va-dong-ho-cap", query: "bo-dong-ho-va-dong-ho-cap", url: "/dong-ho" },
+            { id: 4, name: "Đồng Hồ Trẻ Em", path: "dong-ho-tre-em", query: "dong-ho-tre-em", url: "/dong-ho" },
+            { id: 5, name: "Phụ Kiện Đồng Hồ", path: "phu-kien-dong-ho", query: "phu-kien-dong-ho", url: "/dong-ho" },
+            { id: 6, name: "Khác", path: "khac", query: "khac", url: "/dong-ho" }
+
         ]
     },
     C: {
-        "Chăm_Sóc_Thú_Cưng" :[
-            { id: 1, name: "Phụ kiện cho thú cưng", url: "/cham-soc-thu-cung/phu-kien-cho-thu-cung" },
-            { id: 2, name: "Vệ sinh cho thú cưng", url: "/cham-soc-thu-cung/ve-sinh-cho-thu-cung" },
-            { id: 3, name: "Quần áo thú cưng", url: "/cham-soc-thu-cung/quan-ao-thu-cung" },
-            { id: 4, name: "Chăm sóc sức khỏe", url: "/cham-soc-thu-cung/cham-soc-suc-khoe" },
-            { id: 5, name: "Làm đẹp cho thú cưng", url: "/cham-soc-thu-cung/lam-dep-cho-thu-cung" },
-            { id: 6, name: "Khác", url: "/cham-soc-thu-cung/khac" }
-
+        "Chăm_Sóc_Thú_Cưng": [
+            { id: 1, name: "Phụ kiện cho thú cưng", path: "phu-kien-cho-thu-cung", query: "phu-kien-cho-thu-cung", url: "/cham-soc-thu-cung" },
+            { id: 2, name: "Vệ sinh cho thú cưng", path: "ve-sinh-cho-thu-cung", query: "ve-sinh-cho-thu-cung", url: "/cham-soc-thu-cung" },
+            { id: 3, name: "Quần áo thú cưng", path: "quan-ao-thu-cung", query: "quan-ao-thu-cung", url: "/cham-soc-thu-cung" },
+            { id: 4, name: "Chăm sóc sức khỏe", path: "cham-soc-suc-khoe", query: "cham-soc-suc-khoe", url: "/cham-soc-thu-cung" },
+            { id: 5, name: "Làm đẹp cho thú cưng", path: "lam-dep-cho-thu-cung", query: "lam-dep-cho-thu-cung", url: "/cham-soc-thu-cung" },
+            { id: 6, name: "Khác", path: "khac", query: "khac", url: "/cham-soc-thu-cung" }
         ]
     },
-    D : {
-        "Dung_Cu_Va_Thiet_Bi_Tien_Ich" : [
-            { id: 1, name: "Dụng cụ cầm tay", url: "/dung-cu-va-thiet-bi-tien-ich/dung-cu-cam-tay" },
-            { id: 2, name: "Dụng cụ điện và thiết bị lớn", url: "/dung-cu-va-thiet-bi-tien-ich/dung-cu-dien-va-thiet-bi-lon" },
-            { id: 3, name: "Thiết bị mạch điện", url: "/dung-cu-va-thiet-bi-tien-ich/thiet-bi-mach-dien" },
-            { id: 4, name: "Vật liệu xây dựng", url: "/dung-cu-va-thiet-bi-tien-ich/vat-lieu-xay-dung" },
-            { id: 5, name: "Thiết bị và phụ kiện xây dựng", url: "/dung-cu-va-thiet-bi-tien-ich/thiet-bi-va-phu-kien-xay-dung" },
-            { id: 6, name: "Điện Thoại & Phụ Kiện", url: "/dung-cu-va-thiet-bi-tien-ich/dien-thoai-phu-kien" },
-            { id: 7, name: "Máy tính bảng", url: "/dung-cu-va-thiet-bi-tien-ich/may-tinh-bang" },
-            { id: 8, name: "Pin Dự Phòng", url: "/dung-cu-va-thiet-bi-tien-ich/pin-du-phong" },
-            { id: 9, name: "Pin Gắn Trong, Cáp và Bộ Sạc", url: "/dung-cu-va-thiet-bi-tien-ich/pin-gan-trong-cap-va-bo-sac" },
-            { id: 10, name: "Ốp lưng, bao da, Miếng dán điện thoại", url: "/dung-cu-va-thiet-bi-tien-ich/op-lung-bao-da-mieng-dan-dien-thoai" },
-            { id: 11, name: "Bảo vệ màn hình", url: "/dung-cu-va-thiet-bi-tien-ich/bao-ve-man-hinh" },
-            { id: 12, name: "Đế giữ điện thoại", url: "/dung-cu-va-thiet-bi-tien-ich/de-giu-dien-thoai" },
-            { id: 13, name: "Thẻ nhớ", url: "/dung-cu-va-thiet-bi-tien-ich/the-nho" },
-            { id: 14, name: "Sim", url: "/dung-cu-va-thiet-bi-tien-ich/sim" },
-            { id: 15, name: "Phụ kiện khác", url: "/dung-cu-va-thiet-bi-tien-ich/phu-kien-khac" },
-            { id: 16, name: "Thiết bị khác", url: "/dung-cu-va-thiet-bi-tien-ich/thiet-bi-khac" }
-
+    G: {
+        "Giay_Dep_Nam": [
+            { id: 1, name: "Bốt", path: "bot", query: "bot", url: "/giay-dep-nam" },
+            { id: 2, name: "Giày Thể Thao/ Sneakers", path: "giay-the-thao-sneakers", query: "giay-the-thao-sneakers", url: "/giay-dep-nam" },
+            { id: 3, name: "Giày Sục", path: "giay-suc", query: "giay-suc", url: "/giay-dep-nam" },
+            { id: 4, name: "Giày Tây Lười", path: "giay-tay-luoi", query: "giay-tay-luoi", url: "/giay-dep-nam" },
+            { id: 5, name: "Giày Oxfords & Giày Buộc Dây", path: "giay-oxfords-giay-buoc-day", query: "giay-oxfords-giay-buoc-day", url: "/giay-dep-nam" },
+            { id: 6, name: "Xăng-đan và Dép", path: "xang-dan-va-dep", query: "xang-dan-va-dep", url: "/giay-dep-nam" },
+            { id: 7, name: "Phụ kiện giày dép", path: "phu-kien-giay-dep", query: "phu-kien-giay-dep", url: "/giay-dep-nam" },
+            { id: 8, name: "Khác", path: "khac", query: "khac", url: "/giay-dep-nam" }
         ],
-        "Do_Choi_So_Thich" : [
-            { id: 1, name: "Đồ chơi giải trí", url: "/do-choi-so-thich/do-choi-giai-tri" },
-            { id: 2, name: "Đồ chơi giáo dục", url: "/do-choi-so-thich/do-choi-giao-duc" },
-            { id: 3, name: "Đồ chơi cho trẻ sơ sinh & trẻ nhỏ", url: "/do-choi-so-thich/do-choi-cho-tre-so-sinh-va-tre-nho" },
-            { id: 4, name: "Đồ chơi vận động & ngoài trời", url: "/do-choi-so-thich/do-choi-van-dong-va-ngoai-troi" },
-            { id: 5, name: "Búp bê & Đồ chơi nhồi bông", url: "/do-choi-so-thich/bup-be-do-choi-nhoi-bong" }
+        "Giay_Dep_Nu": [
+            { id: 1, name: "Bốt", path: "bot", query: "bot", url: "/giay-dep-nu" },
+            { id: 2, name: "Giày Thể Thao/ Sneaker", path: "giay-the-thao-sneaker", query: "giay-the-thao-sneaker", url: "/giay-dep-nu" },
+            { id: 3, name: "Giày Đế Bằng", path: "giay-de-bang", query: "giay-de-bang", url: "/giay-dep-nu" },
+            { id: 4, name: "Giày Cao Gót", path: "giay-cao-got", query: "giay-cao-got", url: "/giay-dep-nu" },
+            { id: 5, name: "Giày Đế Xuồng", path: "giay-de-xuong", query: "giay-de-xuong", url: "/giay-dep-nu" },
+            { id: 6, name: "Xăng-đan Và Dép", path: "xang-dan-va-dep", query: "xang-dan-va-dep", url: "/giay-dep-nu" },
+            { id: 7, name: "Phụ Kiện Giày", path: "phu-kien-giay", query: "phu-kien-giay", url: "/giay-dep-nu" },
+            { id: 8, name: "Khác", path: "khac", query: "khac", url: "/giay-dep-nu" }
         ],
-        "Dong_Ho" : [
-            { id: 1, name: "Đồng Hồ Nam", url: "/dong-ho/dong-ho-nam" },
-            { id: 2, name: "Đồng Hồ Nữ", url: "/dong-ho/dong-ho-nu" },
-            { id: 3, name: "Bộ Đồng Hồ & Đồng Hồ Cặp", url: "/dong-ho/bo-dong-ho-va-dong-ho-cap" },
-            { id: 4, name: "Đồng Hồ Trẻ Em", url: "/dong-ho/dong-ho-tre-em" },
-            { id: 5, name: "Phụ Kiện Đồng Hồ", url: "/dong-ho/phu-kien-dong-ho" },
-            { id: 6, name: "Khác", url: "/dong-ho/khac" }
-
+        "Giat_Giu_Cham_Soc_Nha_Cua": [
+            { id: 1, name: "Giặt giũ & Chăm sóc nhà cửa", path: "giat-giu-cham-soc-nha-cua", query: "giat-giu-cham-soc-nha-cua", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 2, name: "Giấy vệ sinh, khăn giấy", path: "giay-ve-sinh-khan-giay", query: "giay-ve-sinh-khan-giay", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 3, name: "Vệ sinh nhà cửa", path: "ve-sinh-nha-cua", query: "ve-sinh-nha-cua", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 4, name: "Vệ sinh bát đĩa", path: "ve-sinh-bat-dia", query: "ve-sinh-bat-dia", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 5, name: "Dụng cụ vệ sinh", path: "dung-cu-ve-sinh", query: "dung-cu-ve-sinh", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 6, name: "Chất khử mùi, làm thơm", path: "chat-khu-mui-lam-thom", query: "chat-khu-mui-lam-thom", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 7, name: "Thuốc diệt côn trùng", path: "thuoc-diet-con-trung", query: "thuoc-diet-con-trung", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 8, name: "Túi, màng bọc thực phẩm", path: "tui-mang-boc-thuc-pham", query: "tui-mang-boc-thuc-pham", url: "/giat-giu-cham-soc-nha-cua" },
+            { id: 9, name: "Bao bì, túi đựng rác", path: "bao-bi-tui-dung-rac", query: "bao-bi-tui-dung-rac", url: "/giat-giu-cham-soc-nha-cua" }
         ]
     },
-    G : {
-        "Giay_Dep_Nam" : [
-            { id: 1, name: "Bốt", url: "/giay-dep-nam/bot" },
-            { id: 2, name: "Giày Thể Thao/ Sneakers", url: "/giay-dep-nam/giay-the-thao-sneakers" },
-            { id: 3, name: "Giày Sục", url: "/giay-dep-nam/giay-suc" },
-            { id: 4, name: "Giày Tây Lười", url: "/giay-dep-nam/giay-tay-luoi" },
-            { id: 5, name: "Giày Oxfords & Giày Buộc Dây", url: "/giay-dep-nam/giay-oxfords-giay-buoc-day" },
-            { id: 6, name: "Xăng-đan và Dép", url: "/giay-dep-nam/xang-dan-va-dep" },
-            { id: 7, name: "Phụ kiện giày dép", url: "/giay-dep-nam/phu-kien-giay-dep" },
-            { id: 8, name: "Khác", url: "/giay-dep-nam/khac" }
+    M: {
+        "May_Tinh_Laptop": [
+            { id: 1, name: "Máy Tính Bàn", path: "may-tinh-ban", query: "may-tinh-ban", url: "/may-tinh-laptop" },
+            { id: 2, name: "Màn Hình", path: "man-hinh", query: "man-hinh", url: "/may-tinh-laptop" },
+            { id: 3, name: "Linh Kiện Máy Tính", path: "linh-kien-may-tinh", query: "linh-kien-may-tinh", url: "/may-tinh-laptop" },
+            { id: 4, name: "Thiết Bị Lưu Trữ", path: "thiet-bi-luu-tru", query: "thiet-bi-luu-tru", url: "/may-tinh-laptop" },
+            { id: 5, name: "Thiết Bị Mạng", path: "thiet-bi-mang", query: "thiet-bi-mang", url: "/may-tinh-laptop" },
+            { id: 6, name: "Máy In, Máy Scan & Máy Chiếu", path: "may-in-may-scan-may-chieu", query: "may-in-may-scan-may-chieu", url: "/may-tinh-laptop" },
+            { id: 7, name: "Phụ Kiện Máy Tính", path: "phu-kien-may-tinh", query: "phu-kien-may-tinh", url: "/may-tinh-laptop" },
+            { id: 8, name: "Laptop", path: "laptop", query: "laptop", url: "/may-tinh-laptop" },
+            { id: 9, name: "Khác", path: "khac", query: "khac", url: "/may-tinh-laptop" }
         ],
-        "Giay_Dep_Nu" : [
-            { id: 1, name: "Bốt", url: "/giay-dep-nu/bot" },
-            { id: 2, name: "Giày Thể Thao/ Sneaker", url: "/giay-dep-nu/giay-the-thao-sneaker" },
-            { id: 3, name: "Giày Đế Bằng", url: "/giay-dep-nu/giay-de-bang" },
-            { id: 4, name: "Giày Cao Gót", url: "/giay-dep-nu/giay-cao-got" },
-            { id: 5, name: "Giày Đế Xuồng", url: "/giay-dep-nu/giay-de-xuong" },
-            { id: 6, name: "Xăng-đan Và Dép", url: "/giay-dep-nu/xang-dan-va-dep" },
-            { id: 7, name: "Phụ Kiện Giày", url: "/giay-dep-nu/phu-kien-giay" },
-            { id: 8, name: "Khác", url: "/giay-dep-nu/khac" }
+        "May_Anh_May_Quay_Phim": [
+            { id: 1, name: "Máy ảnh - Máy quay phim", path: "may-anh-may-quay-phim", query: "may-anh-may-quay-phim", url: "/may-anh-may-quay-phim" },
+            { id: 2, name: "Camera giám sát & Camera hệ thống", path: "camera-giam-sat-camera-he-thong", query: "camera-giam-sat-camera-he-thong", url: "/may-anh-may-quay-phim" },
+            { id: 3, name: "Thẻ nhớ", path: "the-nho", query: "the-nho", url: "/may-anh-may-quay-phim" },
+            { id: 4, name: "Ống kính", path: "ong-kinh", query: "ong-kinh", url: "/may-anh-may-quay-phim" },
+            { id: 5, name: "Phụ kiện máy ảnh", path: "phu-kien-may-anh", query: "phu-kien-may-anh", url: "/may-anh-may-quay-phim" },
+            { id: 6, name: "Máy bay camera & Phụ kiện", path: "may-bay-camera-phu-kien", query: "may-bay-camera-phu-kien", url: "/may-anh-may-quay-phim" }
         ],
-        "Giat_Giu_Cham_Soc_Nha_Cua" : [
-            { id: 1, name: "Giặt giũ & Chăm sóc nhà cửa", url: "/giat-giu-cham-soc-nha-cua/giat-giu-cham-soc-nha-cua" },
-            { id: 2, name: "Giấy vệ sinh, khăn giấy", url: "/giat-giu-cham-soc-nha-cua/giay-ve-sinh-khan-giay" },
-            { id: 3, name: "Vệ sinh nhà cửa", url: "/giat-giu-cham-soc-nha-cua/ve-sinh-nha-cua" },
-            { id: 4, name: "Vệ sinh bát đĩa", url: "/giat-giu-cham-soc-nha-cua/ve-sinh-bat-dia" },
-            { id: 5, name: "Dụng cụ vệ sinh", url: "/giat-giu-cham-soc-nha-cua/dung-cu-ve-sinh" },
-            { id: 6, name: "Chất khử mùi, làm thơm", url: "/giat-giu-cham-soc-nha-cua/chat-khu-mui-lam-thom" },
-            { id: 7, name: "Thuốc diệt côn trùng", url: "/giat-giu-cham-soc-nha-cua/thuoc-diet-con-trung" },
-            { id: 8, name: "Túi, màng bọc thực phẩm", url: "/giat-giu-cham-soc-nha-cua/tui-mang-boc-thuc-pham" },
-            { id: 9, name: "Bao bì, túi đựng rác", url: "/giat-giu-cham-soc-nha-cua/bao-bi-tui-dung-rac" }
+        "Me_Be": [
+            { id: 1, name: "Đồ dùng du lịch cho bé", path: "do-dung-du-lich-cho-be", query: "do-dung-du-lich-cho-be", url: "/me-be" },
+            { id: 2, name: "Đồ dùng ăn dặm cho bé", path: "do-dung-an-dam-cho-be", query: "do-dung-an-dam-cho-be", url: "/me-be" },
+            { id: 3, name: "Phụ kiện cho mẹ", path: "phu-kien-cho-me", query: "phu-kien-cho-me", url: "/me-be" },
+            { id: 4, name: "Chăm sóc sức khỏe mẹ", path: "cham-soc-suc-khoe-me", query: "cham-soc-suc-khoe-me", url: "/me-be" },
+            { id: 5, name: "Đồ dùng phòng tắm & Chăm sóc cơ thể bé", path: "do-dung-phong-tam-cham-soc-co-the-be", query: "do-dung-phong-tam-cham-soc-co-the-be", url: "/me-be" },
+            { id: 6, name: "Đồ dùng phòng ngủ cho bé", path: "do-dung-phong-ngu-cho-be", query: "do-dung-phong-ngu-cho-be", url: "/me-be" },
+            { id: 7, name: "An toàn cho bé", path: "an-toan-cho-be", query: "an-toan-cho-be", url: "/me-be" },
+            { id: 8, name: "Thực phẩm cho bé", path: "thuc-pham-cho-be", query: "thuc-pham-cho-be", url: "/me-be" },
+            { id: 9, name: "Chăm sóc sức khỏe bé", path: "cham-soc-suc-khoe-be", query: "cham-soc-suc-khoe-be", url: "/me-be" },
+            { id: 10, name: "Tã & bô em bé", path: "ta-bo-em-be", query: "ta-bo-em-be", url: "/me-be" },
+            { id: 11, name: "Đồ chơi", path: "do-choi", query: "do-choi", url: "/me-be" },
+            { id: 12, name: "Bộ & Gói quà tặng", path: "bo-goi-qua-tang", query: "bo-goi-qua-tang", url: "/me-be" },
+            { id: 13, name: "Sữa công thức trên 24 tháng", path: "sua-cong-thuc-tren-24-thang", query: "sua-cong-thuc-tren-24-thang", url: "/me-be" },
+            { id: 14, name: "Sữa công thức 0-24 tháng tuổi", path: "sua-cong-thuc-0-24-thang-tuoi", query: "sua-cong-thuc-0-24-thang-tuoi", url: "/me-be" },
+            { id: 15, name: "Khác", path: "khac", query: "khac", url: "/me-be" }
         ]
     },
-    M : {
-        "May_Tinh_Laptop" : [
-            { id: 1, name: "Máy Tính Bàn", url: "/may-tinh-laptop/may-tinh-ban" },
-            { id: 2, name: "Màn Hình", url: "/may-tinh-laptop/man-hinh" },
-            { id: 3, name: "Linh Kiện Máy Tính", url: "/may-tinh-laptop/linh-kien-may-tinh" },
-            { id: 4, name: "Thiết Bị Lưu Trữ", url: "/may-tinh-laptop/thiet-bi-luu-tru" },
-            { id: 5, name: "Thiết Bị Mạng", url: "/may-tinh-laptop/thiet-bi-mang" },
-            { id: 6, name: "Máy In, Máy Scan & Máy Chiếu", url: "/may-tinh-laptop/may-in-may-scan-may-chieu" },
-            { id: 7, name: "Phụ Kiện Máy Tính", url: "/may-tinh-laptop/phu-kien-may-tinh" },
-            { id: 8, name: "Laptop", url: "/may-tinh-laptop/laptop" },
-            { id: 9, name: "Khác", url: "/may-tinh-laptop/khac" }
-        ],
-        "May_An_May_Quay_Phim" : [
-            { id: 1, name: "Máy ảnh - Máy quay phim", url: "/may-an-may-quay-phin/may-an-may-quay-phin" },
-            { id: 2, name: "Camera giám sát & Camera hệ thống", url: "/may-an-may-quay-phin/camera-giam-sat-camera-he-thong" },
-            { id: 3, name: "Thẻ nhớ", url: "/may-an-may-quay-phin/the-nho" },
-            { id: 4, name: "Ống kính", url: "/may-an-may-quay-phin/ong-kinh" },
-            { id: 5, name: "Phụ kiện máy ảnh", url: "/may-an-may-quay-phin/phu-kien-may-an" },
-            { id: 6, name: "Máy bay camera & Phụ kiện", url: "/may-an-may-quay-phin/may-bay-camera-phu-kien" }
-        ],
-        "Me_Be" : [
-            { id: 1, name: "Đồ dùng du lịch cho bé", url: "/me-be/do-dung-du-lich-cho-be" },
-            { id: 2, name: "Đồ dùng ăn dặm cho bé", url: "/me-be/do-dung-an-dam-cho-be" },
-            { id: 3, name: "Phụ kiện cho mẹ", url: "/me-be/phu-kien-cho-me" },
-            { id: 4, name: "Chăm sóc sức khỏe mẹ", url: "/me-be/cham-soc-suc-khoe-me" },
-            { id: 5, name: "Đồ dùng phòng tắm & Chăm sóc cơ thể bé", url: "/me-be/do-dung-phong-tam-cham-soc-co-the-be" },
-            { id: 6, name: "Đồ dùng phòng ngủ cho bé", url: "/me-be/do-dung-phong-ngu-cho-be" },
-            { id: 7, name: "An toàn cho bé", url: "/me-be/an-toan-cho-be" },
-            { id: 8, name: "Thực phẩm cho bé", url: "/me-be/thuc-pham-cho-be" },
-            { id: 9, name: "Chăm sóc sức khỏe bé", url: "/me-be/cham-soc-suc-khoe-be" },
-            { id: 10, name: "Tã & bô em bé", url: "/me-be/ta-bo-em-be" },
-            { id: 11, name: "Đồ chơi", url: "/me-be/do-choi" },
-            { id: 12, name: "Bộ & Gói quà tặng", url: "/me-be/bo-goi-qua-tang" },
-            { id: 13, name: "Sữa công thức trên 24 tháng", url: "/sua-cong-thuong/sua-cong-thuong-tren-24-thang" },
-            { id: 14, name: "Sữa công thức 0-24 tháng tuổi", url: "/sua-cong-thuong/sua-cong-thuong-0-24-thang-tuoi" },
-            { id: 15, name: "Khác", url: "/me-be/khac" }
-        ],
-    },
-    N : {
-        "Nha_Cua_Doi_Song" : [
-            { id: 1, name: "Chăn, Ga, Gối & Nệm", url: "/nha-cua-doi-song/chan-ga-goi-nem" },
-            { id: 2, name: "Đồ nội thất", url: "/nha-cua-doi-song/do-noi-that" },
-            { id: 3, name: "Trang trí nhà cửa", url: "/nha-cua-doi-song/trang-tri-nha-cua" },
-            { id: 4, name: "Dụng cụ & Thiết bị tiện ích", url: "/nha-cua-doi-song/dung-cu-thiet-bi-tien-ich" },
-            { id: 5, name: "Đồ dùng nhà bếp và hộp đựng thực phẩm", url: "/nha-cua-doi-song/do-dung-nha-bep-va-hop-dung-thuc-pham" },
-            { id: 6, name: "Đèn Ngoài trời & Sân vườn", url: "/nha-cua-doi-song/den-ngoai-tri-va-san-vuon" },
-            { id: 7, name: "Đồ dùng phòng tắm", url: "/nha-cua-doi-song/do-dung-phong-tam" },
-            { id: 8, name: "Vật phẩm thờ cúng", url: "/nha-cua-doi-song/vat-pham-tho-cung" },
-            { id: 9, name: "Đồ trang trí tiệc", url: "/nha-cua-doi-song/do-trang-tri-tiec" },
-            { id: 10, name: "Chăm sóc nhà cửa và giặt ủi", url: "/nha-cua-doi-song/cham-soc-nha-cua-va-giat-ui" },
-            { id: 11, name: "Sắp xếp nhà cửa", url: "/nha-cua-doi-song/sap-xep-nha-cua" },
-            { id: 12, name: "Dụng cụ pha chế", url: "/nha-cua-doi-song/dung-cu-pha-che" },
-            { id: 13, name: "Tinh dầu thơm phòng", url: "/nha-cua-doi-song/tinh-dau-thom-phong" },
-            { id: 14, name: "Đồ dùng phòng ăn", url: "/nha-cua-doi-song/do-dung-phong-an" },
-            { id: 15, name: "Nhà Sách Online", url: "/nha-cua-doi-song/nha-sach-online" },
-            { id: 16, name: "Sách Tiếng Việt", url: "/nha-cua-doi-song/sach-tieng-viet" },
-            { id: 17, name: "Sách ngoại văn", url: "/nha-cua-doi-song/sach-ngoai-van" },
-            { id: 18, name: "Gói Quà", url: "/nha-cua-doi-song/goi-qua" },
-            { id: 19, name: "Bút viết", url: "/nha-cua-doi-song/but-viet" },
-            { id: 20, name: "Dụng cụ học sinh & văn phòng", url: "/nha-cua-doi-song/dung-cu-hoc-sinh-va-van-phong" },
-            { id: 21, name: "Màu, Họa Cụ và Đồ Thủ Công", url: "/nha-cua-doi-song/mau-hoa-cu-va-do-thu-cong" },
-            { id: 22, name: "Sổ và Giấy", url: "/nha-cua-doi-song/so-va-giay" },
-            { id: 23, name: "Các Loại Quà Lưu Niệm", url: "/nha-cua-doi-song/cac-loai-qua-luu-niem" },
-            { id: 24, name: "Nhạc cụ và phụ kiện âm nhạc", url: "/nha-cua-doi-song/nhac-cu-va-phu-kien-am-nhac" },
-            { id: 25, name: "Khác", url: "/nha-cua-doi-song/khac" }
-        ]
-    },
-    T  : {
-        "Thiết Bị Điện Gia Dụng" : [
-            { id: 1, name: "Đồ gia dụng nhà bếp", url: "/thiet-bi-dien-gia-dung/do-gia-dung-nha-bep" },
-            { id: 2, name: "Đồ gia dụng lớn", url: "/thiet-bi-dien-gia-dung/do-gia-dung-lon" },
-            { id: 3, name: "Máy hút bụi & Thiết bị làm sạch", url: "/thiet-bi-dien-gia-dung/may-hut-bui-va-thiet-bi-lam-sach" },
-            { id: 4, name: "Quạt & Máy nóng lạnh", url: "/thiet-bi-dien-gia-dung/quat-va-may-nong-lanh" },
-            { id: 5, name: "Thiết bị chăm sóc quần áo", url: "/thiet-bi-dien-gia-dung/thiet-bi-cham-soc-quan-ao" },
-            { id: 6, name: "Khác", url: "/thiet-bi-dien-gia-dung/khac" }
-        ],
-       "Thiết Bị Điện Tử" : [
-            { id: 1, name: "Thiết bị đeo thông minh", url: "/thiet-bi-dien-tu/thiet-bi-deo-thong-minh" },
-            { id: 2, name: "Phụ kiện tivi", url: "/thiet-bi-dien-tu/phu-kien-tivi" },
-            { id: 3, name: "Máy Game Console", url: "/thiet-bi-dien-tu/may-game-console" },
-            { id: 4, name: "Phụ kiện Console", url: "/thiet-bi-dien-tu/phu-kien-console" },
-            { id: 5, name: "Đĩa game", url: "/thiet-bi-dien-tu/dia-game" },
-            { id: 6, name: "Linh phụ kiện", url: "/thiet-bi-dien-tu/linh-phu-kien" },
-            { id: 7, name: "Tai nghe nhét tai", url: "/thiet-bi-dien-tu/tai-nghe-nhet-tai" },
-            { id: 8, name: "Loa", url: "/thiet-bi-dien-tu/loa" },
-            { id: 9, name: "Tivi", url: "/thiet-bi-dien-tu/tivi" },
-            { id: 10, name: "Tivi Box", url: "/thiet-bi-dien-tu/tivi-box" },
-            { id: 11, name: "Headphones", url: "/thiet-bi-dien-tu/headphones" },
-        ],
-        "Thể Thao & Du Lịch" : [
-            { id: 1, name: "Vali Túi du lịch", url: "/the-thao-du-lich/vali-tui-du-lich" },
-            { id: 2, name: "Phụ kiện du lịch", url: "/the-thao-du-lich/phu-kien-du-lich" },
-            { id: 3, name: "Dụng Cụ Thể Thao & Dã Ngoại", url: "/the-thao-du-lich/dung-cu-the-thao-va-da-ngoai" },
-            { id: 4, name: "Giày Thể Thao", url: "/the-thao-du-lich/giay-the-thao" },
-            { id: 5, name: "Thời Trang Thể Thao & Dã Ngoại", url: "/the-thao-du-lich/thoi-trang-the-thao-va-da-ngoai" },
-            { id: 6, name: "Phụ Kiện Thể Thao & Dã Ngoại", url: "/the-thao-du-lich/phu-kien-the-thao-va-da-ngoai" },
-            { id: 7, name: "Khác", url: "/the-thao-du-lich/khac" },
-        ],
-        "Thời Trang Nam" : [
-            { id: 1, name: "Áo Khoác", url: "/thoi-trang-nam/ao-khoac" },
-            { id: 2, name: "Áo Vest và Blazer", url: "/thoi-trang-nam/ao-vest-va-blazer" },
-            { id: 3, name: "Áo Hoodie", url: "/thoi-trang-nam/ao-hoodie" },
-            { id: 4, name: "Áo Len & Áo Nỉ", url: "/thoi-trang-nam/ao-len-va-ao-ni" },
-            { id: 5, name: "Quần Jeans", url: "/thoi-trang-nam/quan-jeans" },
-            { id: 6, name: "Quần Dài/Quần Âu", url: "/thoi-trang-nam/quan-dai-quan-au" },
-            { id: 7, name: "Quần Short", url: "/thoi-trang-nam/quan-short" },
-            { id: 8, name: "Áo Áo Ba Lỗ", url: "/thoi-trang-nam/ao-ao-ba-lo" },
-            { id: 9, name: "Đồ Lót", url: "/thoi-trang-nam/do-lot" },
-            { id: 10, name: "Đồ Ngủ", url: "/thoi-trang-nam/do-ngu" },
-            { id: 11, name: "Đồ Bộ", url: "/thoi-trang-nam/do-bo" },
-            { id: 12, name: "Vớ/Tất", url: "/thoi-trang-nam/vo-tat" },
-            { id: 13, name: "Trang Phục Truyền Thống", url: "/thoi-trang-nam/trang-phuc-truyen-thong" },
-            { id: 14, name: "Đồ Hóa Trang", url: "/thoi-trang-nam/do-hoa-trang" },
-            { id: 15, name: "Trang Phục Ngành Nghề", url: "/thoi-trang-nam/trang-phuc-nganh-nghe" },
-            { id: 16, name: "Khác", url: "/thoi-trang-nam/khac" },
-            { id: 17, name: "Kính Mắt Nam", url: "/thoi-trang-nam/kinh-mat-nam" },
-            { id: 18, name: "Thắt Lưng Nam", url: "/thoi-trang-nam/that-lung-nam" },
-            { id: 19, name: "Cà vạt & Nơ cổ", url: "/thoi-trang-nam/ca-vat-va-no-co" },
-            { id: 20, name: "Phụ Kiện Nam", url: "/thoi-trang-nam/phu-kien-nam" }
-        ],
-        "Thời trang Nữ" : [
-            { id: 1, name: "Quần", url: "/thoi-trang-nu/quan" },
-            { id: 2, name: "Quần đùi", url: "/thoi-trang-nu/quan-dui" },
-            { id: 3, name: "Chân váy", url: "/thoi-trang-nu/chan-vay" },
-            { id: 4, name: "Quần jeans", url: "/thoi-trang-nu/quan-jeans" },
-            { id: 5, name: "Đầm/Váy", url: "/thoi-trang-nu/dam-vay" },
-            { id: 6, name: "Váy cưới", url: "/thoi-trang-nu/vay-cuoi" },
-            { id: 7, name: "Áo khoác, Áo choàng & Vest", url: "/thoi-trang-nu/ao-khoac-ao-choang-va-vest" },
-            { id: 8, name: "Áo len & Cardigan", url: "/thoi-trang-nu/ao-len-va-cardigan" },
-            { id: 9, name: "Hoodie và Áo nỉ", url: "/thoi-trang-nu/hoodie-va-ao-ni" },
-            { id: 10, name: "Bộ", url: "/thoi-trang-nu/bo" },
-            { id: 11, name: "Đồ lót", url: "/thoi-trang-nu/do-lot" },
-            { id: 12, name: "Đồ ngủ", url: "/thoi-trang-nu/do-ngu" },
-            { id: 13, name: "Áo", url: "/thoi-trang-nu/ao" },
-            { id: 14, name: "Đồ tập", url: "/thoi-trang-nu/do-tap" },
-            { id: 15, name: "Đồ Bầu", url: "/thoi-trang-nu/do-bau" },
-            { id: 16, name: "Đồ truyền thống", url: "/thoi-trang-nu/do-truyen-thong" },
-            { id: 17, name: "Đồ hóa trang", url: "/thoi-trang-nu/do-hoa-trang" },
-            { id: 18, name: "Vải", url: "/thoi-trang-nu/vai" },
-            { id: 19, name: "Vớ/ Tất", url: "/thoi-trang-nu/vo-tat" },
-            { id: 20, name: "Khác", url: "/thoi-trang-nu/khac" },
-        ],
-        "Thời trang Trẻ Em" : [
-            { id: 1, name: "Trang phục bé trai", url: "/thoi-trang-tre-em/trang-phuc-be-trai" },
-            { id: 2, name: "Trang phục bé gái", url: "/thoi-trang-tre-em/trang-phuc-be-gai" },
-            { id: 3, name: "Giày dép bé trai", url: "/thoi-trang-tre-em/giay-dep-be-trai" },
-            { id: 4, name: "Giày dép bé gái", url: "/thoi-trang-tre-em/giay-dep-be-gai" },
-            { id: 5, name: "Khác", url: "/thoi-trang-tre-em/khac" },
-            { id: 6, name: "Quần áo em bé", url: "/thoi-trang-tre-em/quan-ao-em-be" },
-            { id: 7, name: "Giày tập đi & Tất sơ sinh", url: "/thoi-trang-tre-em/giay-tap-di-va-tat-so-sinh" },
-            { id: 8, name: "Phụ kiện trẻ em", url: "/thoi-trang-tre-em/phu-kien-tre-em" }
-        ],
-        "Túi Ví Nữ" : [
-            { id: 1, name: "Ba Lô Nữ", url: "/tui-vi-nu/ba-lo-nu" },
-            { id: 2, name: "Cặp Laptop", url: "/tui-vi-nu/cap-laptop" },
-            { id: 3, name: "Ví Dự Tiệc & Ví Cầm Tay", url: "/tui-vi-nu/vi-du-tiec-va-vi-cam-tay" },
-            { id: 4, name: "Túi Đeo Hông & Túi Đeo Ngực", url: "/tui-vi-nu/tui-deo-hong-va-tui-deo-nguc" },
-            { id: 5, name: "Túi Tote", url: "/tui-vi-nu/tui-tote" },
-            { id: 6, name: "Túi Quai Xách", url: "/tui-vi-nu/tui-quai-xach" },
-            { id: 7, name: "Túi Đeo Chéo & Túi Đeo Vai", url: "/tui-vi-nu/tui-deo-cheo-va-tui-deo-vai" },
-            { id: 8, name: "Ví/Bóp Nữ", url: "/tui-vi-nu/vi-bop-nu" },
-            { id: 9, name: "Phụ Kiện Túi", url: "/tui-vi-nu/phu-kien-tui" },
-            { id: 10, name: "Khác", url: "/tui-vi-nu/khac" },
-        ],
-    },
-    V : {
-        "Voucher & Dịch Vụ" : [
-            { id: 1, name: "Nhà hàng & Ăn uống", url: "/voucher-dich-vu/nha-hang-an-uong" },
-            { id: 2, name: "Sự kiện & Giải trí", url: "/voucher-dich-vu/su-kien-giai-tri" },
-            { id: 3, name: "Nạp tiền tài khoản", url: "/voucher-dich-vu/nap-tien-tai-khoan" },
-            { id: 4, name: "Sức khỏe & Làm đẹp", url: "/voucher-dich-vu/suc-khoe-lam-dep" },
-            { id: 5, name: "Gọi xe", url: "/voucher-dich-vu/goi-xe" },
-            { id: 6, name: "Khóa học", url: "/voucher-dich-vu/khoa-hoc" },
-            { id: 7, name: "Du lịch & Khách sạn", url: "/voucher-dich-vu/du-lich-khach-san" },
-            { id: 8, name: "Mua sắm", url: "/voucher-dich-vu/mua-sam" },
-            { id: 9, name: "Mã quà tặng Shopee", url: "/voucher-dich-vu/ma-qua-tang-shopee" },
-            { id: 10, name: "Thanh toán hóa đơn", url: "/voucher-dich-vu/thanh-toan-hoa-don" },
-            { id: 11, name: "Dịch vụ khác", url: "/voucher-dich-vu/dich-vu-khac" },
-            { id: 12, name: "Khác", url: "/voucher-dich-vu/khac" }
-        ]
-
+    N: {
+        "Nha_Cua_Doi_Song": [
+            { id: 1, name: "Chăn, Ga, Gối & Nệm", path: "chan-ga-goi-nem", query: "chan-ga-goi-nem", url: "/nha-cua-doi-song" },
+            { id: 2, name: "Đồ nội thất", path: "do-noi-that", query: "do-noi-that", url: "/nha-cua-doi-song" },
+            { id: 3, name: "Trang trí nhà cửa", path: "trang-tri-nha-cua", query: "trang-tri-nha-cua", url: "/nha-cua-doi-song" },
+            { id: 4, name: "Dụng cụ & Thiết bị tiện ích", path: "dung-cu-thiet-bi-tien-ich", query: "dung-cu-thiet-bi-tien-ich", url: "/nha-cua-doi-song" },
+            { id: 5, name: "Chăm sóc sức khỏe", path: "cham-soc-suc-khoe", query: "cham-soc-suc-khoe", url: "/nha-cua-doi-song" },
+            { id: 6, name: "Làm đẹp cho thú cưng", path: "lam-dep-cho-thu-cung", query: "lam-dep-cho-thu-cung", url: "/nha-cua-doi-song" },
+            { id: 7, name: "Khác", path: "khac", query: "khac", url: "/nha-cua-doi-song" },
+            { id: 8, name: "Đồ dùng nhà bếp và hộp đựng thực phẩm", path: "do-dung-nha-bep-va-hop-dung-thuc-pham", query: "do-dung-nha-bep-va-hop-dung-thuc-pham", url: "/nha-cua-doi-song" },
+            { id: 9, name: "Đèn Ngoài trời & Sân vườn", path: "den-ngoai-troi-va-san-vuon", query: "den-ngoai-troi-va-san-vuon", url: "/nha-cua-doi-song" },
+            { id: 10, name: "Đồ dùng phòng tắm", path: "do-dung-phong-tam", query: "do-dung-phong-tam", url: "/nha-cua-doi-song" },
+            { id: 11, name: "Vật phẩm thờ cúng", path: "vat-pham-tho-cung", query: "vat-pham-tho-cung", url: "/nha-cua-doi-song" },
+            { id: 12, name: "Đồ trang trí tiệc", path: "do-trang-tri-tiec", query: "do-trang-tri-tiec", url: "/nha-cua-doi-song" },
+            { id: 13, name: "Chăm sóc nhà cửa và giặt ủi", path: "cham-soc-nha-cua-va-giat-ui", query: "cham-soc-nha-cua-va-giat-ui", url: "/nha-cua-doi-song" },
+            { id: 14, name: "Sắp xếp nhà cửa", path: "sap-xep-nha-cua", query: "sap-xep-nha-cua", url: "/nha-cua-doi-song" },
+            { id: 15, name: "Dụng cụ pha chế", path: "dung-cu-pha-che", query: "dung-cu-pha-che", url: "/nha-cua-doi-song" },
+            { id: 16, name: "Tinh dầu thơm phòng", path: "tinh-dau-thom-phong", query: "tinh-dau-thom-phong", url: "/nha-cua-doi-song" },
+            { id: 17, name: "Đồ dùng phòng ăn", path: "do-dung-phong-an", query: "do-dung-phong-an", url: "/nha-cua-doi-song" },
+            { id: 18, name: "Nhà Sách Online", path: "nha-sach-online", query: "nha-sach-online", url: "/nha-cua-doi-song" },
+            { id: 19, name: "Sách Tiếng Việt", path: "sach-tieng-viet", query: "sach-tieng-viet", url: "/nha-cua-doi-song" },
+            { id: 20, name: "Sách ngoại văn", path: "sach-ngoai-van", query: "sach-ngoai-van", url: "/nha-cua-doi-song" },
+            { id: 21, name: "Gói Quà", path: "goi-qua", query: "goi-qua", url: "/nha-cua-doi-song" },
+            { id: 22, name: "Bút viết", path: "but-viet", query: "but-viet", url: "/nha-cua-doi-song" },
+            { id: 23, name: "Dụng cụ học sinh & văn phòng", path: "dung-cu-hoc-sinh-va-van-phong", query: "dung-cu-hoc-sinh-va-van-phong", url: "/nha-cua-doi-song" },
+            { id: 24, name: "Màu, Họa Cụ và Đồ Thủ Công", path: "mau-hoa-cu-va-do-thu-cong", query: "mau-hoa-cu-va-do-thu-cong", url: "/nha-cua-doi-song" },
+            { id: 25, name: "Sổ và Giấy", path: "so-va-giay", query: "so-va-giay", url: "/nha-cua-doi-song" },
+            { id: 26, name: "Các Loại Quà Lưu Niệm", path: "cac-loai-qua-luu-niem", query: "cac-loai-qua-luu-niem", url: "/nha-cua-doi-song" },
+            { id: 27, name: "Nhạc cụ và phụ kiện âm nhạc", path: "nhac-cu-va-phu-kien-am-nhac", query: "nhac-cu-va-phu-kien-am-nhac", url: "/nha-cua-doi-song" },
+            { id: 28, name: "Khác", path: "khac", query: "khac", url: "/nha-cua-doi-song" }
+        ],},
+        T: {
+            "Thiết Bị Điện Gia Dụng": [
+                { id: 1, name: 'do gia dung nha bep', path: 'do-gia-dung-nha-bep', query: 'do-gia-dung-nha-bep', url: '/thiet-bi-dien-gia-dung' },
+                { id: 2, name: 'do gia dung lon', path: 'do-gia-dung-lon', query: 'do-gia-dung-lon', url: '/thiet-bi-dien-gia-dung' },
+                { id: 3, name: 'may hut bui & thiet bi lam sach', path: 'may-hut-bui-va-thiet-bi-lam-sach', query: 'may-hut-bui-va-thiet-bi-lam-sach', url: '/thiet-bi-dien-gia-dung' },
+                { id: 4, name: 'quat & may nong lanh', path: 'quat-va-may-nong-lanh', query: 'quat-va-may-nong-lanh', url: '/thiet-bi-dien-gia-dung' },
+                { id: 5, name: 'thiet bi cham soc quan ao', path: 'thiet-bi-cham-soc-quan-ao', query: 'thiet-bi-cham-soc-quan-ao', url: '/thiet-bi-dien-gia-dung' },
+                { id: 6, name: 'khac', path: 'khac', query: 'khac', url: '/thiet-bi-dien-gia-dung' }
+            ],
+            "Thiết Bị Điện Tử": [
+                { id: 1, name: 'thiet bi deo thong minh', path: 'thiet-bi-deo-thong-minh', query: 'thiet-bi-deo-thong-minh', url: '/thiet-bi-dien-tu' },
+                { id: 2, name: 'phu kien tivi', path: 'phu-kien-tivi', query: 'phu-kien-tivi', url: '/thiet-bi-dien-tu' },
+                { id: 3, name: 'may game console', path: 'may-game-console', query: 'may-game-console', url: '/thiet-bi-dien-tu' },
+                { id: 4, name: 'phu kien console', path: 'phu-kien-console', query: 'phu-kien-console', url: '/thiet-bi-dien-tu' },
+                { id: 5, name: 'dia game', path: 'dia-game', query: 'dia-game', url: '/thiet-bi-dien-tu' },
+                { id: 6, name: 'linh phu kien', path: 'linh-phu-kien', query: 'linh-phu-kien', url: '/thiet-bi-dien-tu' },
+                { id: 7, name: 'tai nghe nhet tai', path: 'tai-nghe-nhet-tai', query: 'tai-nghe-nhet-tai', url: '/thiet-bi-dien-tu' },
+                { id: 8, name: 'loa', path: 'loa', query: 'loa', url: '/thiet-bi-dien-tu' },
+                { id: 9, name: 'tivi', path: 'tivi', query: 'tivi', url: '/thiet-bi-dien-tu' },
+                { id: 10, name: 'tivi box', path: 'tivi-box', query: 'tivi-box', url: '/thiet-bi-dien-tu' },
+                { id: 11, name: 'headphones', path: 'headphones', query: 'headphones', url: '/thiet-bi-dien-tu' }
+            ],
+            "Thể Thao & Du Lịch": [
+                { id: 1, name: 'vali tui du lich', path: 'vali-tui-du-lich', query: 'vali-tui-du-lich', url: '/the-thao-du-lich' },
+                { id: 2, name: 'phu kien du lich', path: 'phu-kien-du-lich', query: 'phu-kien-du-lich', url: '/the-thao-du-lich' },
+                { id: 3, name: 'dung cu the thao & da ngoai', path: 'dung-cu-the-thao-va-da-ngoai', query: 'dung-cu-the-thao-va-da-ngoai', url: '/the-thao-du-lich' },
+                { id: 4, name: 'giay the thao', path: 'giay-the-thao', query: 'giay-the-thao', url: '/the-thao-du-lich' },
+                { id: 5, name: 'thoi trang the thao & da ngoai', path: 'thoi-trang-the-thao-va-da-ngoai', query: 'thoi-trang-the-thao-va-da-ngoai', url: '/the-thao-du-lich' },
+                { id: 6, name: 'phu kien the thao & da ngoai', path: 'phu-kien-the-thao-va-da-ngoai', query: 'phu-kien-the-thao-va-da-ngoai', url: '/the-thao-du-lich' },
+                { id: 7, name: 'khac', path: 'khac', query: 'khac', url: '/the-thao-du-lich' }
+            ],
+            "Thời Trang Nam": [
+                { id: 1, name: 'ao khoac', path: 'ao-khoac', query: 'ao-khoac', url: '/thoi-trang-nam' },
+                { id: 2, name: 'ao vest va blazer', path: 'ao-vest-va-blazer', query: 'ao-vest-va-blazer', url: '/thoi-trang-nam' },
+                { id: 3, name: 'ao hoodie', path: 'ao-hoodie', query: 'ao-hoodie', url: '/thoi-trang-nam' },
+                { id: 4, name: 'ao len & ao ni', path: 'ao-len-va-ao-ni', query: 'ao-len-va-ao-ni', url: '/thoi-trang-nam' },
+                { id: 5, name: 'quan jeans', path: 'quan-jeans', query: 'quan-jeans', url: '/thoi-trang-nam' },
+                { id: 6, name: 'quan dai/quan au', path: 'quan-dai-quan-au', query: 'quan-dai-quan-au', url: '/thoi-trang-nam' },
+                { id: 7, name: 'quan short', path: 'quan-short', query: 'quan-short', url: '/thoi-trang-nam' },
+                { id: 8, name: 'ao ao ba lo', path: 'ao-ao-ba-lo', query: 'ao-ao-ba-lo', url: '/thoi-trang-nam' },
+                { id: 9, name: 'do lot', path: 'do-lot', query: 'do-lot', url: '/thoi-trang-nam' },
+                { id: 10, name: 'do ngu', path: 'do-ngu', query: 'do-ngu', url: '/thoi-trang-nam' },
+                { id: 11, name: 'do bo', path: 'do-bo', query: 'do-bo', url: '/thoi-trang-nam' },
+                { id: 12, name: 'vo/tat', path: 'vo-tat', query: 'vo-tat', url: '/thoi-trang-nam' },
+                { id: 13, name: 'trang phuc truyen thong', path: 'trang-phuc-truyen-thong', query: 'trang-phuc-truyen-thong', url: '/thoi-trang-nam' },
+                { id: 14, name: 'do hoa trang', path: 'do-hoa-trang', query: 'do-hoa-trang', url: '/thoi-trang-nam' },
+                { id: 15, name: 'trang phuc nganh nghe', path: 'trang-phuc-nganh-nghe', query: 'trang-phuc-nganh-nghe', url: '/thoi-trang-nam' },
+                { id: 16, name: 'khac', path: 'khac', query: 'khac', url: '/thoi-trang-nam' },
+                { id: 17, name: 'kinh mat nam', path: 'kinh-mat-nam', query: 'kinh-mat-nam', url: '/thoi-trang-nam' },
+                { id: 18, name: 'that lung nam', path: 'that-lung-nam', query: 'that-lung-nam', url: '/thoi-trang-nam' },
+                { id: 19, name: 'ca vat & no co', path: 'ca-vat-va-no-co', query: 'ca-vat-va-no-co', url: '/thoi-trang-nam' },
+                { id: 20, name: 'phu kien nam', path: 'phu-kien-nam', query: 'phu-kien-nam', url: '/thoi-trang-nam' }
+            ],
+            "Thời Trang Nữ": [
+                { id: 1, path: "quan", name: "Quần", url: "/thoi-trang-nu", query: "quan" },
+                { id: 2, path: "quan-dui", name: "Quần đùi", url: "/thoi-trang-nu", query: "quan-dui" },
+                { id: 3, path: "chan-vay", name: "Chân váy", url: "/thoi-trang-nu", query: "chan-vay" },
+                { id: 4, path: "quan-jeans", name: "Quần jeans", url: "/thoi-trang-nu", query: "quan-jeans" },
+                { id: 5, path: "dam-vay", name: "Đầm/Váy", url: "/thoi-trang-nu", query: "dam-vay" },
+                { id: 6, path: "vay-cuoi", name: "Váy cưới", url: "/thoi-trang-nu", query: "vay-cuoi" },
+                { id: 7, path: "ao-khoac-ao-choang-va-vest", name: "Áo khoác, Áo choàng & Vest", url: "/thoi-trang-nu", query: "ao-khoac-ao-choang-va-vest" },
+                { id: 8, path: "ao-len-va-cardigan", name: "Áo len & Cardigan", url: "/thoi-trang-nu", query: "ao-len-va-cardigan" },
+                { id: 9, path: "hoodie-va-ao-ni", name: "Hoodie và Áo nỉ", url: "/thoi-trang-nu", query: "hoodie-va-ao-ni" },
+                { id: 10, path: "bo", name: "Bộ", url: "/thoi-trang-nu", query: "bo" },
+                { id: 11, path: "do-lot", name: "Đồ lót", url: "/thoi-trang-nu", query: "do-lot" },
+                { id: 12, path: "do-ngu", name: "Đồ ngủ", url: "/thoi-trang-nu", query: "do-ngu" },
+                { id: 13, path: "ao", name: "Áo", url: "/thoi-trang-nu", query: "ao" },
+                { id: 14, path: "do-tap", name: "Đồ tập", url: "/thoi-trang-nu", query: "do-tap" },
+                { id: 15, path: "do-bau", name: "Đồ Bầu", url: "/thoi-trang-nu", query: "do-bau" },
+                { id: 16, path: "do-truyen-thong", name: "Đồ truyền thống", url: "/thoi-trang-nu", query: "do-truyen-thong" },
+                { id: 17, path: "do-hoa-trang", name: "Đồ hóa trang", url: "/thoi-trang-nu", query: "do-hoa-trang" },
+                { id: 18, path: "vai", name: "Vải", url: "/thoi-trang-nu", query: "vai" },
+                { id: 19, path: "vo-tat", name: "Vớ/ Tất", url: "/thoi-trang-nu", query: "vo-tat" },
+                { id: 20, path: "khac", name: "Khác", url: "/thoi-trang-nu", query: "khac" },
+            ],
+            "Thời trang Trẻ Em": [
+                { id: 1, path: "trang-phuc-be-trai", name: "Trang phục bé trai", url: "/thoi-trang-tre-em", query: "trang-phuc-be-trai" },
+                { id: 2, path: "trang-phuc-be-gai", name: "Trang phục bé gái", url: "/thoi-trang-tre-em", query: "trang-phuc-be-gai" },
+                { id: 3, path: "giay-dep-be-trai", name: "Giày dép bé trai", url: "/thoi-trang-tre-em", query: "giay-dep-be-trai" },
+                { id: 4, path: "giay-dep-be-gai", name: "Giày dép bé gái", url: "/thoi-trang-tre-em", query: "giay-dep-be-gai" },
+                { id: 5, path: "khac", name: "Khác", url: "/thoi-trang-tre-em", query: "khac" },
+                { id: 6, path: "quan-ao-em-be", name: "Quần áo em bé", url: "/thoi-trang-tre-em", query: "quan-ao-em-be" },
+                { id: 7, path: "giay-tap-di-va-tat-so-sinh", name: "Giày tập đi & Tất sơ sinh", url: "/thoi-trang-tre-em", query: "giay-tap-di-va-tat-so-sinh" },
+                { id: 8, path: "phu-kien-tre-em", name: "Phụ kiện trẻ em", url: "/thoi-trang-tre-em", query: "phu-kien-tre-em" }
+            ],
+            "Túi Ví Nữ": [
+                { id: 1, path: "ba-lo-nu", name: "Ba Lô Nữ", url: "/tui-vi-nu", query: "ba-lo-nu" },
+                { id: 2, path: "cap-laptop", name: "Cặp Laptop", url: "/tui-vi-nu", query: "cap-laptop" },
+                { id: 3, path: "vi-du-tiec-va-vi-cam-tay", name: "Ví Dự Tiệc & Ví Cầm Tay", url: "/tui-vi-nu", query: "vi-du-tiec-va-vi-cam-tay" },
+                { id: 4, path: "tui-deo-hong-va-tui-deo-nguc", name: "Túi Đeo Hông & Túi Đeo Ngực", url: "/tui-vi-nu", query: "tui-deo-hong-va-tui-deo-nguc" },
+                { id: 5, path: "tui-tote", name: "Túi Tote", url: "/tui-vi-nu", query: "tui-tote" },
+                { id: 6, path: "tui-quai-xach", name: "Túi Quai Xách", url: "/tui-vi-nu", query: "tui-quai-xach" },
+                { id: 7, path: "tui-deo-cheo-va-tui-deo-vai", name: "Túi Đeo Chéo & Túi Đeo Vai", url: "/tui-vi-nu", query: "tui-deo-cheo-va-tui-deo-vai" },
+                { id: 8, path: "vi-bop-nu", name: "Ví/Bóp Nữ", url: "/tui-vi-nu", query: "vi-bop-nu" },
+                { id: 9, path: "phu-kien-tui", name: "Phụ Kiện Túi", url: "/tui-vi-nu", query: "phu-kien-tui" },
+                { id: 10, path: "khac", name: "Khác", url: "/tui-vi-nu", query: "khac" },
+            ],
+        },
+        V: {
+            "Voucher & Dịch Vụ": [
+                { id: 1, name: "Nhà hàng & Ăn uống", path: "nha-hang-an-uong", query: "nha-hang-an-uong", url: "/voucher-dich-vu" },
+                { id: 2, name: "Sự kiện & Giải trí", path: "su-kien-giai-tri", query: "su-kien-giai-tri", url: "/voucher-dich-vu" },
+                { id: 3, name: "Nạp tiền tài khoản", path: "nap-tien-tai-khoan", query: "nap-tien-tai-khoan", url: "/voucher-dich-vu" },
+                { id: 4, name: "Sức khỏe & Làm đẹp", path: "suc-khoe-lam-dep", query: "suc-khoe-lam-dep", url: "/voucher-dich-vu" },
+                { id: 5, name: "Gọi xe", path: "goi-xe", query: "goi-xe", url: "/voucher-dich-vu" },
+                { id: 6, name: "Khóa học", path: "khoa-hoc", query: "khoa-hoc", url: "/voucher-dich-vu" },
+                { id: 7, name: "Du lịch & Khách sạn", path: "du-lich-khach-san", query: "du-lich-khach-san", url: "/voucher-dich-vu" },
+                { id: 8, name: "Mua sắm", path: "mua-sam", query: "mua-sam", url: "/voucher-dich-vu" },
+                { id: 9, name: "Mã quà tặng Shopee", path: "ma-qua-tang-shopee", query: "ma-qua-tang-shopee", url: "/voucher-dich-vu" },
+                { id: 10, name: "Thanh toán hóa đơn", path: "thanh-toan-hoa-don", query: "thanh-toan-hoa-don", url: "/voucher-dich-vu" },
+                { id: 11, name: "Dịch vụ khác", path: "dich-vu-khac", query: "dich-vu-khac", url: "/voucher-dich-vu" },
+                { id: 12, name: "Khác", path: "khac", query: "khac", url: "/voucher-dich-vu" }
+            ]
+        }
     }
+
+export const categoryMapping = {
+    "Balo Túi Ví Nam"  : "B",
+    "dien-thoai-phu-kien" : "D",
+    "dien-thoai-phu-kien" : "D",
+    "bao-hoa-online" : "B",
+    "cham-soc-thu-cung" : "C",
+    "dung-cu-va-thiet-bi-tien-ich" : "D",
+    'Đồng Hồ': 'D',
+    "do-choi-so-thich-su-tam" : "G",
+    "Giày Dép Nam" : "G",
+    "giay-dep-nu" : "G",
+    "gia-tien-va-cham-soc-nha-cua" : "G",
+    "may-tinh-laptop" : "M",
+    "me-va-be" : "M",
+    "nha-cua-va-doi-song" : "N",
+    "nhac-cu-va-phu-kien-am-nhac" : "O",
+    "phu-kien-va-trang-suc-nu" : "P",
+    "sac-dep" : "S",
+    "thiet-bi-dien-gia-dung" : "T",
+    "Thời Trang Nam" : "T",
+    "Thời Trang Nữ" : "T",
+    "Thời Trang Tẻ Em" : "T",
+    "tui-vi-nu" : "V",
+    "voucher-va-dich-vu" : "V"
 }

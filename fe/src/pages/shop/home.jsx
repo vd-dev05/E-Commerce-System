@@ -16,12 +16,13 @@ const ShoppingHome = () => {
 
     const slides = [assets.banner_1, assets.banner_2, assets.banner_3, assets.banner_4]
     const slides_card = [assets.mbbankbanner, assets.shoppebanner]
-    
+
     const [currentSlide, setCurrentSlide] = useState(0)
     const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    
+    
     const [count, increment, decrement] = useCounter(localStorage.getItem('count') || 0);
 
 
@@ -80,11 +81,15 @@ const ShoppingHome = () => {
                 {/* danh muc */}
                 <section>
                     <div className="py-5">
-                        <h2 className="text-xl font-normal">Danh mục</h2>
+                        <div className="flex justify-between">
+                            <h2 className="text-xl font-normal">Danh mục</h2>
+                            <Link to={'/shop/all_categories'}>Tất cả danh mục</Link>
+                        </div>
+
                         <div className="grid grid-cols-10 py-2 ">
                             {categoryList.map((item) => (
 
-                                <Link key={item.id} to={`/shop/listing?category=${item.path}`} className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:shadow-lg hover:border-slate-400 border border-gray-300">
+                                <Link key={item.id} to={`/shop/listing/${item.path}`} className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:shadow-lg hover:border-slate-400 border border-gray-300">
                                     <img
                                         className="w-20 h-20 object-cover"
                                         src={item.url} alt="" />
@@ -97,19 +102,19 @@ const ShoppingHome = () => {
                 </section>
                 {/* sale do theo date */}
                 <section className="">
-                    < SaleProducts increment={increment} decrement={decrement} count={count}/>
+                    < SaleProducts increment={increment} decrement={decrement} count={count} auth={isAuthenticated} />
                 </section>
                 <section>
-                    <SearchTop/>
+                    <SearchTop />
                 </section>
                 {/* recommend */}
                 <section>
-                    <Recommend/>
+                    <Recommend />
                 </section>
                 <div className="fixed bottom-0 right-[5px] bg-white drop-shadow-md ">
-                <UserChat/>
+                    <UserChat />
                 </div>
-               
+
             </main>
 
         </div>

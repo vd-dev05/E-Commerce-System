@@ -101,8 +101,6 @@ const adminSlice = createSlice({
         }).addCase(getTraficUser.fulfilled, (state,action) => {
             state.isLoading = false;
             state.traficUser = action.payload.data;
-            console.log(action.payload.data);
-            
         }).addCase(getTraficUser.rejected, (state,action) => {
             state.isLoading = false;
             state.traficUser = null;
