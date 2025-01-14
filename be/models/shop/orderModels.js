@@ -6,7 +6,7 @@ const orderModel = mongoose.Schema({
     phone : { type: String },
     note : { type: String },
     products : [{}],
-    isOrder : { type: Boolean, default: false }
+    // isOrder : { type: Boolean, default: false }
 })
 
 const OrderModel = mongoose.model('order', orderModel)

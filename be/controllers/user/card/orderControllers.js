@@ -14,14 +14,15 @@ const OrderController = {
                 products: [
                     {
                         productId: "6777a1eb38abf9bcc1feb941",
-                        quantity: 1
+                        quantity: 1,
+                        isOrder: false,
                     }
                 ],
-                isOrder: false,
+             
                 _id: new mongoose.Types.ObjectId()
             }
             const order = await OrderModel.create(dataOrder)
-            const user = await UserModel.findById("677d5901b5fceb6a3ce4bf5d").select('cart').populate('order')
+            const user = await UserModel.findById("677d5901b5fceb6a3ce4bf5d").select('cart').populate('cart')
             user.cart.push(order._id)
             await user.save()
             console.log(user    );

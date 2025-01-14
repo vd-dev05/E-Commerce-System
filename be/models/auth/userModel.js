@@ -12,8 +12,8 @@ const userSchema = mongoose.Schema({
     isBlocked: { type: Boolean, default: false },
     last_login: { type: Date, default: Date.now },
     is_temporary: { type: Boolean, default: false },
-    avartar: { type: String, required: true },
-    address: [{ type: String, required: true }],
+    avartar: { type: String },
+    address: [{ type: String }],
     product : [
         {
             type: mongoose.Schema.Types.ObjectId,

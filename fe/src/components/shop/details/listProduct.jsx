@@ -7,14 +7,21 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { formatTitleLenght, formatPrice } from "@/lib/utils";
+import { formatTitleLenght, formatPrice, locationQuery } from "@/lib/utils";
 import { FaStar } from "react-icons/fa";
 import queryString from "query-string";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const ProductDetails = () => {
-    const location = useLocation()
-    const path = queryString.parse(location.pathname)
+    // const location = useLocation()
+    // const path = queryString.parse(location.pathname)
+    const query = queryString.parse(locationQuery())
+    
+    
+    // const checkquery = location.search.split('?')
+    // console.log(  queryString.parse(location.search));
+    
+    const nav = useNavigate()   
     const data = [{ name: 'Product 1', price: '$10', image: '/images/product1.jpg' },
     { name: 'Product 2', price: '$20', image: 'https://picsum.photos/200/300', sale: "90", buy: 300 },
     { name: 'Product 3', price: '$30', image: '/images/product3.jpg', sale: "90" },
@@ -34,16 +41,56 @@ const ProductDetails = () => {
             <div className="flex justify-between items-center w-full  ">
                 <div className="flex items-center gap-5">
                     <h2>Sắp sếp theo</h2>
-                    <button className="bg-red-500 text-white px-2 py-1 rounded">Phổ biến</button>
-                    <button className="px-2 py-1 rounded border-2">Mới Nhất</button>
+                    <button
+                    onClick={() => {
+                        const newQuery = {...query}
+                        if (newQuery.sale === "true") {
+                            delete newQuery.sale
+                        } else {
+                            newQuery.sale = "true"
+                        }
+                        nav(`?${queryString.stringify(newQuery)}`)
+                    }}
+                    className="bg-red-500 text-white px-2 py-1 rounded">Phổ biến</button>
+                    <button   
+                       onClick={() => {
+                        const newQuery = {...query}
+                        if (newQuery.sale === "false") {
+                            delete newQuery.sale
+                        } else {
+                            newQuery.sale = "false"
+                        }
+                        nav(`?${queryString.stringify(newQuery)}`)
+                    }} 
+                    className="px-2 py-1 rounded border-2">Mới Nhất</button>
                 </div>
                 <div className="-translate-x-3">
                     <DropdownMenu>
                         <DropdownMenuTrigger>Giá</DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuItem>Giá : Từ thấp đến cao</DropdownMenuItem>
+                            <DropdownMenuItem 
+                            onClick={() => {
+                                const newQuery = {...query}
+                                if (newQuery.sort === "asc") {
+                                    delete newQuery.sort
+                                } else {
+                                    newQuery.sort = "asc"
+                                }
+                                nav(`?${queryString.stringify(newQuery)}`)
+                            }}
+                            >Giá : Từ thấp đến cao</DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Giá : Từ cao đến thấp</DropdownMenuItem>
+                            <DropdownMenuItem
+                            onClick={() => {
+                                const newQuery = {...query}
+                                if (newQuery.sort === "desc") {
+                                    delete newQuery.sort
+                                } else {
+                                    newQuery.sort = "desc"
+                                }
+                                nav(`?${queryString.stringify(newQuery)}`)
+                            }}
+                            >Giá : Từ cao đến thấp</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
@@ -81,3 +128,4 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+

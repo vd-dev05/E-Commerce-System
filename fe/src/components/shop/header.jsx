@@ -4,9 +4,10 @@ import { Search, ShoppingCart, User } from 'lucide-react'
 
 import { useDispatch } from "react-redux";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AvartarHeader from "./avartar";
-
+import CartShop from "./cart";
+import { toast } from "@/hooks/use-toast";
 
 
 const dataFakeSearch = [
@@ -30,10 +31,10 @@ const dataFakeSearch = [
 
 const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
     const dispatch = useDispatch()
-    
+    const [isHovered, setIsHovered] = useState(false);
     useEffect(() => {
         dispatch(checkAuthUser())
-    }, [dispatch]) 
+    }, [dispatch])
     const filteredHeaderItems = shoppingHeaderItems.filter(item => {
         if (isAuthenticated && (item.name === "login" || item.name === "register")) {
             return false;
@@ -82,9 +83,26 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
                         </div>
                     </div>
                     <div className="flex items-center justify-center gap-8">
-                        <div className="cursor-pointer relative">
+                        <div
+                            onMouseEnter={() =>{ 
+                                setIsHovered(true)
+                                // if (isAuthenticated === true)  {
+                                //     setIsHovered(true)
+                                // } else {
+                                //     alert("vui long dang nhap")
+                                //     setTimeout(() => {
+                                //         navigate('/shop/login')
+                                //     }, 3000);
+                                 
+                                // }
+                            }}
+                            onMouseLeave={() => setIsHovered(false)}
+                            className="cursor-pointer relative ">
                             <ShoppingCart size={28} />
                             <p className={`${count > 0 ? "visible" : "invisible"} absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white`}>{count}</p>
+                            {isHovered && (
+                              <CartShop/>
+                            )}
                         </div>
                         {
                             isAuthenticated ? <AvartarHeader user={user} handleLogout={handleLogout} /> : <User size={32} className="cursor-pointer" onClick={() => navigate('/shop/login')} />

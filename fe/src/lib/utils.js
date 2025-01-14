@@ -1,5 +1,6 @@
 import { categoryMapping } from "@/config";
 import { clsx } from "clsx";
+import { useLocation } from "react-router";
 import { twMerge } from "tailwind-merge"
 
 function cn(...inputs) {
@@ -34,8 +35,17 @@ function mapCategoryFromUrl(path) {
 
   return categoryMapping[path]
 }
-function formatTitleLenght(title,number =20) {
+function formatTitleLenght(title,number = 20) {
   return title.length > number ? title.slice(0,number) + "..." : title;
+}
+
+const locationQuery = () =>   {
+  const location = useLocation()
+  return location.search;
+}
+const locationPath = () =>   {
+  const location = useLocation()
+  return location.pathname;
 }
 export {
   formatPrice,
@@ -44,5 +54,7 @@ export {
   formatTimeCountDown,
   formatDate,
   mapCategoryFromUrl,
-  formatTitleLenght
+  formatTitleLenght,
+  locationQuery,
+  locationPath
 }
