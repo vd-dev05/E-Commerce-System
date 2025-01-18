@@ -105,7 +105,11 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
                             )}
                         </div>
                         {
-                            isAuthenticated ? <AvartarHeader user={user} handleLogout={handleLogout} /> : <User size={32} className="cursor-pointer" onClick={() => navigate('/shop/login')} />
+                            isAuthenticated ? <AvartarHeader
+                             user={user} handleLogout={handleLogout} /> : 
+                             <User size={32} className="cursor-pointer" onClick={() => navigate('/shop/login')} 
+                             
+                             />
                         }
                     </div>
                 </div>

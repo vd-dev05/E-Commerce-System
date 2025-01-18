@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    
-    "server": "node -r @babel/register --watch  index.js --exec babel-node socket.js"
+       "server": "node -r @babel/register --watch  index.js --exec babel-node socket.js"
     },
   "author": "",
   "license": "ISC",

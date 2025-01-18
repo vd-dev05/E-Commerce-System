@@ -12,7 +12,7 @@ export const shoppingHeaderItems = [
         id: 2,
         label: "Kênh Người Bán",
         name: "seller",
-        path: "/shop/seller"
+        path: "/manager/login"
     },
     {
         id: 3,
@@ -50,7 +50,7 @@ export const categoryList = [
     { id: 3, label: "giay dep nam", url: assets.shoes, path: "Giày Dép Nam" },
     { id: 4, label: "dong ho", url: assets.clock, path: "Đồng Hồ" },
     { id: 5, label: "thiet bi da dung", url: assets.appliances, path: "thiet-bi-dien-gia-dung" },
-    { id: 6, label: "dien thoai", url: assets.phone, path: "dien-thoai-va-phu-kien" },
+    { id: 6, label: "dien thoai", url: assets.phone, path: "Điện Thoại Phụ Kiện" },
 ]
 
 export const allcategory = {
@@ -71,18 +71,18 @@ export const allcategory = {
         ]
     },
     D: {
-        "Dien_Thoai_Va_Phu_Kien": [
-            { id: 1, name: "Điện Thoại", path: "dien-thoai", query: "dien-thoai", url: "/dien-thoai-va-phu-kien" },
-            { id: 2, name: "Máy tính bảng", path: "may-tinh-bang", query: "may-tinh-bang", url: "/dien-thoai-va-phu-kien" },
-            { id: 3, name: "Pin Dự Phòng", path: "pin-du-phong", query: "pin-du-phong", url: "/dien-thoai-va-phu-kien" },
-            { id: 4, name: "Pin Gắn Trong, Cáp và Bộ Sạc", path: "pin-gan-trong-cap-va-bo-sac", query: "pin-gan-trong-cap-va-bo-sac", url: "/dien-thoai-va-phu-kien" },
-            { id: 5, name: "Ốp lưng, bao da, Miếng dán điện thoại", path: "op-lung-bao-da-mieng-dan-dien-thoai", query: "op-lung-bao-da-mieng-dan-dien-thoai", url: "/dien-thoai-va-phu-kien" },
-            { id: 6, name: "Bảo vệ màn hình", path: "bao-ve-man-hinh", query: "bao-ve-man-hinh", url: "/dien-thoai-va-phu-kien" },
-            { id: 7, name: "Đế giữ điện thoại", path: "de-giu-dien-thoai", query: "de-giu-dien-thoai", url: "/dien-thoai-va-phu-kien" },
-            { id: 8, name: "Thẻ nhớ", path: "the-nho", query: "the-nho", url: "/dien-thoai-va-phu-kien" },
-            { id: 9, name: "Sim", path: "sim", query: "sim", url: "/dien-thoai-va-phu-kien" },
-            { id: 10, name: "Phụ kiện khác", path: "phu-kien-khac", query: "phu-kien-khac", url: "/dien-thoai-va-phu-kien" },
-            { id: 11, name: "Thiết bị khác", path: "thiet-bi-khac", query: "thiet-bi-khac", url: "/dien-thoai-va-phu-kien" }
+        "Điện Thoại Phụ Kiện": [
+            { id: 1, name: "Điện Thoại", path: "dien-thoai", query: "dien-thoai", url: "/Điện THoại Phụ Kiện" },
+            { id: 2, name: "Máy tính bảng", path: "may-tinh-bang", query: "may-tinh-bang", url: "/Điện THoại Phụ Kiện" },
+            { id: 3, name: "Pin Dự Phòng", path: "pin-du-phong", query: "pin-du-phong", url: "/Điện THoại Phụ Kiện" },
+            { id: 4, name: "Pin Gắn Trong, Cáp và Bộ Sạc", path: "pin-gan-trong-cap-va-bo-sac", query: "pin-gan-trong-cap-va-bo-sac", url: "/Điện THoại Phụ Kiện" },
+            { id: 5, name: "Ốp lưng, bao da, Miếng dán điện thoại", path: "op-lung-bao-da-mieng-dan-dien-thoai", query: "op-lung-bao-da-mieng-dan-dien-thoai", url: "/Điện THoại Phụ Kiện" },
+            { id: 6, name: "Bảo vệ màn hình", path: "bao-ve-man-hinh", query: "bao-ve-man-hinh", url: "/Điện THoại Phụ Kiện" },
+            { id: 7, name: "Đế giữ điện thoại", path: "de-giu-dien-thoai", query: "de-giu-dien-thoai", url: "/Điện THoại Phụ Kiện" },
+            { id: 8, name: "Thẻ nhớ", path: "the-nho", query: "the-nho", url: "/Điện THoại Phụ Kiện" },
+            { id: 9, name: "Sim", path: "sim", query: "sim", url: "/Điện THoại Phụ Kiện" },
+            { id: 10, name: "Phụ kiện khác", path: "phu-kien-khac", query: "phu-kien-khac", url: "/Điện THoại Phụ Kiện" },
+            { id: 11, name: "Thiết bị khác", path: "thiet-bi-khac", query: "thiet-bi-khac", url: "/Điện THoại Phụ Kiện" }
         ],
         "Dung_Cu_Va_Thiet_Bi_Tien_Ich": [
             { id: 1, name: "Dụng cụ cầm tay", path: "dung-cu-cam-tay", query: "dung-cu-cam-tay", url: "/dung-cu-va-thiet-bi-tien-ich" },
@@ -111,12 +111,12 @@ export const allcategory = {
     },
     C: {
         "Chăm_Sóc_Thú_Cưng": [
-            { id: 1, name: "Phụ kiện cho thú cưng", path: "phu-kien-cho-thu-cung", query: "phu-kien-cho-thu-cung", url: "/cham-soc-thu-cung" },
-            { id: 2, name: "Vệ sinh cho thú cưng", path: "ve-sinh-cho-thu-cung", query: "ve-sinh-cho-thu-cung", url: "/cham-soc-thu-cung" },
-            { id: 3, name: "Quần áo thú cưng", path: "quan-ao-thu-cung", query: "quan-ao-thu-cung", url: "/cham-soc-thu-cung" },
-            { id: 4, name: "Chăm sóc sức khỏe", path: "cham-soc-suc-khoe", query: "cham-soc-suc-khoe", url: "/cham-soc-thu-cung" },
-            { id: 5, name: "Làm đẹp cho thú cưng", path: "lam-dep-cho-thu-cung", query: "lam-dep-cho-thu-cung", url: "/cham-soc-thu-cung" },
-            { id: 6, name: "Khác", path: "khac", query: "khac", url: "/cham-soc-thu-cung" }
+            { id: 1, name: "Phụ kiện cho thú cưng", path: "phu-kien-cho-thu-cung", query: "phu-kien-cho-thu-cung", url: "/Chăm Sóc Thú Cưng" },
+            { id: 2, name: "Vệ sinh cho thú cưng", path: "ve-sinh-cho-thu-cung", query: "ve-sinh-cho-thu-cung", url: "/Chăm Sóc Thú Cưng" },
+            { id: 3, name: "Quần áo thú cưng", path: "quan-ao-thu-cung", query: "quan-ao-thu-cung", url: "/Chăm Sóc Thú Cưng" },
+            { id: 4, name: "Chăm sóc sức khỏe", path: "cham-soc-suc-khoe", query: "cham-soc-suc-khoe", url: "/Chăm Sóc Thú Cưng" },
+            { id: 5, name: "Làm đẹp cho thú cưng", path: "lam-dep-cho-thu-cung", query: "lam-dep-cho-thu-cung", url: "/Chăm Sóc Thú Cưng" },
+            { id: 6, name: "Khác", path: "khac", query: "khac", url: "/Chăm Sóc Thú Cưng" }
         ]
     },
     G: {
@@ -339,13 +339,13 @@ export const allcategory = {
 
 export const categoryMapping = {
     "Balo Túi Ví Nam"  : "B",
-    "dien-thoai-phu-kien" : "D",
-    "dien-thoai-phu-kien" : "D",
-    "bao-hoa-online" : "B",
-    "cham-soc-thu-cung" : "C",
-    "dung-cu-va-thiet-bi-tien-ich" : "D",
+    "Điện Thoại Phụ Kiện" : "D",
+    "Điện Thoại Phụ Kiện" : "D",
+    "Bách Hóa Online" : "B",
+    "Chăm Sóc Thú Cưng" : "C",
+    "Dụng Cụ Và Thiết Bị Tiện Ích" : "D",
     'Đồng Hồ': 'D',
-    "do-choi-so-thich-su-tam" : "G",
+    "do-choi-so-thich-su-tam Đồ Chơi Sở Thích Sưu Tầm" : "G",
     "Giày Dép Nam" : "G",
     "giay-dep-nu" : "G",
     "gia-tien-va-cham-soc-nha-cua" : "G",
@@ -358,7 +358,7 @@ export const categoryMapping = {
     "thiet-bi-dien-gia-dung" : "T",
     "Thời Trang Nam" : "T",
     "Thời Trang Nữ" : "T",
-    "Thời Trang Tẻ Em" : "T",
+    "Thời Trang Trẻ Em" : "T",
     "tui-vi-nu" : "V",
     "voucher-va-dich-vu" : "V"
 }

@@ -1,33 +1,29 @@
-import { Server } from "socket.io"; 
-import http from "http";
-import express from 'express';
-
-const app = express();
+// Import io từ index.js
+// import { io } from './index.js';
 import countdownController from './controllers/user/countdown/index.js';
-// import ChatService from "./services/chatService.js";
-
-
-
-const server = http.createServer(app);
-
+import { Server } from "socket.io"; 
+import { server } from './index.js';
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "*",
     },
 });
 
-io.on("connect", (socket) => {    
-    countdownController.handleSocketConnection(socket);
+
+// Xử lý kết nối của Socket.IO
+io.on("connection", (socket) => {    
+    console.log("A user connected!");
+    countdownController.handleSocketConnection(socket);  // Ví dụ: xử lý sự kiện khi client kết nối
 });
 
+// Tạo một namespace mới cho chat
 const chatNamespace = io.of("chat-connect");
-chatNamespace.on("connect", (socket) => {
- 
+
+chatNamespace.on("connection", (socket) => {
+    console.log("A user connected to chat namespace!");
 
     socket.on("chat", (msg) => {
-        socket.join(msg.room);
-        chatNamespace.to(msg.room).emit("chat", msg);
+        socket.join(msg.room);  // Client tham gia phòng chat
+        chatNamespace.to(msg.room).emit("chat", msg);  // Phát sống tin nhắn cho tất cả client trong phòng
     });
 });
-
-export { io, server };

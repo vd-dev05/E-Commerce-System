@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "deploy": "npm run build && netlify deploy --prod",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -34,6 +35,7 @@
     "react-redux": "^9.2.0",
     "react-router": "^7.1.1",
     "react-router-dom": "^7.1.1",
+    "react-type-animation": "^3.2.0",
     "socket.io-client": "^4.8.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"

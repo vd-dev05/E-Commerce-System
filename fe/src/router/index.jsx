@@ -1,3 +1,5 @@
+import OrderProfile from "@/components/shop/profile/order/order";
+import UserProfile from "@/components/shop/profile/user/user"; 
 import AdminLogin from "@/pages/admin/auth/login";
 import AdminHome from "@/pages/admin/home";
 import BlockUser from "@/pages/admin/home/block";
@@ -13,6 +15,7 @@ import CardProduct from "@/pages/shop/cardProduct";
 import ProductDetails from "@/pages/shop/details";
 import ShoppingHome from "@/pages/shop/Home";
 import ShoppingLogin from "@/pages/shop/login";
+import Profile from "@/pages/shop/profile";
 import ShoppingRegsiter from "@/pages/shop/regsiter";
 import { Navigate, Route, Routes } from "react-router"
 const RootRouter = () => {
@@ -30,6 +33,16 @@ const RootRouter = () => {
                     <Route path="listing/:id" element={<ProductDetails/>}/>
                     <Route path="listing/:id/:card" element={<CardProduct/>}/>
                     <Route path="all_categories" element={<AllCategory/>} />
+                    <Route path="profile" element={<Profile/>}>
+                        <Route path="user" element={<UserProfile/>}>
+                            <Route path="account" element={<div>test acc</div>} />
+                            <Route path="password" element={<div>test</div>} />
+                            <Route path="address" element={<div>test</div>} />
+                        </Route>
+                        <Route path="purchase" element={<OrderProfile/>} />
+                        <Route path="voucher" element={<div>test</div>} />
+                        <Route path="payment" />
+                    </Route>
                 </Route>
                 {/* manager router */}
                 <Route path="/manager"  >

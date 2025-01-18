@@ -32,7 +32,7 @@ const SaleProducts = ({increment,count,auth}) => {
 
     // Khi kết nối với socket
     useEffect(() => {
-        const socket = io('http://localhost:5001');
+        const socket = io('http://localhost:5000');
 
         socket.on('countdown', (time) => {
             if (time && time.timeStart > 0 && timeLeft >= 0) {

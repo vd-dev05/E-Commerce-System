@@ -1,11 +1,12 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FaCartShopping } from "react-icons/fa6";
-import {LogOut, Settings, UserCog2 } from 'lucide-react'
-const AvartarHeader = ({user,handleLogout}) => {
-    return ( <DropdownMenu>
+import { LogOut, Settings, UserCog2 } from 'lucide-react'
+import { Link } from "react-router";
+const AvartarHeader = ({ user, handleLogout }) => {
+    return (<DropdownMenu >
         <DropdownMenuTrigger asChild>
-            <Avatar className="bg-black">
+            <Avatar className="bg-black cursor-pointer">
                 <AvatarFallback className="bg-black text-white flex items-center font-extralight">
                     <p>{user?.username[0].toUpperCase()}</p>
                 </AvatarFallback>
@@ -15,8 +16,10 @@ const AvartarHeader = ({user,handleLogout}) => {
             <DropdownMenuLabel className="text-md">Hello, {user?.username}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-                <UserCog2 className='mr-2 size-4' />
-                <p>Tài khoản</p>
+                <Link to='/shop/profile' className="flex">
+                    <UserCog2 className='mr-2 size-4' />
+                    <p>Tài khoản</p>
+                </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
@@ -34,7 +37,7 @@ const AvartarHeader = ({user,handleLogout}) => {
                 <p>Đăng xuất</p>
             </DropdownMenuItem>
         </DropdownMenuContent>
-    </DropdownMenu>) ;
+    </DropdownMenu>);
 }
- 
+
 export default AvartarHeader;

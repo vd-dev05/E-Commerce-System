@@ -1,57 +1,60 @@
-//packages
+// Import các thư viện cần thiết
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import cors from 'cors'
+import cors from 'cors';
 import RootRouter from './routes/index.js';
 
-
-
-//Utiles
+// Utiles
 import connectDB from './config/mongodb.js';
-import { server } from './socket.js';
+import { Server } from "socket.io"; 
+import http from "http";
 
-
+// Tạo ứng dụng Express
 const app = express();
+
+// Tạo HTTP server từ Express
+const server = http.createServer(app);
+
+// Tạo Socket.IO server từ HTTP server
+// const io = new Server(server, {
+//     cors: {
+//         origin: "*",
+//     },
+// });
 
 dotenv.config();
 const port = process.env.PORT || 5000;
 
+// Middleware
+app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "Cache-Control",
+        "Expires",
+        "Pragma",
+    ],
+    credentials: true,
+}));
+app.use(cookieParser());
 
-
-app.use(express.json())
-app.use(cors(
-    {
-        origin: 'http://localhost:5173',
-        methods: ["GET", "POST", "DELETE", "PUT"],
-        allowedHeaders: [
-            "Content-Type",
-            "Authorization",
-            "Cache-Control",
-            "Expires",
-            "Pragma",
-        ],
-        credentials: true,
-    }
-))
-app.use(cookieParser())
-
-// io.on('connection', countdownController.handleSocketConnection);
-
-
+// Route mặc định
 app.get("/", (req, res) => {
-    res.send('API Working')
-})
-app.use(RootRouter)
-// port server ( nhan request tu client)
-app.listen(port, () => {
-    console.log(`Server running on port: ${port}`)
-    connectDB()
+    res.send('API Working');
+});
 
-    // port socket real time ( nhan request tu client voi thoi gian thuc)
-    server.listen(5001, () => {
-        console.log("Socket server running on port 5001");
-    })
-})
+// Sử dụng các router của bạn
+app.use(RootRouter);
 
-export { app };
+// Bắt đầu server HTTP và kết nối database
+server.listen(port, () => {
+    console.log(`Server running on port: ${port}`);
+    connectDB();  // Kết nối với database
+});
+
+
+export { app,server};
