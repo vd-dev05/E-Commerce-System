@@ -15,6 +15,7 @@ import appliances from './da_dung.jpg'
 import phone from './dien_thoai.jpg'
 import manager_login from './manager_login.png'
 import manager_register from './banner-register.png'
+import upload_area from './upload_area.png'
 export const assets = {
     cart_icon,
     notification,
@@ -32,5 +33,6 @@ export const assets = {
     appliances,
     phone,
     manager_login,
-    manager_register
+    manager_register,
+    upload_area
 }

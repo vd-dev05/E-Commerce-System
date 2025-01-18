@@ -9,6 +9,7 @@ import AdminTrafic from "@/pages/admin/home/trafic";
 import ManagerCategory from "@/pages/manager/category";
 import ManagerHome from "@/pages/manager/home";
 import ManagerLogin from "@/pages/manager/login";
+import ManagerProduct from "@/pages/manager/product";
 import ManagerRegister from "@/pages/manager/register";
 import AllCategory from "@/pages/shop/allcategory";
 import CardProduct from "@/pages/shop/cardProduct";
@@ -33,21 +34,12 @@ const RootRouter = () => {
                     <Route path="listing/:id" element={<ProductDetails/>}/>
                     <Route path="listing/:id/:card" element={<CardProduct/>}/>
                     <Route path="all_categories" element={<AllCategory/>} />
-                    <Route path="profile" element={<Profile/>}>
-                        <Route path="user" element={<UserProfile/>}>
-                            <Route path="account" element={<div>test acc</div>} />
-                            <Route path="password" element={<div>test</div>} />
-                            <Route path="address" element={<div>test</div>} />
-                        </Route>
-                        <Route path="purchase" element={<OrderProfile/>} />
-                        <Route path="voucher" element={<div>test</div>} />
-                        <Route path="payment" />
-                    </Route>
                 </Route>
                 {/* manager router */}
                 <Route path="/manager"  >
                     <Route path="home" element={<ManagerHome />}>
                         <Route path="category" element={<ManagerCategory />} />
+                        <Route path="product" element={<ManagerProduct />} />
                     </Route>
                     <Route path="login" element={<ManagerLogin />} />
                     <Route path="register" element={<ManagerRegister />} />
