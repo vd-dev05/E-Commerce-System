@@ -15,6 +15,10 @@ const ManagerProduct = () => {
     const [categories, setCategories] = useState([
         { name: "", values: [{ name: "", quantity: "" }] },
     ]);
+    const [additionalImages, setAdditionalImages] = useState([]);
+    const [mainImage, setMainImage] = useState(null);
+    const [uploadImageUrl, setUploadImageUrl] = useState({})
+    const [imageLoading, setImageLoading] = useState(false)
     const { categoryItems } = useSelector(state => state.managerCategory)
     const { manager } = useSelector(state => state.managerAuth)
     const dispatch = useDispatch()
@@ -55,7 +59,7 @@ const ManagerProduct = () => {
     useEffect(() => {
         dispatch(fetchCategory(manager?.id))
     }, [dispatch, manager?.id])
-    console.log(categoryItems);
+
 
 
     return (
@@ -78,7 +82,16 @@ const ManagerProduct = () => {
                         <SheetTitle>Thêm mới sản phẩm</SheetTitle>
                     </SheetHeader>
                     <div className='flex gap-4 w-full items-start justify-between'>
-                        <ProductImageUpload />
+                        <ProductImageUpload
+                            additionalImages={additionalImages}
+                            setAdditionalImages={setAdditionalImages}
+                            mainImage={mainImage}
+                            setMainImage={setMainImage}
+                            uploadImageUrl={uploadImageUrl}
+                            setUploadImageUrl={setUploadImageUrl}
+                            imageLoading={imageLoading}
+                            setImageLoading={setImageLoading}
+                        />
                         <form className="py-4 w-2/3" >
                             <p className='pb-8 font-semibold'>Thông tin sản phẩm</p>
                             <div className='flex flex-col gap-3 px-10'>
