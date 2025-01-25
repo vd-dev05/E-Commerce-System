@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import UserModel from '../models/auth/userModel.js';
 import ManagerModel from '../models/shop/managerModel.js';
+import { UnauthorizedError } from '../error/user/userError.js';
 
 const validateUserInput = async (req, res, next) => {
     const { username, email, password, gender, birthday, phone } = req.body;
@@ -56,18 +57,22 @@ const validateUserInput = async (req, res, next) => {
         })
     }
 }
-const authMiddleware = async (req, res, next) => { 
+const authMiddleware = async (req, res, next) => {
+    
     const token = req.cookies.token;
-    if (!token) return res.json({
-        success: false,
-        message: 'Unauthorised user !'
-
-    })
+    
     try {
+        if (token) {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
+            next()
+        } 
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next()
+        console.log(req.user);
+        
+        
+        
+      
     } catch (error) {
         console.log(error);
         res.json({

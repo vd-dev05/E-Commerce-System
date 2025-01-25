@@ -2,16 +2,19 @@
 // import { io } from './index.js';
 import countdownController from './controllers/user/countdown/index.js';
 import { Server } from "socket.io"; 
+import { app } from './index.js';
 import { server } from './index.js';
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-    },
-});
+// const io = new Server(app, {
+//     cors: {
+//         origin: "*",
+//     },
+// });
 
 
 // Xử lý kết nối của Socket.IO
-io.on("connection", (socket) => {    
+io.on("connection", (socket) => {  
+    console.log(socket);
+      
     console.log("A user connected!");
     countdownController.handleSocketConnection(socket);  // Ví dụ: xử lý sự kiện khi client kết nối
 });
@@ -26,4 +29,8 @@ chatNamespace.on("connection", (socket) => {
         socket.join(msg.room);  // Client tham gia phòng chat
         chatNamespace.to(msg.room).emit("chat", msg);  // Phát sống tin nhắn cho tất cả client trong phòng
     });
+});
+
+server.listen(5001, () => {
+    console.log(`Socket.IO server running on port: 5001`);
 });

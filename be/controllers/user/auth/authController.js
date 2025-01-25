@@ -59,7 +59,6 @@ const login = async (req, res) => {
         };
         user.last_login = Date.now()
         await user.save()
-        console.log(user);
         
         const token = jwt.sign({
             id: user._id,
@@ -69,13 +68,14 @@ const login = async (req, res) => {
             phone: user.phone,
             birthday: user.birthday,
             username: user.username,
-            last_login : Date.now()
+            last_login : Date.now(),
+            coin : user.coin
         }, process.env.JWT_SECRET, { expiresIn: '60m' })
     
         
         res.cookie('token', token , {
             httpOnly: true,
-            secure: false
+            secure: false,
         }).json({
             success: true,
             message: 'Đăng nhập thành công',
