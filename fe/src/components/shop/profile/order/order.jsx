@@ -1,7 +1,11 @@
-import { Link } from "react-router";
+import queryString from "query-string";
+import { Link, useLocation } from "react-router";
 
 const OrderProfile = () => {
     let DataFake = []
+    const location = useLocation();
+    const query = queryString.parse(location.search);
+    console.log(query);
 
     for (let index = 0; index < 10 ; index++) {
         DataFake.push({
@@ -30,6 +34,9 @@ const OrderProfile = () => {
             <div className="flex justify-between px-5">
                 {/* roure  */}
                 <Link 
+                to={'?id=allin'}
+                >Tất cả</Link>
+                <Link 
                 to={'?id=notbuy'}
                 >Chưa Đặt</Link>
                 <Link
@@ -48,6 +55,13 @@ const OrderProfile = () => {
                 to={'?id=notTrue'}
                 >Đã hủy</Link>
             </div>
+
+            {/* order profile  */}
+            <div>
+                {
+
+                }
+            </div>  
         </div>
     );
 }

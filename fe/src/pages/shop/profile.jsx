@@ -1,6 +1,8 @@
 import ShoppingHeader from "@/components/shop/header";
 import OrderProfile from "@/components/shop/profile/order/order";
 import PaymentProfile from "@/components/shop/profile/payment";
+import CheckOutPayment from "@/components/shop/profile/payment/checkout";
+import AddressProfile from "@/components/shop/profile/user/address";
 import ProfileOptions from "@/components/shop/profile/user/option";
 import PasswordProfile from "@/components/shop/profile/user/password";
 import UserProfile from "@/components/shop/profile/user/user";
@@ -14,7 +16,7 @@ const Profile = () => {
     return (
         <div>
             <header>
-                <ShoppingHeader />
+                {/* <ShoppingHeader /> */}
             </header>
             {/* setting */}
             <div className="flex">
@@ -38,21 +40,21 @@ const Profile = () => {
                                     Đơn mua
                                 </Link>
                             </li>
-                            <li className={currentPath === '/shop/profile/payment' ? 'bg-zinc-200' : ''}>
+                            {/* <li className={currentPath === '/shop/profile/payment' ? 'bg-zinc-200' : ''}>
                                 <Link to={'payment'}>
                                     Thanh toán
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className={currentPath === '/shop/profile/voucher' ? 'bg-zinc-200' : ''}>
                                 <Link to={'voucher'}>
                                     Voucher
                                 </Link>
                             </li>
-                            {/* <li className={currentPath === '/shop/profile/security' ? 'bg-zinc-200' : ''}>
-                                <Link to={'security'}>
-                                    Bảo mật
+                            <li className={(currentPath === '/shop/profile/payment' || currentPath === '/shop/profile/payment/checkout') ? 'bg-zinc-200' : ''}>
+                                <Link to={'payment'}>
+                                    E-com xu
                                 </Link>
-                            </li> */}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -60,10 +62,11 @@ const Profile = () => {
                     {/* <Outlet /> */}
                     {currentPath === '/shop/profile/user/account' && <UserProfile/>}
                     {currentPath === '/shop/profile/user/password' && <PasswordProfile/>}
-                    {currentPath === '/shop/profile/user/address' && <div>Địa chỉ</div>}
+                    {currentPath === '/shop/profile/user/address' && < AddressProfile/>}
                     {currentPath === '/shop/profile/purchase' && <OrderProfile/>}
                     {currentPath === '/shop/profile/voucher' && < Voucher/>}
                     {currentPath === '/shop/profile/payment' && < PaymentProfile/>}
+                    {currentPath === '/shop/profile/payment/checkout' && < CheckOutPayment/>}
                 </div>
             </div>
         </div>

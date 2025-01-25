@@ -15,4 +15,18 @@ const TypingEffectProfile = ({nameUser}) =>  {
         </h1>
     );
 }
+const TypingPayment = ({nameUser}) =>  {
+    const arr = [`Welcome ${ nameUser ? nameUser : 'user' } 👋`,3500,"Thanh toán tien loi bằng xu",3500,"Nạp rút dễ dàng", 3500 , "Bắt đầu ngay thôi !"]
+    return (
+        <h1 className="font-logo text-left">
+            <TypeAnimation
+                sequence={arr} // Thay đổi thời gian hiển thị
+                // speed={1}
+                repeat={100} 
+                cursor = {false}
+            />
+        </h1>
+    );
+}
+export {TypingPayment}
 export default TypingEffectProfile

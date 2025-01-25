@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios'
 
-const backendUrl = 'http://localhost:5000';
+const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
 export const registerUser = createAsyncThunk('/registerUser',
     async (formData) => {
@@ -85,6 +85,7 @@ const shoppingAuthSlice = createSlice({
             state.isAuthenticated = false;
         }).addCase(checkAuthUser.pending, (state) => {
             state.isLoading = true
+            state.isAuthenticated = false
         }).addCase(checkAuthUser.fulfilled, (state, action) => {
             state.isLoading = false;
             state.user = action.payload.success ? action.payload.user : null;

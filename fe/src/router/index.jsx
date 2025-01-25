@@ -1,4 +1,8 @@
 import OrderProfile from "@/components/shop/profile/order/order";
+import PaymentProfile from "@/components/shop/profile/payment";
+import CheckOutPayment from "@/components/shop/profile/payment/checkout";
+import AddressProfile from "@/components/shop/profile/user/address";
+import PasswordProfile from "@/components/shop/profile/user/password";
 import UserProfile from "@/components/shop/profile/user/user"; 
 import AdminLogin from "@/pages/admin/auth/login";
 import AdminHome from "@/pages/admin/home";
@@ -25,7 +29,7 @@ const RootRouter = () => {
         <div className="font-be flex flex-col w-full h-full ">
             <Routes>
                 {/* Route test componet */}
-                <Route path="/test" element={<div>Test</div>} />
+                {/* <Route path="/test" element={<div>Test</div>} /> */}
                 <Route path="/" element={<Navigate to="/shop/home" replace />} />
                 <Route path="/shop"  >
                     <Route path="home" element={<ShoppingHome />} />
@@ -34,6 +38,17 @@ const RootRouter = () => {
                     <Route path="listing/:id" element={<ProductDetails/>}/>
                     <Route path="listing/:id/:card" element={<CardProduct/>}/>
                     <Route path="all_categories" element={<AllCategory/>} />
+                    <Route path="profile" element={<Profile/>}>
+                        <Route path="user" element={<UserProfile/>}>
+                            <Route path="account" element={< UserProfile/>}/>
+                            <Route path="password" element={<PasswordProfile/>} />
+                            <Route path="address" element={< AddressProfile/>} />
+                        </Route>
+                        <Route path="purchase" element={<OrderProfile/>} />
+                        <Route path="voucher" element={<div>test</div>} />
+                        <Route path="payment" element={<PaymentProfile/>}/>
+                        <Route path="payment/checkout" element={<CheckOutPayment/>}/>
+                    </Route>
                 </Route>
                 {/* manager router */}
                 <Route path="/manager"  >

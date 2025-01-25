@@ -10,6 +10,8 @@ import { uploadAvatar } from "@/store/Shop/users";
 
 const UserProfile = () => {
     const { user, isAuthenticated } = useSelector(state => state.shoppingAuth)
+    console.log(isAuthenticated);
+    
     const [edit, setEdit] = useState(false)
     const [data, setData] = useState({
         username: user?.username,
@@ -33,6 +35,18 @@ const UserProfile = () => {
     const hanldeUpload = () => {
         if (!file) message.error('Please select an image')
         dispath(uploadAvatar(file))
+    }
+
+    const handleEdit = () => {
+        const regexUserName = /^[a-zA-Z_]{3,20}$/;
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regexUserName.test(data.username)) {
+            message.error('Username must be between 3 and 20 characters long and only contain letters and underscores, not numbers');
+        } else if (!regexEmail.test(data.email)) {
+            message.error('Invalid email format');
+        } else {
+            setEdit(false);
+        }
     }
     // const props =   {
     //     // name: 'avatar',
@@ -72,12 +86,19 @@ const UserProfile = () => {
                     <hr className="my-2" />
 
                     <div className="flex gap-4 items-center">
-                        <div>
-                            <label htmlFor="name">Tên đăng nhập</label>
-                            <input type="text" value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
+                        <div className="flex flex-col w-2/3 gap-2">
+                            <label htmlFor="name" className="text-sm font-medium">Tên đăng nhập</label>
+                            <input 
+                            className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
+                            type="text" value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
 
-                            <label htmlFor="email">Email</label>
-                            <input type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
+                            <label htmlFor="email" className="text-sm font-medium">Email</label>
+                            <input 
+                            className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
+                            type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value.slice(0, -2) + '@' })} />
+                            <button
+                            onClick={ handleEdit}
+                            style={{ width: "150px" }} className="hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs bg-[#dc2626]">Luu Thay Doi</button>
                         </div>
 
                         <div className="flex flex-col gap-5 justify-center items-center">

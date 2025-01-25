@@ -13,6 +13,12 @@ function formatPrice(price) {
     currency: "VND",
   }).format(price);
 }
+function formatPriceUSD(price) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price / 25000);
+}
 
 function formatTitle(title) {
   return title
@@ -56,5 +62,6 @@ export {
   mapCategoryFromUrl,
   formatTitleLenght,
   locationQuery,
-  locationPath
+  locationPath,
+  formatPriceUSD
 }
