@@ -69,9 +69,9 @@ const login = async (req, res) => {
             birthday: user.birthday,
             username: user.username,
             last_login : Date.now(),
-            coin : user.coin
-        }, process.env.JWT_SECRET, { expiresIn: '60m' })
-    
+            coin : user.coin,
+            avartar : user?.avartar || null,
+        }, process.env.JWT_SECRET)
         
         res.cookie('token', token , {
             httpOnly: true,
@@ -86,7 +86,8 @@ const login = async (req, res) => {
                 gender: user.gender,
                 phone: user.phone,
                 birthday: user.birthday,
-                username: user.username
+                username: user.username,
+                avartar : user?.avartar || null,
             }
         })
 

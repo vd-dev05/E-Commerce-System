@@ -6,7 +6,11 @@ const EditProfile = async (req, res) => {
         res.json({
             success: true,
             message: 'Cập nhập thông tin thành công',
-            user: user
+            user:{
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar
+            }
         });
     } catch (error) {
         res.status(500).json({

@@ -22,6 +22,13 @@ const userSchema = mongoose.Schema({
     ],
     cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'order' }],
     coin : { type: Number, default: 0 },
+    avartar : { type: String },
+    coinTransaction : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'transition'
+        }
+    ]
 
     
 }, { timestamps: true })

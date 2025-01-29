@@ -62,17 +62,10 @@ const authMiddleware = async (req, res, next) => {
     const token = req.cookies.token;
     
     try {
-        if (token) {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = decoded;
+            
             next()
-        } 
-
-        console.log(req.user);
-        
-        
-        
-      
     } catch (error) {
         console.log(error);
         res.json({
@@ -130,6 +123,7 @@ const validateManagerInput = async (req, res, next) => {
     }
 
 }
+
 const managerAuthMiddleware = async (req, res, next) => {
     const token = req.cookies.manager_token;
     if (!token) return res.json({

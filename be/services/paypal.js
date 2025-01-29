@@ -3,6 +3,7 @@ import qs from "qs"
 import { ErrorNotFoundResponse, ErrorResponse } from "../error/errorResponse.js";
 import { CoinError, UnauthorizedError } from "../error/user/userError.js";
 import UserModel from "../models/auth/userModel.js"
+import Transition from "../models/shop/transitionModels.js";
 const PayPalServices = {
 
     getPayPalToken: async () => {
@@ -105,7 +106,7 @@ const PayPalServices = {
                 ]
             }
             // const data = JSON.stringify(data1)
-                
+
             //     intent: "CAPTURE",
             //     purchase_units: [
             //         {   
@@ -140,10 +141,10 @@ const PayPalServices = {
             // })
             const url = process.env.PAYPAL_BASE_URL + "/v2/checkout/orders";
             if (!accessToken) {
-                UnauthorizedError ("Invalid token")
+                UnauthorizedError("Invalid token")
             } else {
-                console.log( url);
-                
+                console.log(url);
+
                 const response = await axios.post(url, data1, {
                     headers: {
                         "Content-Type": "application/json",
@@ -154,23 +155,23 @@ const PayPalServices = {
                 res.json(response.data)
                 // console.log(response);
             }
-            
-            
+
+
             // res.json(response.data)
         } catch (error) {
             console.log(error);
-            
-            ErrorResponse(res , error,)
+
+            ErrorResponse(res, error,)
 
         }
     },
-    completeOrder : async (req, res) => {
-        res.send("complete order")  
+    completeOrder: async (req, res) => {
+        res.send("complete order")
     },
-    createCoin : async (req,res) => {
+    createCoin: async (req, res) => {
         try {
             console.log(req.body);
-            
+
             const accessToken = await PayPalServices.getPayPalToken();
 
             const data = {
@@ -198,7 +199,7 @@ const PayPalServices = {
                     }
                 }
             }
-    
+
             const response = await axios.post(process.env.PAYPAL_BASE_URL + "/v2/checkout/orders", data, {
                 headers: {
                     "Content-Type": "application/json",
@@ -206,64 +207,69 @@ const PayPalServices = {
                 }
             })
             res.json(response.data)
-    
+
         } catch (error) {
-            ErrorResponse(res , error, 500)
+            ErrorResponse(res, error, 500)
         }
-       
-    } ,
-    createCoinUser : async (req,res) => {
-       try {
-        // const amount: '28.00', date: '2025-01-23T08:22:02Z', status: 'COMPLETED'
-        const {amount  , date , status, orderId } = req.body
-        
-        if (!amount && !date && status ) {
-            CoinError('Not Pay ment succsess')
-        }
-        if (status === 'COMPLETED') {
-            // const accessToken = await PayPalServices.getPayPalToken();
-            // const response = await axios.post(process.env.PAYPAL_BASE_URL + "/v2/checkout/orders/" + orderId, {
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //         Authorization: `Bearer ${accessToken}`
-            //     }
-            // })
 
-            const updateCoin = await UserModel.findByIdAndUpdate(req.user.id, {
-                $inc: { coin: amount }
-            }, { new: true })
-
-            res.status(201).json({
-                success: true,
-                message: "Create coin user successfully",
-                data: {
-                    user : {
-                        name : updateCoin.name,
-                        coin : updateCoin.coin
-                    },
-                    amount,
-                    date,
-                    status
-                }
-            })
-        }
-       
-    } catch (error) {
-        ErrorNotFoundResponse(res,error,404)
-       }
     },
-    getCoinUser : async (req,res) => {
-        try {          
-        
-         const user = await UserModel.findById(req.user.id).select('coin')
-        
-         res.json({
-             success: true,
-             message: "Get coin user successfully",
-             coin : user.coin
-         })
+    createCoinUser: async (req, res) => {
+        try {
+            // const amount: '28.00', date: '2025-01-23T08:22:02Z', status: 'COMPLETED'
+            const { amount, date, status, orderId } = req.body
+
+            if (!amount && !date && status) {
+                CoinError('Not Pay ment succsess')
+            }
+            if (status === 'COMPLETED') {
+                const bill = await Transition.create({
+                    userId: req.user.id,
+                    date: new Date(),
+                    coin: amount,
+                    type: 'paypal',
+                    status: true,
+                    transactionType: 'add'
+                })
+
+                const updateCoin = await UserModel.findByIdAndUpdate(req.user.id, {
+                    $inc: { coin: amount },
+                    $push: { coinTransaction: bill._id }
+                }, { new: true })
+
+                if (bill) {
+                    res.status(201).json({
+                        success: true,
+                        message: "Create coin user successfully",
+                        data: {
+                            user: {
+                                name: updateCoin.name,
+                                coin: updateCoin.coin
+                            },
+                            amount,
+                            date,
+                            status
+                        }
+                    })
+                }
+
+            }
+
         } catch (error) {
-            ErrorNotFoundResponse(res,error,404)
+            ErrorNotFoundResponse(res, error, 404)
+        }
+    },
+    getCoinUser: async (req, res) => {
+        try {
+
+            const user = await UserModel.findById(req.user.id).select('coin')
+
+            res.json({
+                success: true,
+                message: "Get coin user successfully",
+                coin: user.coin
+            })
+        } catch (error) {
+            ErrorNotFoundResponse(res, error, 404)
         }
     }
 }

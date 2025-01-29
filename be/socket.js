@@ -33,4 +33,4 @@ chatNamespace.on("connection", (socket) => {
 
 server.listen(5001, () => {
     console.log(`Socket.IO server running on port: 5001`);
-});
+}); 
