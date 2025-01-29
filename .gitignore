@@ -1,5 +1,6 @@
 fe/node_modules
 be/node_modules
+socket/node_modules
 suoc.md
 node_modules
 dist
@@ -9,6 +10,5 @@ be/*.env*
 fe/*.env*
 fe/dist
 fe/.netlify
-
 # Local Netlify folder
 .netlify
