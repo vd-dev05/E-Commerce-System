@@ -31,26 +31,26 @@ const SaleProducts = ({increment,count,auth}) => {
     }
 
     // Khi kết nối với socket
-    // useEffect(() => {
-    //     const socket = io(`http://localhost:5001`);
-    //     console.log(socket);
-    //     socket.on('countdown', (time) => {
+    useEffect(() => {
+        const socket = io(`${import.meta.env.VITE_REACT_APP_SOCKET_APP}`);
+        console.log(socket);
+        socket.on('countdown', (time) => {
         
             
             
-    //         if (time && time.timeStart > 0 && timeLeft >= 0) {
-    //             // Lọc dữ liệu theo giờ và lấy 6 phần tử
-    //             const filteredData = dataFakeSale.filter(item => item.hour === time.timeStart);
-    //             setData(filteredData[0]?.items || []); // Lấy mảng sản phẩm của giờ hiện tại
+            if (time && time.timeStart > 0 && timeLeft >= 0) {
+                // Lọc dữ liệu theo giờ và lấy 6 phần tử
+                const filteredData = dataFakeSale.filter(item => item.hour === time.timeStart);
+                setData(filteredData[0]?.items || []); // Lấy mảng sản phẩm của giờ hiện tại
 
-    //             setTimeLeft(time.timeLeft);      // Cập nhật thời gian còn lại từ server
+                setTimeLeft(time.timeLeft);      // Cập nhật thời gian còn lại từ server
 
-    //             setIsLoading(time.timeLeft <= 1); // Cập nhật trạng thái loading khi hết thời gian
-    //         } else {
-    //             setIsLoading(true);
-    //         }
-    //     });
-    // }, []);
+                setIsLoading(time.timeLeft <= 1); // Cập nhật trạng thái loading khi hết thời gian
+            } else {
+                setIsLoading(true);
+            }
+        });
+    }, []);
 
     // Hàm định dạng thời gian
     const formatTime = (time) => {

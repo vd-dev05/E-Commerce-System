@@ -4,37 +4,65 @@ import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import React from 'react';
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, message, Upload } from 'antd';
+import { Button, message, Spin, Upload } from 'antd';
 import axios from "axios";
-import { uploadAvatar } from "@/store/Shop/users";
+import { editProfile, uploadAvatar } from "@/store/Shop/users";
+import { checkAuthUser } from "@/store/Shop/auth";
+import { AvatarImage } from "@radix-ui/react-avatar";
 
 const UserProfile = () => {
-    const { user, isAuthenticated } = useSelector(state => state.shoppingAuth)
-    console.log(isAuthenticated);
-    
+    const { user, isAuthenticated , isLoading } = useSelector(state => state.shoppingAuth)
+
     const [edit, setEdit] = useState(false)
     const [data, setData] = useState({
-        username: user?.username,
-        email: user?.email,
-        phone: user?.phone,
-        gender: user?.gender,
-        birthday: user?.birthday
+        username: user?.username || '',
+        email: user?.email || '',
+        phone: user?.phone || '',
+        gender: user?.gender || '',
+        birthday: user?.birthday || '',
+        avartar: user?.avartar || ''
     })
+
+
     const [file, setFile] = useState(null)
-    const {avatar ,  isLoading} = useSelector(state => state.shoppingProduct)
+    const { avatar, isSuccesEdit } = useSelector(state => state.shoppingProduct)
     const dispath = useDispatch()
-    
+
     useEffect(() => {
-        if (isLoading === true) {
-            console.log(avatar);
+        if (isAuthenticated === false) {
+            dispath(checkAuthUser())
+       
+        }
+    }, [])
+
+
+    useEffect(() => {
+        if (isLoading === false && user) {
             
-            setData({...data, avatar: avatar?.avatar})
+            setData({ ...data,...user })
         }
     }, [isLoading])
-    
+
+    useEffect(() => {
+        if (isSuccesEdit === true ) {
+            // console.log(isSuccesEdit);
+
+            message.success('Edit profile success')
+            setEdit(!edit)
+            setTimeout(() => {
+                dispath(checkAuthUser())
+            }, 2000);
+      
+        }
+    }, [isSuccesEdit])
+
     const hanldeUpload = () => {
-        if (!file) message.error('Please select an image')
-        dispath(uploadAvatar(file))
+        if (!file) {
+            message.error('Please select an image')
+        } else {
+            dispath(uploadAvatar(file))
+        }
+
     }
 
     const handleEdit = () => {
@@ -45,7 +73,8 @@ const UserProfile = () => {
         } else if (!regexEmail.test(data.email)) {
             message.error('Invalid email format');
         } else {
-            setEdit(false);
+            setEdit(!edit)
+            dispath(editProfile(data))
         }
     }
     // const props =   {
@@ -57,7 +86,7 @@ const UserProfile = () => {
     //     // },
     //     onChange(info){
     //         console.log(info);
-            
+
     //         if (info.file.status !== 'uploading') {
     //             dispath(uploadAvatar(info.file.originFileObj))
     //             // const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/user/upload/avatar`, {
@@ -70,9 +99,10 @@ const UserProfile = () => {
     //         // } else if (info.file.status === 'error') {
     //         //     message.error(`${info.file.name} file upload failed.`);
     //         // }
-        // },
+    // },
     // };
-
+  
+    
     return (
         <div className="py-5 px-5">
             {/* user profile */}
@@ -80,7 +110,8 @@ const UserProfile = () => {
                 <TypingEffectProfile nameUser={user?.username} />
             )}
             {
-                isAuthenticated === true ? <div className="px-5 py-[1px]">
+               ( isAuthenticated === true && isLoading === false && data )  ?
+                 <div className="px-5 py-[1px]">
                     <h2>Hồ sơ của tôi</h2>
                     <p>Quản lí thông tin của bạn</p>
                     <hr className="my-2" />
@@ -88,41 +119,41 @@ const UserProfile = () => {
                     <div className="flex gap-4 items-center">
                         <div className="flex flex-col w-2/3 gap-2">
                             <label htmlFor="name" className="text-sm font-medium">Tên đăng nhập</label>
-                            <input 
-                            className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
-                            type="text" value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
+                            <input
+                                className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
+                                type="text" value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
 
                             <label htmlFor="email" className="text-sm font-medium">Email</label>
-                            <input 
-                            className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
-                            type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value.slice(0, -2) + '@' })} />
+                            <input
+                                className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
+                                type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
                             <button
-                            onClick={ handleEdit}
-                            style={{ width: "150px" }} className="hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs bg-[#dc2626]">Luu Thay Doi</button>
+                                onClick={handleEdit}
+                                style={{ width: "150px" }} className="hover:bg-red-700 text-white font-bol
+                                d py-2 px-4 rounded text-xs bg-[#dc2626]">{edit ? <Spin size="small" /> : 'Luu thay doi'}</button>
                         </div>
 
                         <div className="flex flex-col gap-5 justify-center items-center">
                             <h3>Thay đổi ảnh của bạn </h3>
+                            <Avatar>
+                                <AvatarImage src={`${isAuthenticated === true && data.avartar !== undefined ? data.avartar : ''}`}alt="@shadcn" />
 
-                            <Avatar className="bg-black cursor-pointer w-[100px] h-[100px] ">
-                                <AvatarFallback className="bg-black text-white flex items-center font-extralight">
-                                    <p>{user?.username[0].toUpperCase()}</p>
-                                </AvatarFallback>
-                                {data.avatar && <img src={data.avatar} alt="" className="w-full h-full object-cover" />}
                             </Avatar>
                             <Upload
-                        
-                            onChange={(info) => {
-                               setFile(info.file)
-                            }}
+                                beforeUpload={() => false}
+                                onChange={(info) => {
+                                    setFile(info.file)
+                                    //    console.log(info);
+
+                                }}
                             >
                                 <Button
-                                // onClick={hanldeUpload}
-                                icon={<UploadOutlined />}>Tai lên ảnh</Button>
+                                    onClick={hanldeUpload}
+                                    icon={<UploadOutlined />}>Tai lên ảnh</Button>
                             </Upload>
                         </div>
                     </div>
-                </div> : <div>Loading ...</div>
+                </div> : "Loading .."
             }
 
         </div>

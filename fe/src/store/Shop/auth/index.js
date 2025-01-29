@@ -51,13 +51,55 @@ export const logoutUser = createAsyncThunk('/logoutUser',
         return response.data
     }
 )
+export const checkPassword = createAsyncThunk('/passwordCompare',
+    async ({password}, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(`${backendUrl}/api/v1/users/check-password`, {password},
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Cache-Control":
+                            "no-store, no-cache, must-revalidate, proxy-revalidate",
+                    },
+                }
+            )
+           
+            
+            return response.data
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+   
+    }
+)
+export const changePassword = createAsyncThunk('/changePassword',
+    async ({newPassword}, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(`${backendUrl}/api/v1/users/edit-password`, {newPassword},
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Cache-Control":
+                            "no-store, no-cache, must-revalidate, proxy-revalidate",
+                    },
+                }
+            )
+            return response.data
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }   
+    }
+)
 
 const shoppingAuthSlice = createSlice({
     name: 'shoppingAuth',
     initialState: {
         isAuthenticated: false,
         isLoading: true,
-        user: null
+        user: null,
+        checkpassMessage : null,
+        isMessage : true,
+        isNewPassword : false
     },
     reducers: {
         setUser: (state, action) => { },
@@ -98,6 +140,22 @@ const shoppingAuthSlice = createSlice({
             state.isLoading = false;
             state.user = null;
             state.isAuthenticated = false
+        }).addCase(checkPassword.pending, (state) => {
+            state.isMessage = true
+            state.checkpassMessage = null
+        }).addCase(checkPassword.fulfilled, (state, action) => {
+            state.isMessage = false;
+            state.checkpassMessage = action.payload.message
+        }).addCase(checkPassword.rejected, (state, action) => {
+            state.isMessage = false;
+            state.checkpassMessage = action.payload
+            
+        }).addCase(changePassword.pending, (state) => {
+            state.isNewPassword = true
+        }).addCase(changePassword.fulfilled, (state, action) => {
+            state.isNewPassword = false
+        }).addCase(changePassword.rejected, (state, action) => {
+            state.isNewPassword = true
         })
     }
 })

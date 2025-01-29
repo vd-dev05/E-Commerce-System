@@ -1,16 +1,26 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaCartShopping } from "react-icons/fa6";
 import { LogOut, Settings, UserCog2 } from 'lucide-react'
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 const AvartarHeader = ({ user, handleLogout }) => {
+
+
     return (<DropdownMenu >
         <DropdownMenuTrigger asChild>
-            <Avatar className="bg-black cursor-pointer">
-                <AvatarFallback className="bg-black text-white flex items-center font-extralight">
-                    <p>{user?.username[0].toUpperCase()}</p>
-                </AvatarFallback>
-            </Avatar>
+            {user?.avartar
+                ? 
+                <Avatar className="cursor-pointer">
+                    <AvatarImage src={user?.avartar} alt={user?.username} />
+                </Avatar>
+                :
+                <Avatar className="bg-black cursor-pointer">
+                    <AvatarFallback className="bg-black text-white flex items-center font-extralight">
+                        <p>{user?.username[0].toUpperCase()}</p>
+                    </AvatarFallback>
+                </Avatar>}
+
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" className="w-56 mr-8 mt-4">
             <DropdownMenuLabel className="text-md">Hello, {user?.username}</DropdownMenuLabel>
@@ -23,8 +33,11 @@ const AvartarHeader = ({ user, handleLogout }) => {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-                <FaCartShopping className='mr-2 size-4' />
-                <p>Đơn mua</p>
+                <Link to='/shop/profile/purchase' className="flex">
+                    <FaCartShopping className='mr-2 size-4' />
+                    <p>Đơn mua</p>
+                </Link>
+
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>

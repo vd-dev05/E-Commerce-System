@@ -1,3 +1,4 @@
+import Setting from "@/components/shop/profile/delete";
 import OrderProfile from "@/components/shop/profile/order/order";
 import PaymentProfile from "@/components/shop/profile/payment";
 import CheckOutPayment from "@/components/shop/profile/payment/checkout";
@@ -48,6 +49,7 @@ const RootRouter = () => {
                         <Route path="voucher" element={<div>test</div>} />
                         <Route path="payment" element={<PaymentProfile/>}/>
                         <Route path="payment/checkout" element={<CheckOutPayment/>}/>
+                        <Route path="setting" element={<Setting/>}/>
                     </Route>
                 </Route>
                 {/* manager router */}

@@ -32,9 +32,17 @@ function formatTimeCountDown(time) {
 
 function formatDate(date) {
   return new Intl.DateTimeFormat("en-US", {
+
     year: "numeric",
     month: "long",
     day: "numeric",
+  }).format(new Date(date));
+}
+function formatTime(date) {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
   }).format(new Date(date));
 }
 function mapCategoryFromUrl(path) {
@@ -63,5 +71,5 @@ export {
   formatTitleLenght,
   locationQuery,
   locationPath,
-  formatPriceUSD
+  formatPriceUSD,formatTime
 }

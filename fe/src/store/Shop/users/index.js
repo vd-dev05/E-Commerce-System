@@ -46,6 +46,12 @@ export const editProfile = createAsyncThunk('editProfile' , async (data) => {
     })
     return response.data
 })
+export const    getCoinTransaction = createAsyncThunk('getCoinTransaction' , async () => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/get-coin-transaction`, {
+        withCredentials: true,
+    })
+    return response.data
+})
 const shoppingProduct = createSlice({
     name: 'shoppingProduct',
     initialState: {
@@ -54,7 +60,9 @@ const shoppingProduct = createSlice({
         avatar: null,
         isSuccessCoin : false,
         coinUpdate : null,
-        isSuccesEdit : false
+        isSuccesEdit : false,
+        coinTransaction : null,
+        isTransaction : false
     },
     reducers: {
         setProduct: (state, action) => { },
@@ -95,15 +103,21 @@ const shoppingProduct = createSlice({
             })
             .addCase(getCoinPaypal.rejected, (state) => { state.isLoading = false })
         builder
-            .addCase(editProfile.pending, (state) => { state.isLoading = true })
+            .addCase(editProfile.pending, (state) => { state.isSuccesEdit = false })
             .addCase(editProfile.fulfilled, (state, action) => {
-                state.isLoading = false
                 if (action.payload?.success === true) {
                     state.isSuccesEdit = true
-                    state.user = action.payload.data.user
                 }
             })
-            .addCase(editProfile.rejected, (state) => { state.isLoading = false })
+            .addCase(editProfile.rejected, (state) => {state.isSuccesEdit = false })
+        builder
+            .addCase(getCoinTransaction.pending , (state) => { state.isLoading = false , state.isTransaction = false})
+            .addCase(getCoinTransaction.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.coinTransaction = action.payload
+                state.isTransaction = true
+            })
+            .addCase(getCoinTransaction.rejected, (state) => { state.isLoading = false , state.isTransaction = false})
     }
 
 })
