@@ -4,6 +4,7 @@ import { createProduct, deleteProduct, fetchProductsByManager, updateProduct, up
 import { managerAuthMiddleware, validateManagerInput } from "../../../middlewares/authMiddleware.js";
 import { checkAuth, login, logout, register } from "../../../controllers/manager/auth/managerController.js";
 import { createCategoryByManager, deleteCategoryByManager, listCategoryByManager, updateCategoryByManager } from "../../../controllers/manager/products/categoryController.js";
+import { createVoucher } from "../../../controllers/manager/products/voucherController.js";
 
 const manageRouter = express.Router();
 
@@ -34,5 +35,7 @@ manageRouter.delete("/products/delete/:managerId/:productId", deleteProduct);
 manageRouter.get("/products/list/:managerId", fetchProductsByManager);
 manageRouter.get("/products/list-details/:managerId/:productId", fetchProductsByManager);
 
+// Voucher manager
+manageRouter.post('/voucher/create', createVoucher)
 
 export default manageRouter

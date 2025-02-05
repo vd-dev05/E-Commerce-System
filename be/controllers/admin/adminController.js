@@ -84,7 +84,7 @@ const adminController = {
         } catch (error) {
             // ErrorNotFoundResponse(res, error.message = "Get Trafic users failed");
         }
-    }
+    },
 }
 
 export default adminController;

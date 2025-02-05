@@ -13,7 +13,12 @@ const userSchema = mongoose.Schema({
     last_login: { type: Date, default: Date.now },
     is_temporary: { type: Boolean, default: false },
     avartar: { type: String },
-    address: [{ type: String }],
+    address: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'address'
+        }
+    ],
     product : [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -28,7 +33,13 @@ const userSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'transition'
         }
-    ]
+    ],
+    historySearch : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'search'
+        }
+    ],
 
     
 }, { timestamps: true })
