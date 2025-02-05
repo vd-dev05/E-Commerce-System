@@ -51,7 +51,7 @@ const Profile = () => {
                             </li> */}
                             <li className={currentPath === '/shop/profile/voucher' ? 'bg-zinc-200' : ''}>
                                 <Link to={'voucher'}>
-                                    Voucher
+                                    Kho Voucher
                                 </Link>
                             </li>
                             <li className={(currentPath === '/shop/profile/payment' || currentPath === '/shop/profile/payment/checkout') ? 'bg-zinc-200' : ''}>

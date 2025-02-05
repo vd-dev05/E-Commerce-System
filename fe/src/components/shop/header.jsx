@@ -2,39 +2,27 @@ import { shoppingHeaderItems } from "@/config";
 import { Link, useNavigate } from "react-router";
 import { Search, ShoppingCart, User } from 'lucide-react'
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
 import { useEffect, useState } from "react";
 import AvartarHeader from "./avartar";
 import CartShop from "./cart";
 import { toast } from "@/hooks/use-toast";
+import { message } from "antd";
+import { createSearch, getSearch } from "@/store/Shop/users";
 
-
-const dataFakeSearch = [
-    {
-        id: 1,
-        label: "Áo thun",
-        qery: "ao-thun"
-    },
-    {
-        id: 2,
-        label: "Quan",
-        qery: "quan"
-    },
-    {
-        id: 3,
-        label: "Giay",
-        qery: "giay"
-    },
-
-]
 
 const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
     const dispatch = useDispatch()
     const [isHovered, setIsHovered] = useState(false);
+    const [search, setSearch] = useState('')
+    const { isSearch ,  payloadSearch} = useSelector(state => state.shoppingProduct)
     useEffect(() => {
         dispatch(checkAuthUser())
+        dispatch(getSearch(search))
     }, [dispatch])
+
+    //   console.log(payloadSearch);
     const filteredHeaderItems = shoppingHeaderItems.filter(item => {
         if (isAuthenticated && (item.name === "login" || item.name === "register")) {
             return false;
@@ -49,6 +37,9 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
     //         }
     //     })
     // }
+   
+   
+    
     return (
         <header className="sticky top-0  bg-white z-40">
             <div className="min-w-full ">
@@ -71,15 +62,36 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
                     </div>
                     <div className="w-2/3  translate-y-3 flex flex-col gap-2">
                         <div className=" flex w-full border-2 border-gray-300 relative items-center">
-                            <input type="text" placeholder="Tìm kiếm sản phẩm" className="py-2 pl-8 w-full" />
-                            < Search size={30} className="cursor-pointer size-8 absolute right-2 text-gray-400 hover:text-red-600" />
+                            <input
+                            onChange={(e) => setSearch(e.target.value.replace(/<|>|&|"/g, ''))}
+                            onKeyDown={(e) => {
+                                if (isAuthenticated === false) return message.error("Vui lòng đăng nhập để sử dụng chức năng tìm kiếm")
+                                if (!search && e.key === 'Enter') message.error("không tìm thấy giá trị tìm kiếm ")
+                                if (e.key === 'Enter' ) {
+                                    // console.log(search);
+                                    dispatch(createSearch({search}))
+                                    navigate(`/shop/search?q=${search}`)
+                              
+                                }
+                            }}
+
+                            type="text" placeholder="Tìm kiếm sản phẩm" className="py-2 pl-8 w-full" />
+                            < Search
+                            onClick={() => {
+                                if (search ) dispatch(createSearch(search))
+                                else {
+                                    message.error("không tìm thấy giá trị tìm kiếm ")
+                                }
+                            } }
+                            size={30} className="cursor-pointer size-8 absolute right-2 text-gray-400 hover:text-red-600" />
                         </div>
                         <div className="  flex px-4 gap-x-4">
-                            {dataFakeSearch.map((item) => (
+                            {isSearch === true && payloadSearch.map((item) => (
                                 <Link
                                     className="text-xs"
-                                    key={item.id} to={`/shop/search?q=${item.qery}`}>{item.label}</Link>
+                                    key={item?._id} to={`/shop/search?q=${item.search}`}>{item.search}</Link>
                             ))}
+                           
                         </div>
                     </div>
                     <div className="flex items-center justify-center gap-8">

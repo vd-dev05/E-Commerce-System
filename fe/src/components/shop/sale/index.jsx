@@ -74,13 +74,13 @@ const SaleProducts = ({increment,count,auth}) => {
                 <Link to="/all-deals">Xem tất cả</Link>
             </div>
 
-            <div className="grid grid-cols-6 gap-2 py-2 px-5 bg-slate-500">
+            <div className="grid grid-cols-6 gap-2 py-2 px-5  drop-shadow-md bg-slate-50">
                 {isLoading ? (
                     <div>Loading...</div>
                 ) : (
                     data.map((item) => (
-                        <div key={item.id} className="flex items-center gap-2 flex-col hover:scale-105 group">
-                            <div className="w-full h-4/6 bg-gray-200 rounded-md overflow-hidden relative">
+                        <div key={item.id} className="flex items-center gap-2 flex-col  ">
+                            <div className="w-full h-4/6 bg-gray-200 rounded-md overflow-hidden relative hover:scale-105 group">
                                 <span className='absolute top-2 left-2 bg-red-500 text-white text-xs py-1 px-4 rounded-lg'>{item.discount_type ? '-' + item.discount_type + '%' : ''}</span>
                                 <img src={item.url} alt={item.name} className="w-full h-full object-cover " />
                                 <button
@@ -111,7 +111,10 @@ const SaleProducts = ({increment,count,auth}) => {
                                 size={20}
                                className="absolute top-2 right-2 w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
-                            <div className="w-full flex flex-col text-left text-nowrap">
+                            <div className="w-full flex flex-col text-left text-nowrap cursor-pointer"
+                            onClick={() => console.log(item)
+                            }
+                            >
                                 <h3 className="text-lg">{item.name ? formatTitle(item.name) : ''}</h3>
                                 <div className="flex items-center justify-between">
                                     <p className="text-[17px]">{item.price ? formatPrice(item.price) : 0} VNĐ</p>
@@ -121,6 +124,7 @@ const SaleProducts = ({increment,count,auth}) => {
                                 </div>
                             </div>
                         </div>
+                        
                     ))
                 )}
             </div>
