@@ -45,7 +45,7 @@ const adminController = {
         const users = await UserModel.find()
         .skip(skip)
         .limit(limit)
-        .select('-__v  -updatedAt -password') ;
+        .select('-__v  -updatedAt -password') 
         
         res.json({
             success: true,
@@ -85,6 +85,7 @@ const adminController = {
             // ErrorNotFoundResponse(res, error.message = "Get Trafic users failed");
         }
     },
+  
 }
 
 export default adminController;

@@ -39,9 +39,7 @@ const userSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'search'
         }
-    ],
-
-    
+    ],    
 }, { timestamps: true })
 const UserModel = mongoose.model('user', userSchema)
 

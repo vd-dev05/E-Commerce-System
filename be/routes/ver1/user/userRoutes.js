@@ -10,6 +10,7 @@ import { ChangePassword, EditPassword } from "../../../controllers/user/edit/pas
 import TransitionsController from "../../../controllers/user/transition/index.js";
 import AddressProfile from "../../../controllers/user/address/index.js";
 import SearchController, { getSearch } from "../../../controllers/user/searchHistory/index.js";
+import Products from "../../../controllers/user/products/products.js";
 const usersRouter = express.Router();
 
 // usersRouter.post('/countdown/start',CountDown.getTimeStart)
@@ -30,6 +31,9 @@ usersRouter.put('/address/:id', authMiddleware,AddressProfile.updateAddress)
 usersRouter.post('/search/create', authMiddleware,SearchController)
 usersRouter.get('/search', authMiddleware,getSearch)
 usersRouter.get('/get-voucher' , authMiddleware, )
+usersRouter.get('/products', authMiddleware,Products.getAllProducts)
+usersRouter.post('/products',Products.getQueryProducts)
+usersRouter.get('/products/:id', Products.getProductById)
 usersRouter.post('/', (req,res) => { console.log("tets");
 } )
 
