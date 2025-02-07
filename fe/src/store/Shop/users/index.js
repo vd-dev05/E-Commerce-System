@@ -112,6 +112,21 @@ export const getVoucher = createAsyncThunk('/getVoucher', async () => {
     })
     return response.data
 })
+
+export const postQueryProduct = createAsyncThunk('/postQueryProduct', async (data) => {
+    // console.log(data);
+    
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products?query=${data}`, {
+        withCredentials: true,
+    })
+    return response.data
+})
+export const getProductById = createAsyncThunk('/getProductById', async (id) => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products/${id}`, {
+        withCredentials: true,
+    })
+    return response.data
+})
 const shoppingProduct = createSlice({
     name: 'shoppingProduct',
     initialState: {
@@ -131,10 +146,30 @@ const shoppingProduct = createSlice({
         isSearch : false,
         payloadSearch : null,
         isActiveVoucher : false,
-        payloadVoucher : null
+        payloadVoucher : null,
+        isProducts : false,
+        payloadProducts : null,
+        items: [],
+        cartIndex : 0
     },
     reducers: {
         setProduct: (state, action) => { },
+        addToCart: (state, action) => {
+            state.items.push(action.payload);
+            state.cartIndex += 1
+            // state.totalPrice += action.payload.price;
+            // state.isCartEmpty = false;
+            // Lưu trữ state vào localStorage
+            // localStorage.setItem('cart', JSON.stringify(state));
+          },
+        removeToCart : (state,action) => {
+            if (state.cartIndex === 0) {
+                    return 
+            } else {
+                state.cartIndex -= 1;
+            }        
+          
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -224,9 +259,26 @@ const shoppingProduct = createSlice({
                 state.payloadSearch = action?.payload?.search
             })
             .addCase(getSearch.rejected, (state) => { state.isSearch = false })
+        builder
+            .addCase(postQueryProduct.pending, (state) => { state.isProducts = false , state.payloadProducts = null})
+            .addCase(postQueryProduct.fulfilled, (state, action) => {
+                state.isProducts = true
+                state.payloadProducts = action?.payload?.products
+                // console.log(action.payload);
+                
+            })
+            .addCase(postQueryProduct.rejected, (state) => { state.isProducts = false , state.payloadProducts = null})
+        builder
+            .addCase(getProductById.pending, (state) => { state.isProducts = false , state.payloadProducts = null})
+            .addCase(getProductById.fulfilled, (state, action) => {
+                state.isProducts = true
+                state.payloadProducts = action?.payload?.products
+
+            })
+            .addCase(getProductById.rejected, (state) => { state.isProducts = false , state.payloadProducts = null})
         }
 
 })
 
-export const { setProduct } = shoppingProduct.actions
+export const { setProduct, addToCart, removeToCart } = shoppingProduct.actions
 export default shoppingProduct.reducer

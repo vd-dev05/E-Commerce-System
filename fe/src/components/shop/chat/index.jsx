@@ -11,11 +11,7 @@ const UserChat = () => {
             {isOpen 
             ? 
             <ChatDetails setIsOpen={setIsOpen}  isOpen={isOpen}/>
-            // <div 
-            // onClick={() => setIsOpen(!isOpen)}
-            // className="">
-            //   Chat
-            // </div> 
+          
             :
             
               <button

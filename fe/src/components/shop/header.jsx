@@ -52,7 +52,9 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
                         ))
                     }
                 </div>
-                <div className=" flex items-center justify-between px-4 py-2">
+                <div
+                onMouseLeave={() => setIsHovered(false)}
+                className=" flex items-center justify-between px-4 py-2">
                     <div className="w-64">
                         <Link to="/shop/home">
                             <h1 className="text-2xl font-bold">
@@ -108,7 +110,7 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
                                  
                                 // }
                             }}
-                            onMouseLeave={() => setIsHovered(false)}
+                            // onMouseLeave={() => setIsHovered(false)}
                             className="cursor-pointer relative ">
                             <ShoppingCart size={28} />
                             <p className={`${count > 0 ? "visible" : "invisible"} absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white`}>{count}</p>

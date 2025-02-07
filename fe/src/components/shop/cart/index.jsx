@@ -1,5 +1,7 @@
 import { assets } from "@/assets/assets";
 const CartShop = () => {
+
+
     return (
         <div className="w-[400px] h-[400px] bg-white drop-shadow-md rounded-md  absolute top-10 right-0">
             <div className="flex gap-2 p-2 justify-between items-center">

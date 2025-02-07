@@ -1,19 +1,23 @@
 import { toast } from "@/hooks/use-toast";
 import { Button } from "antd";
 import { Menu } from "lucide-react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa6";
 import queryString from "query-string";
-import { locationQuery } from "@/lib/utils";
+import { locationQuery, locationPath, mapCategoryFromUrl } from "@/lib/utils";
+import { postQueryProduct } from "@/store/Shop/users";
 const FilterProduct = () => {
     const { routeData, isLoading } = useSelector(state => state.shoppingProduct)
     const [visibleItems, setVisibleItems] = useState(5);
+    const dispatch = useDispatch()
 
-    const query = queryString.parse(locationQuery())   
-    const  navigate = useNavigate()
+    const path = locationPath() 
+
+    const query = queryString.parse(locationQuery())
+    const navigate = useNavigate()
     const [price, setPrice] = useState({
         min: 0,
         max: 0
@@ -30,10 +34,15 @@ const FilterProduct = () => {
 
     }
     const handleShowMore = () => { setVisibleItems(routeData.length); };
+    useEffect(() => {
+        const pathSplit = decodeURI(path.split('/shop/listing/')[1])
+        dispatch( postQueryProduct(pathSplit))
+    }, [path])
+    
     return (
         <div className="flex flex-col gap-5">
             <Link
-                to={'/shop/all_categories'}
+                // to={'/shop/all_categories'}
                 className="flex gap-2 items-center">
                 <span><Menu /></span>
                 <h2>Tất cả danh mục</h2>
@@ -88,10 +97,10 @@ const FilterProduct = () => {
                 {[...Array(5)].map((item, index) => (
                     <span
                         onClick={() => {
-                          if (!query.ratingFilter || query.ratingFilter !== index + 1) {
-                            let newQuery = { ...query, ratingFilter: 5 - index };
-                            navigate(`?${queryString.stringify(newQuery)}`);
-                          }
+                            if (!query.ratingFilter || query.ratingFilter !== index + 1) {
+                                let newQuery = { ...query, ratingFilter: 5 - index };
+                                navigate(`?${queryString.stringify(newQuery)}`);
+                            }
                         }}
                         key={index} className="flex space-x-1 gap-2 px-2 my-2 ">
                         {[...Array(5 - index)].map((_, i) => (

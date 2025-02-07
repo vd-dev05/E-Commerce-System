@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router";
 const Voucher = () => {
     const location = useLocation()
     const query = queryString.parse(location.search)
-   
+    
     return (
 
         <div className="space-y-4 p-4 bg-white rounded shadow">
@@ -16,10 +16,10 @@ const Voucher = () => {
                 <input type="text" placeholder="Nhập mã voucher tại đây" className="block w-full border border-gray-300 rounded p-2" />
             </div>
             <div className="flex space-x-4">
-                <Link to={`?type=0`} className="text-blue-500 hover:underline">Tất cả</Link>
-                <Link to={`?type=1`} className="text-blue-500 hover:underline">E-com</Link>
-                <Link to={`?type=2`} className="text-blue-500 hover:underline">Shop</Link>
-                <Link to={`?type=3`} className="text-blue-500 hover:underline">Scan</Link>
+                <Link to={`?type=0`} className="text-blue-500 hover:underline">Tất cả <span>(10)</span></Link>
+                <Link to={`?type=1`} className="text-blue-500 hover:underline">E-com <span>(5)</span></Link>
+                <Link to={`?type=2`} className="text-blue-500 hover:underline">Shop <span>(3)</span></Link>
+                <Link to={`?type=3`} className="text-blue-500 hover:underline">Scan <span>(2)</span></Link>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

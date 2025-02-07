@@ -33,7 +33,6 @@ const SaleProducts = ({increment,count,auth}) => {
     // Khi kết nối với socket
     useEffect(() => {
         const socket = io(`${import.meta.env.VITE_REACT_APP_SOCKET_APP}`);
-        console.log(socket);
         socket.on('countdown', (time) => {
         
             

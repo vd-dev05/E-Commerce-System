@@ -23,6 +23,8 @@ import ShoppingHome from "@/pages/shop/Home";
 import ShoppingLogin from "@/pages/shop/login";
 import Profile from "@/pages/shop/profile";
 import ShoppingRegsiter from "@/pages/shop/regsiter";
+import ShoppingCart from "@/pages/shop/shoppingCart";
+import ShoppingPayment from "@/pages/shop/shoppingPayment";
 import { Navigate, Route, Routes } from "react-router"
 const RootRouter = () => {
     return (
@@ -37,7 +39,9 @@ const RootRouter = () => {
                     <Route path="login" element={<ShoppingLogin />} />
                     <Route path="register" element={<ShoppingRegsiter />} />
                     <Route path="listing/:id" element={<ProductDetails/>}/>
-                    <Route path="listing/:id/:card" element={<CardProduct/>}/>
+                    <Route path="listing/:id/:cardId" element={<CardProduct/>}/>
+                    <Route path="cart" element={<ShoppingCart/>} />
+                    <Route path="checkout/:id" element={<ShoppingPayment/>}/>
                     <Route path="all_categories" element={<AllCategory/>} />
                     <Route path="profile" element={<Profile/>}>
                         <Route path="user" element={<UserProfile/>}>

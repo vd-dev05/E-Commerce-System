@@ -11,15 +11,14 @@ import { formatTitleLenght, formatPrice, locationQuery } from "@/lib/utils";
 import { FaStar } from "react-icons/fa";
 import queryString from "query-string";
 import { useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const ProductDetails = () => {
-    // const location = useLocation()
-    // const path = queryString.parse(location.pathname)
+    const {payloadProducts ,isProducts} = useSelector(state => state.shoppingProduct)
+    // console.log(payloadProducts , isProducts);
+    
     const query = queryString.parse(locationQuery())
     
-    
-    // const checkquery = location.search.split('?')
-    // console.log(  queryString.parse(location.search));
     
     const nav = useNavigate()   
     const data = [{ name: 'Product 1', price: '$10', image: '/images/product1.jpg' },
@@ -98,26 +97,26 @@ const ProductDetails = () => {
             {/* list Product */}
 
             <div className=" grid grid-cols-5 gap-y-5 gap-x-2 ">
-                {[...Array(20)].map((item, index) => (
+                {payloadProducts?.map((item, index) => (
                     <div
                     onClick={() => {
-                        window.location.href=`${location.pathname}/card`
+                        window.location.href=`${location.pathname}/${item._id}/`
                     }}
                     key={index} className="drop-shadow-2xl hover:border-red-500 hover:border-2 cursor-pointer duration-75 ">
                         <img
                             className="h-[200px] w-full"
                             src="https://picsum.photos/200/300" alt="anh product" />
                         <div className="px-2">
-                            <h3>{formatTitleLenght(" Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta nihil explicabo, incidunt deserunt corrupti esse numquam inventore quisquam, ullam ex hic facere consequuntur necessitatibus voluptates ad, placeat perferendis? Est, nobis Molestias quidem fuga nihil maiores eos facere sint a est debitis deserunt totam modi, reiciendis expedita maxime distinctio quasi? Veniam, est corporis quisquam fuga dicta aut nisi quos obcaecati libero?")}</h3>
+                            <h3>{formatTitleLenght(item.name)}</h3>
 
                             <div className="flex items-center gap-2" >
-                                <span>{formatPrice(price)}</span>
-                                <span className="bg-[#ffeeec] text-orange-400 px-2 py-1 rounded">-20 %</span>
+                                <span>{formatPrice(item.salePrice)}</span>
+                                <span className="bg-[#ffeeec] text-orange-400 px-2 py-1 rounded line-through">{formatPrice(item.price)}</span>
                             </div>
 
                             <div className="text-xs flex justify-start gap-5">
                                 <span className="flex items-center ">< FaStar className="text-yellow-300" /> 4.9</span>
-                                <span className="">Đã bán</span>
+                                <span className="">Đã bán 3k</span>
                             </div>
                         </div>
                     </div>
