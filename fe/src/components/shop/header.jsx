@@ -9,17 +9,18 @@ import AvartarHeader from "./avartar";
 import CartShop from "./cart";
 import { toast } from "@/hooks/use-toast";
 import { message } from "antd";
-import { createSearch, getSearch } from "@/store/Shop/users";
+import { createSearch, getSearch, getToCartProduct } from "@/store/Shop/users";
 
 
 const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
     const dispatch = useDispatch()
     const [isHovered, setIsHovered] = useState(false);
     const [search, setSearch] = useState('')
-    const { isSearch ,  payloadSearch} = useSelector(state => state.shoppingProduct)
+    const { isSearch ,  payloadSearch , payloadCartProduct , totalCart} = useSelector(state => state.shoppingProduct)
     useEffect(() => {
         dispatch(checkAuthUser())
         dispatch(getSearch(search))
+        if (payloadCartProduct === null) dispatch(getToCartProduct())
     }, [dispatch])
 
     //   console.log(payloadSearch);
@@ -113,7 +114,7 @@ const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
                             // onMouseLeave={() => setIsHovered(false)}
                             className="cursor-pointer relative ">
                             <ShoppingCart size={28} />
-                            <p className={`${count > 0 ? "visible" : "invisible"} absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white`}>{count}</p>
+                            <p className={`${totalCart > 0 ? "visible" : "invisible"} absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white`}>{totalCart}</p>
                             {isHovered && (
                               <CartShop/>
                             )}

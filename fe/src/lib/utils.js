@@ -61,6 +61,19 @@ const locationPath = () =>   {
   const location = useLocation()
   return location.pathname;
 }
+function formatRatingLengt(rating) {
+  if (rating >= 1000) {
+    return `${Math.floor(rating / 1000)}k`;
+  } 
+  else if (rating >= 1500 ) {
+    return `${Math.floor(rating / 1000)}k`;
+  } 
+  else if (rating >= 2000) {
+    return `${Math.floor(rating / 1000)}k`;
+  } else {
+    return String(rating);
+  }
+}
 export {
   formatPrice,
   formatTitle,
@@ -71,5 +84,5 @@ export {
   formatTitleLenght,
   locationQuery,
   locationPath,
-  formatPriceUSD,formatTime
+  formatPriceUSD,formatTime,formatRatingLengt
 }
