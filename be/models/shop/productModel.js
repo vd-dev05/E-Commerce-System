@@ -66,6 +66,11 @@ const ProductSchema = new mongoose.Schema({
             ],
         },
     ],
+    imdb : {
+        rating : {type : Number },
+        votes : {type : Number},
+        id : {type: mongoose.Schema.Types.ObjectId}
+    }
 
 }, { timestamps: true });
 
