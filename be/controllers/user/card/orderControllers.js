@@ -9,22 +9,34 @@ const OrderController = {
         try {
             const { totalAmount, paymentStatus, paymentEcom, paymentMeThod, dataProduct, paymentSuccess } = req.body
 
-            const arr = req.body.dataProduct?.map(item => ({
-                productId: item.productId._id,
-                salePrice: item.salePrice,
-                price: item.price,
-                variants: {
-                    attributes: item?.variants[0]?.attributes.map((i) => ({
-                        name: i.name,
-                        value: i.value
-                    })),
-                    quantity: item?.variants[0]?.quantity,
-                    priceBeta: item?.variants[0]?.priceBeta,
-                },
-
-
-            }));
-
+            const arr = req.body.dataProduct?.map(item => {
+                if (item?.variants?.length === 0) {
+                    return {
+                        productId: item.productId._id,
+                        salePrice: item.salePrice,
+                        price: item.price,
+                        variants: {
+                            attributes: [],
+                            quantity: 0,
+                            priceBeta: 0,
+                        },
+                    };
+                }
+                return {
+                    productId: item.productId._id,
+                    salePrice: item.salePrice,
+                    price: item.price,
+                    variants: {
+                        attributes: item?.variants[0]?.attributes.map((i) => ({
+                            name: i.name,
+                            value: i.value
+                        })),
+                        quantity: item?.variants[0]?.quantity,
+                        priceBeta: item?.variants[0]?.priceBeta,
+                    },
+                };
+            });
+            // res.json(arr)
             const data = {
                 userId: req.user.id,
                 address: '',
@@ -37,16 +49,16 @@ const OrderController = {
                 totalAmount: totalAmount,
                 isStatus: 'pending'
             }
+
             const checkOrder = await OrderModel.findOne({ userId: req.user.id, "products.productId": { $in: arr.map(item => item.productId) } })
-            
-            if (checkOrder) return res.status(200).json({success: false , message : "Order tồn tại" , order : checkOrder})
-            
+
+            if (checkOrder) return res.status(200).json({ success: false, message: "Order tồn tại", order: checkOrder })
+
+
             if (data) {
-                const order = new OrderModel(data)
-                if (order) {
+                if (checkOrder) {
                     const productIds = dataProduct.map(item => item.productId._id);
                     const checkProducts = await ProductModel.find({ _id: { $in: productIds } });
-                    // console.log(checkProducts);
 
                     if (checkProducts && paymentStatus === "paid" && paymentSuccess === true) {
                         checkProducts.forEach(product => {
@@ -64,28 +76,31 @@ const OrderController = {
                                     }
                                 });
 
-                                product.save();
+                                // product.save();
 
                             });
 
 
                         });
+                        res.status(200).json({ message: "thanh toan thanh cong", success: true })
 
-
+                    } else {
+                        res.status(403).json({message : "chua du dieu kien",success: false})
                     }
-
-                    if (checkProducts && paymentSuccess === false) {
-                        // await order.save()
-
+                } else if (!checkOrder && paymentSuccess === false) {
+                        const order = new OrderModel({ ...data, paymentMeThod: paymentMeThod })
+                        await order.save()
                         res.status(200).json({
                             message: "Order created successfully",
-                            //   order ,
+                            order,
                             success: true
                         });
-                    }
                 } else {
                     res.status(404).json({ message: "not found Order", success: false })
                 }
+            } else {
+                console.log("ko co ");
+
             }
 
             // const checkQuantityProduct = await OrderModel.findOneAndUpdate(

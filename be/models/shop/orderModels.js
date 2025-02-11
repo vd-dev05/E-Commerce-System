@@ -62,7 +62,9 @@ const orderModel = mongoose.Schema({
     },
     paymentMeThod : {
          type : String,
-        enum : ['paypal', 'momo', 'qrcode', 'cod', 'bank_transfer', 'bank_ecom', 'default']
+        enum : ['paypal', 'momo', 'qrcode', 'cod', 'bank_transfer', 'bank_ecom', 'default'],
+        default : 'default',
+        require : true
     } ,
     totalAmount : {
         type : Number,
