@@ -1,6 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { formatPrice, formatTitleLenght } from "@/lib/utils";
-import { addToCart, createOrder, getCoinPaypal, getToCartProduct, removeAllCart, removeToCart, removeToCartProduct } from "@/store/Shop/users";
+import {  createOrder, getCoinPaypal, getToCartProduct, removeAllCart, removeToCartProduct } from "@/store/Shop/users/userThunk";
+import { addToCart, removeToCart } from "@/store/Shop/users";
 import { message, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +29,7 @@ const ShoppingCart = () => {
     const dispatch = useDispatch();
     const nav = useNavigate();
 
-    const { coinUpdate, payloadCartProduct, totalCart, payloadOrder, isOrder, messageOrder } = useSelector(
+    const { coinUpdate, payloadCartProduct, totalCart, payloadOrder, isOrder, messageOrder, isLoading } = useSelector(
         (state) => state.shoppingProduct
     );
     const [IsPrice, setIsPrice] = useState(false);
@@ -36,10 +37,17 @@ const ShoppingCart = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [dataProduct, setDataProduct] = useState()
     const [paymentEcom, setpaymentEcom] = useState(false)
-
+   
     const handleSelect = (e) => {
         setIsPrice(e.target.value === "usd");
     };
+    // useEffect(() => {
+    //     if (isOrder === true && messageOrder === "Order tồn tại" && !isNav) {
+    //         nav(`/shop/checkout/${payloadOrder._id}`)
+    //     }
+    //     console.log(isOrder, messageOrder , isNav);
+
+    // }, [isNav])
 
 
     useEffect(() => {
@@ -298,12 +306,7 @@ const ShoppingCart = () => {
                                             }
 
                                             if (dataProduct.length > 0 && dataProduct) {
-                                                // console.log(totalAmountUpdate);
-                                                // console.log(paymentEcom);
-                                                // console.log(dataProduct);
-                                                // console.log(selectProduct);
-                                                console.log(isOrder);
-                                                
+
                                                 dispatch(createOrder({
                                                     paymentStatus: paymentEcom === true ? 'paid' : 'unpaid',
                                                     dataProduct,
@@ -312,14 +315,19 @@ const ShoppingCart = () => {
                                                     paymentMeThod: paymentEcom === true ? 'bank_ecom' : 'default',
                                                     paymentSuccess: false
                                                 }))
-                                                // if (isOrder === false) {
-                                                //     console.log(payloadOrder, isOrder , messageOrder);
-                                                // }
 
+                                                if (isLoading === false) {
+                                                    // const encodeIdarr = payloadOrder.map((item) => (item._id ? [item._id] : [])).flat() 
+                                                    // console.log(encodeIdarr);
+                                                    
+                                                    if (isOrder === true && messageOrder === "Order tồn tại") {
+                                                        nav(`/shop/checkout/${payloadOrder._id}?isSatus=false&payment=${payloadOrder.paymentMeThod}`)
+                                                    }
+                                                    if (isOrder === true && messageOrder === "Order created successfully") {
+                                                        nav(`/shop/checkout/${payloadOrder._id}?isSatus=true&payment=${payloadOrder.paymentMeThod}`)
+                                                    }
+                                                }
 
-                                                // if (isOrder === false && messageOrder === "Order tồn tại" ) {
-                                                //     nav('/shop/checkout/')
-                                                // }
 
                                             }
 

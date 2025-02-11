@@ -1,7 +1,7 @@
 import { toast } from "@/hooks/use-toast";
 import { formatPriceUSD } from "@/lib/utils";
 import { checkAuthUser } from "@/store/Shop/auth";
-import { orderCoinPayPal } from "@/store/Shop/users";
+import { orderCoinPayPal } from "@/store/Shop/users/userThunk";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { useEffect, useState } from "react";

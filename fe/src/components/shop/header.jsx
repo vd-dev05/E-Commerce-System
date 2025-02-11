@@ -9,7 +9,7 @@ import AvartarHeader from "./avartar";
 import CartShop from "./cart";
 import { toast } from "@/hooks/use-toast";
 import { message } from "antd";
-import { createSearch, getSearch, getToCartProduct } from "@/store/Shop/users";
+import { createSearch, getSearch, getToCartProduct } from "@/store/Shop/users/userThunk";
 
 
 const ShoppingHeader = ({ handleLogout, count }) => {

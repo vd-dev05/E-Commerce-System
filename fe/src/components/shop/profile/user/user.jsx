@@ -6,7 +6,7 @@ import React from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Spin, Upload } from 'antd';
 import axios from "axios";
-import { editProfile, uploadAvatar } from "@/store/Shop/users";
+import { editProfile, uploadAvatar } from "@/store/Shop/users/userThunk";
 import { checkAuthUser } from "@/store/Shop/auth";
 import { AvatarImage } from "@radix-ui/react-avatar";
 

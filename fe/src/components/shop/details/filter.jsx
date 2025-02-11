@@ -8,7 +8,7 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa6";
 import queryString from "query-string";
 import { locationQuery, locationPath, mapCategoryFromUrl } from "@/lib/utils";
-import { postQueryProduct } from "@/store/Shop/users";
+import { postQueryProduct } from "@/store/Shop/users/userThunk";
 const FilterProduct = () => {
     const { routeData, isLoading } = useSelector(state => state.shoppingProduct)
     const [visibleItems, setVisibleItems] = useState(5);

@@ -1,24 +1,26 @@
-import { editAddress, getAlladdress } from "@/store/Shop/users";
+import { editAddress, getAlladdress } from "@/store/Shop/users/userThunk";
+import { onpopstate } from "@/store/Shop/users";
 import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import React from 'react';
-import { message, Modal } from 'antd';
+import { message, Modal, Tooltip } from 'antd';
 import { Button } from "@/components/ui/button";
+import { formatTitleLenght } from "@/lib/utils";
 
 const ShoppingPayment = () => {
     const dispatch = useDispatch()
-    const { isAddress, addressPaydata, isUpdateAddress,addressMessage } = useSelector(state => state.shoppingProduct)
-    const [addressDefault,setaddressDefault] = useState(  )
+    const { isAddress, addressPaydata, isUpdateAddress, addressMessage } = useSelector(state => state.shoppingProduct)
+    const [addressDefault, setaddressDefault] = useState()
     const [selectedAddress, setSelectedAddress] = useState('')
     useEffect(() => {
         dispatch(getAlladdress())
-        if (  isAddress === true) {
+        if (isAddress === true) {
             const data = addressPaydata?.find((item) => item.is_default === true)
             setaddressDefault(data)
         }
-     
+
     }, [dispatch])
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -31,7 +33,7 @@ const ShoppingPayment = () => {
             setaddressDefault(addressPaydata?.find((item) => item.is_default === true))
             setIsModalOpen(false);
         }
-        
+
         // if (selectedAddress !== undefined || selectedAddress !== null) {
         //     handleUpdateStatus(selectedAddress, true)
 
@@ -59,6 +61,16 @@ const ShoppingPayment = () => {
         if (isUpdateAddress === true) message.success(addressMessage);
         // if (isUpdateAddress === false) message.error(addressMessage);
     }
+    useEffect(() => {
+        const handlePopstate = () => {
+            dispatch(onpopstate());
+        };
+        window.addEventListener("popstate", handlePopstate);
+        return () => {
+            window.removeEventListener("popstate", handlePopstate);
+        };
+    }, [dispatch]);
+
 
     return (
         <div>
@@ -99,7 +111,54 @@ const ShoppingPayment = () => {
                     </div>
                 </section>
                 <section className="bg-slate-50">
-              
+                    <div className="px-10 py-5 m-10 bg-white drop-shadow-sm">
+                        <h2 className="flex gap-2 text-red-500 text">Sản phẩm</h2>
+                        <table className="w-full text-[15px]">
+                            <thead>
+                                <tr className="bg-gray-100 grid grid-cols-6 gap-x-2">
+                                    <th className=" w-[1/6]"></th>
+                                    <th className="col-span-1"></th>
+                                    <th className="col-span-1"></th>
+                                    <th className="col-span-1">Đơn giá</th>
+                                    <th className="col-span-1">Số lượng</th>
+                                    <th className="col-span-1">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr className="grid grid-cols-6 gap-x-2 text-center">
+                                    <td className="col-span-3">
+                                        <div className="flex gap-10 w-full text-nowrap">
+                                            <div>
+                                                <img src="https://down-vn.img.susercontent.com/file/vn-11134201-7ras8-m2oplmyem6ti33@resize_w40_nl.webp" alt="" />
+                                            </div>
+                                            <div>
+                                                <Tooltip title={"Quần dài nam Daily Pants sợi Sorona, nhuộm Cleandye"}>
+                                                <h2>{formatTitleLenght("Quần dài nam Daily Pants sợi Sorona, nhuộm Cleandye", 15)}</h2>
+                                                </Tooltip>
+                                            </div>
+                                            <div>
+                                                Loại: ĐEN,M
+                                            </div>
+                                        </div>
+
+
+
+                                    </td>
+                                
+                                    <td className="col-span-1">₫259.000</td>
+                                    <td className="col-span-1">1</td>
+                                    <td className="col-span-1">₫259.000</td>
+                                </tr>
+                            </tbody>
+                            {/* <div className="py-10 space-x-1">
+                                <label htmlFor="">Lời Nhắn</label>
+                                <input
+                                    className="outline-none border-[1px] border-gray-500 text-[12px] p-2 rounded-sm "
+                                    type="text" placeholder="Luu i cho nguoi ban" />
+                            </div> */}
+                        </table>
+
+                    </div>
                 </section>
 
             </main>

@@ -1,5 +1,5 @@
 import AddressSelector from "@/components/ui/selectaddress";
-import { createAddress, editAddress, getAlladdress } from "@/store/Shop/users";
+import { createAddress, editAddress, getAlladdress } from "@/store/Shop/users/userThunk";
 import { message, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

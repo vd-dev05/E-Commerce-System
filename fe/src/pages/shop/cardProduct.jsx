@@ -3,7 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import ShoppingHeader from "@/components/shop/header";
 import { formatPrice, formatRatingLengt, locationPath, mapCategoryFromUrl } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, addToCartProduct, getProductById, removeToCart } from "@/store/Shop/users";
+import { addToCartProduct, getProductById } from "@/store/Shop/users/userThunk"; 
+import { addToCart, removeToCart ,} from "@/store/Shop/users"; 
+
 import { FaStar } from "react-icons/fa6";
 import { allcategory } from "@/config";
 import ProductsCustom from "@/hooks/products";
