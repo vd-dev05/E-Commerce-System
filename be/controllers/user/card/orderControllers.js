@@ -7,19 +7,23 @@ import ProductModel from "../../../models/shop/productModel.js";
 const OrderController = {
     addOrder: async (req, res) => {
         try {
-            const { totalAmount, paymentStatus, paymentEcom, paymentMeThod , dataProduct } = req.body
-            const arr = req.body.dataProduct.map(item => ({
+            const { totalAmount, paymentStatus, paymentEcom, paymentMeThod, dataProduct, paymentSuccess } = req.body
+
+            const arr = req.body.dataProduct?.map(item => ({
                 productId: item.productId._id,
-                quantity: item.quantity,
                 salePrice: item.salePrice,
-                attributes: item.attributes.map((i) => ({
-                    name: i.name,
-                    value: i.value
-                })),
-                price: item.price
+                price: item.price,
+                variants: {
+                    attributes: item?.variants[0]?.attributes.map((i) => ({
+                        name: i.name,
+                        value: i.value
+                    })),
+                    quantity: item?.variants[0]?.quantity,
+                    priceBeta: item?.variants[0]?.priceBeta,
+                },
+
 
             }));
-            // console.log(arr);
 
             const data = {
                 userId: req.user.id,
@@ -33,54 +37,56 @@ const OrderController = {
                 totalAmount: totalAmount,
                 isStatus: 'pending'
             }
-            // console.log(data);
+            const checkOrder = await OrderModel.findOne({ userId: req.user.id, "products.productId": { $in: arr.map(item => item.productId) } })
+            
+            if (checkOrder) return res.status(200).json({success: false , message : "Order tồn tại" , order : checkOrder})
+            
             if (data) {
                 const order = new OrderModel(data)
                 if (order) {
-                    // console.log(order);
                     const productIds = dataProduct.map(item => item.productId._id);
                     const checkProducts = await ProductModel.find({ _id: { $in: productIds } });
-                    // if (checkProducts)
-                    // console.log(checkProducts);                     
+                    // console.log(checkProducts);
 
-                    // res.status(200).json({message : "Create Order" , success: true})
-                    if (checkProducts && paymentStatus === "paid") {
+                    if (checkProducts && paymentStatus === "paid" && paymentSuccess === true) {
                         checkProducts.forEach(product => {
-                            product.attributes.forEach(item => {
+                            product.variants.forEach(item => {
                                 item.values.forEach(value => {
-                                    const orderProduct = arr.find(orderItem => 
-                                        orderItem.productId.toString() === product._id.toString() && 
+                                    const orderProduct = arr.find(orderItem =>
+                                        orderItem.productId.toString() === product._id.toString() &&
                                         orderItem.attributes.some(attr => attr.name === item.name && attr.value === value.value)
                                     );
-                                    // console.log(orderProduct);
-                                    console.log(value);
-                                    
-                                //    if (orderProduct) {
-                                //         value.quantity -= orderProduct.quantity;
-                                //         if (value.quantity < 0) {
-                                //             value.quantity = 0;
-                                //         }
-                                //     } 
+                                    if (orderProduct) {
+                                        value.quantity -= orderProduct.quantity;
+                                        if (value.quantity < 0) {
+                                            value.quantity = 0;
+                                        }
+                                    }
                                 });
 
-                                // product.save();
+                                product.save();
 
                             });
-                           
-                            
-                        });
-                   
 
+
+                        });
+
+
+                    }
+
+                    if (checkProducts && paymentSuccess === false) {
+                        // await order.save()
+
+                        res.status(200).json({
+                            message: "Order created successfully",
+                            //   order ,
+                            success: true
+                        });
                     }
                 } else {
                     res.status(404).json({ message: "not found Order", success: false })
                 }
             }
-
-            // const createOrder = await OrderModel.
-
-            // res.status(200).json("done")
-            // const idProduct = "6777a1eb38abf9bcc1feb941"
 
             // const checkQuantityProduct = await OrderModel.findOneAndUpdate(
             //     { "products.productId": idProduct },
@@ -92,21 +98,7 @@ const OrderController = {
             //     res.status(200).json("done");
             //     return;
             // }
-            // // const dataOrder = {
-            // //     userId: "677d5901b5fceb6a3ce4bf5d",
-            // //     address: "",
-            // //     phone: "",
-            // //     note: "",
-            // //     products: [
-            // //         {
-            // //             productId: idProduct,
-            // //             quantity: 1,
-            // //             isPaid: false,
-            // //         }
-            // //     ],
 
-            // //     _id: new mongoose.Types.ObjectId()
-            // // }
             // const order = await OrderModel.create(dataOrder)
             // const user = await UserModel.findById("677d5901b5fceb6a3ce4bf5d").select('cart').populate('cart')
             // user.cart.push(order._id)

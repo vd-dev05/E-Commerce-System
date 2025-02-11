@@ -43,29 +43,16 @@ const ProductSchema = new mongoose.Schema({
         },
         additionalImages: [String],
     },
-    attributes: [
-        {
-            name: {
-                type: String,
-                required: true,
-                trim: true,
-            },
-            values: [
-                {
-                    value: {
-                        type: String,
-                        required: true,
-                        trim: true,
-                    },
-                    quantity: {
-                        type: Number,
-                        required: true,
-                        min: 0,
-                    },
-                },
-            ],
-        },
-    ],
+    variants: [{
+        attributes: [{
+            name: { type: String, required: true }, // Tên thuộc tính (ví dụ: "Màu sắc", "Kích thước", "Chất liệu", v.v.)
+            value: { type: String, required: true }, // Giá trị của thuộc tính (ví dụ: "Trắng", "L", "Vải cotton", v.v.)
+        }],
+        quantity: { type: Number, required: true, min: 0 }, // Số lượng cho biến thể này
+        sku: { type: String }, // Mã SKU cho biến thể
+        price: { type: Number, required: true, min: 0 }, // Giá của biến thể, nếu có khác với giá chung
+    }],
+
     imdb : {
         rating : {type : Number },
         votes : {type : Number},

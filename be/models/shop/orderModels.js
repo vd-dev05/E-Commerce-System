@@ -11,11 +11,11 @@ const orderModel = mongoose.Schema({
             ref: 'Product',
             required: true,
         },
-        quantity: {
-            type: Number,
-            required: true,
-            min: 1,
-        },
+        // quantity: {
+        //     type: Number,
+        //     required: true,
+        //     min: 1,
+        // },
         price: {
             type: Number,
             required: true,
@@ -25,19 +25,26 @@ const orderModel = mongoose.Schema({
             type: Number,
             min: 0,
         },
-        attributes: [
+        variants: [
             {
-                name: {
-                    type: String,
-                    required: true,
-                    trim: true,
-                },
-                value: {
-                    type: String,
-                    required: true,
-                    trim: true,
-                },
-            },
+                attributes: [
+                    {
+                        name: {
+                            type: String,
+                            required: true,
+                            trim: true,
+                        },
+                        value: {
+                            type: String,
+                            required: true,
+                            trim: true,
+                        },
+                        _id: false
+                    },
+                ],
+                quantity: { type: Number, required: true, min: 0 },
+                priceBeta: { type: Number, required: true, min: 0 }, 
+            }
         ],
     },],
     orderDate : {
