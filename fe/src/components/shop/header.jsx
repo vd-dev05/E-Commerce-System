@@ -12,10 +12,11 @@ import { message } from "antd";
 import { createSearch, getSearch, getToCartProduct } from "@/store/Shop/users";
 
 
-const ShoppingHeader = ({ user, isAuthenticated, handleLogout, count }) => {
+const ShoppingHeader = ({ handleLogout, count }) => {
     const dispatch = useDispatch()
     const [isHovered, setIsHovered] = useState(false);
     const [search, setSearch] = useState('')
+    const {isAuthenticated, user} = useSelector(state => state.shoppingAuth)
     const { isSearch ,  payloadSearch , payloadCartProduct , totalCart} = useSelector(state => state.shoppingProduct)
     useEffect(() => {
         dispatch(checkAuthUser())

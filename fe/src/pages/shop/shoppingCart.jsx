@@ -17,10 +17,10 @@ import {
 import queryString from "query-string";
 
 const generateUniqueId = (item) => {
-    const color = item?.attributes?.find(attr => attr.name === "Màu sắc")?.value;
-    const size = item?.attributes?.find(attr => attr.name === "Kích thước")?.value;
-    
-    return `${item?.productId?._id}-${item?.quantity}-${item?.price}-${color}-${size}`;
+    const color = item?.variants[0]?.attributes?.find(attr => attr.name === "Màu sắc")?.value;
+    const size = item?.variants[0]?.attributes?.find(attr => attr.name === "Kích thước")?.value;
+    const beta = item?.variants[0]?.attributes?.find(attr => attr.name === "Chất liệu")?.value;
+    return `${item?.productId?._id}-${item?.quantity}-${item?.price}-${color}-${size}-${beta}`;
 };
 
 
@@ -28,14 +28,14 @@ const ShoppingCart = () => {
     const dispatch = useDispatch();
     const nav = useNavigate();
 
-    const { cartIndex, coinUpdate, payloadCartProduct, totalCart } = useSelector(
+    const { coinUpdate, payloadCartProduct, totalCart, payloadOrder, isOrder, messageOrder } = useSelector(
         (state) => state.shoppingProduct
     );
     const [IsPrice, setIsPrice] = useState(false);
     const [selectProduct, setSelectProduct] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [dataProduct, setDataProduct] = useState()
-    const [paymentEcom,setpaymentEcom] = useState(false)
+    const [paymentEcom, setpaymentEcom] = useState(false)
 
     const handleSelect = (e) => {
         setIsPrice(e.target.value === "usd");
@@ -80,8 +80,8 @@ const ShoppingCart = () => {
         (acc, item) => {
             const uniqueId = generateUniqueId(item);
             if (selectProduct.includes(uniqueId)) {
-                acc.totalAmount += item.quantity * item.salePrice;
-                acc.totalItems += item.quantity;
+                acc.totalAmount += item?.variants[0]?.quantity * item.salePrice;
+                acc.totalItems += item?.variants[0]?.quantity;
             }
             return acc;
         },
@@ -146,7 +146,7 @@ const ShoppingCart = () => {
                                     <div className="flex flex-col">
                                         <span className="text-sm text-gray-500">Phân Loại Hàng:</span>
                                         <div className="flex flex-col">
-                                            {item?.attributes.map((attribute, idx) => (
+                                            {item?.variants[0]?.attributes.map((attribute, idx) => (
                                                 <span className="text-xs" key={idx}>
                                                     {attribute?.name}: {attribute?.value}
                                                 </span>
@@ -178,7 +178,7 @@ const ShoppingCart = () => {
                                             </button>
                                             <input
                                                 type="text"
-                                                value={item?.quantity}
+                                                value={item?.variants[0]?.quantity}
                                                 className="w-12 mx-2 px-2 py-1 text-center border border-gray-300 rounded-md"
                                                 readOnly
                                             />
@@ -193,7 +193,7 @@ const ShoppingCart = () => {
                                         </div>
                                         <div>
                                             <span className="text-red-500 font-semibold">
-                                                {formatPrice(item?.quantity * item.salePrice)}
+                                                {formatPrice(item?.variants[0]?.quantity * item.salePrice)}
                                             </span>
                                         </div>
                                         <div>
@@ -238,9 +238,9 @@ const ShoppingCart = () => {
                             <div className="flex justify-end p-5 gap-10">
                                 <div className="flex gap-2 items-center ">
                                     <p>e-com tài khoản </p>
-                                    <Checkbox 
-                                    checked={paymentEcom}
-                                    onClick={() => setpaymentEcom(!paymentEcom)} />
+                                    <Checkbox
+                                        checked={paymentEcom}
+                                        onClick={() => setpaymentEcom(!paymentEcom)} />
                                 </div>
                                 <div>
                                     <p> Thanh toán qua tài khoản e-com </p>
@@ -287,44 +287,42 @@ const ShoppingCart = () => {
                                         <p>
                                             Tổng thanh toán sản phẩm<span>({totalItems}) sản phẩm </span>
                                         </p>
-                                        <span>{formatPrice(paymentEcom === true ?  totalAmountUpdate : totalAmount) }</span>
+                                        <span>{formatPrice(paymentEcom === true ? totalAmountUpdate : totalAmount)}</span>
                                     </div>
 
                                     <button
                                         onClick={() => {
-                            
+
                                             if (!dataProduct || dataProduct.length === 0) {
                                                 message.error("Vui long chon san pham de thanh toan");
                                             }
 
                                             if (dataProduct.length > 0 && dataProduct) {
-                                                console.log(totalAmountUpdate);
-                                                console.log(paymentEcom);
-                                                console.log(dataProduct);
-                                                console.log(selectProduct);
+                                                // console.log(totalAmountUpdate);
+                                                // console.log(paymentEcom);
+                                                // console.log(dataProduct);
+                                                // console.log(selectProduct);
+                                                console.log(isOrder);
                                                 
                                                 dispatch(createOrder({
-                                                    paymentStatus : paymentEcom === true ? 'paid' : 'unpaid',
+                                                    paymentStatus: paymentEcom === true ? 'paid' : 'unpaid',
                                                     dataProduct,
                                                     totalAmount: totalAmountUpdate,
                                                     paymentEcom,
                                                     paymentMeThod: paymentEcom === true ? 'bank_ecom' : 'default',
+                                                    paymentSuccess: false
                                                 }))
-                                            //    const encode = encodeURI (
-                                            //        dataProduct.map((item) => ({
-                                            //            productID: item._id,
-                                            //            quantity: item.quantity,
-                                            //         //    attributes : item.
-                                            //        }))
-                                            //     );
-                                            //    console.log(encode);
-                                            //     console.log(decodeURI(encode));
-                                                
-                                            
-                                               
-                                               
-                                            } 
-                                            
+                                                // if (isOrder === false) {
+                                                //     console.log(payloadOrder, isOrder , messageOrder);
+                                                // }
+
+
+                                                // if (isOrder === false && messageOrder === "Order tồn tại" ) {
+                                                //     nav('/shop/checkout/')
+                                                // }
+
+                                            }
+
 
                                         }}
                                         className="bg-red-500 p-2  rounded-sm text-white"

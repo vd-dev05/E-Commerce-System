@@ -97,7 +97,7 @@ const ProductDetails = () => {
             {/* list Product */}
 
             <div className=" grid grid-cols-5 gap-y-5 gap-x-2 ">
-                {payloadProducts?.map((item, index) => (
+                {isProducts=== true && payloadProducts?.map((item, index) => (
                     <div
                     onClick={() => {
                         window.location.href=`${location.pathname}/${item._id}/`

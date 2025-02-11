@@ -80,7 +80,7 @@ const CheckOutPayment = () => {
                 <input type="number" name="" id=""
                     value={price}
                     placeholder="nhap menhgia"
-                    onChange={e => setPrice(e.target.value)}
+                    onChange={(e) => setPrice(e.target.value)}
                     className="p-2 border-2 border-black outline-none  rounded-sm"
                 />
 

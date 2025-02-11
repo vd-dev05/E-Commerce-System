@@ -50,7 +50,7 @@ const FilterProduct = () => {
             <hr className="my-2" />
             {/* listing route */}
             <div>
-                {isLoading === false ? routeData.slice(0, visibleItems).map((item, index) => (
+                {isLoading === false ? routeData?.slice(0, visibleItems).map((item, index) => (
                     <div key={index} >
                         <Link
                             to={`?categrory=${item.query}`}> {item.name}

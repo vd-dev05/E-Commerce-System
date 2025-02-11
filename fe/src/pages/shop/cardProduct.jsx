@@ -9,6 +9,7 @@ import { allcategory } from "@/config";
 import ProductsCustom from "@/hooks/products";
 import { message } from "antd";
 import { FaCartPlus } from "react-icons/fa";
+import test from "node:test";
 
 
 const productImages = [
@@ -25,7 +26,7 @@ const CardProduct = () => {
   const [mainImage, setMainImage] = useState(productImages[0]);
   const { cartIndex, items, payloadProducts, isProducts } = useSelector((state) => state.shoppingProduct);
   const [select, setSelect] = useState()
-
+  const [checkCart, setCheckCart] = useState()
 
 
 
@@ -35,28 +36,28 @@ const CardProduct = () => {
       dispatch(getProductById(split))
     }
   }, [split])
-  // const   
-  //  const mapalpha = mapCategoryFromUrl(decodeURI(queryProductType))
-  //  const dataCategoryLink = allcategory[mapalpha]
-  // console.log(dataCategoryLink);
-  const dataPhoneFake = {
-    productType: "Điện Thoại",
-    attributes: {
-      color: ["Red", "Black"]
-    },
-    price: 1000,
-    salePrice: 500
-  }
 
-  const dataFashionFake = {
-    productType: "Thời Trang Nam",
-    attributes: {
-      size: ["S", "M", "L"],
-      color: ["Đỏ Đen", "Đen Xám"]
-    },
-    price: 1000,
-    salePrice: 500
-  }
+  useEffect(() => {
+    if (select !== undefined && payloadProducts !== undefined) {
+      const attributes = Object.keys(select).map(attributeName => ({
+        name: attributeName,
+        value: select[attributeName].value
+      }));
+
+      const matchingProduct = payloadProducts?.variants?.find((variant) => {
+        return attributes.every((selectedAttr) => {
+          return variant.attributes.some((attr) =>
+            attr.name === selectedAttr.name && attr.value === selectedAttr.value
+          );
+        });
+      });
+      if (matchingProduct) {
+        setCheckCart(matchingProduct)
+      }
+
+    }
+  }, [select, payloadProducts])
+
 
   const handleAddToCart = () => {
     if (!select) {
@@ -64,17 +65,44 @@ const CardProduct = () => {
     } else if (cartIndex === 0) {
       message.error("Vui them so luong")
     }
-    
-    dispatch(addToCartProduct({
-      productId : payloadProducts._id,
-      quantity : cartIndex,
-      price : payloadProducts.price,
-      salePrice : payloadProducts.salePrice,
-      attributes :  select
-    }))
    
-    
+    // console.log(select);
+
+
+    if (checkCart) {
+   
+      const attributes = Object.keys(select).map(attributeName => ({
+        name: attributeName,
+        value: select[attributeName].value
+      }));
+
+      message.success("Da them vao gio hang")
+      dispatch(addToCartProduct({
+        productId: payloadProducts._id,
+        quantity: cartIndex,
+        price: payloadProducts.price,
+        salePrice: payloadProducts.salePrice,
+        attributes: attributes,
+        priceBeta : checkCart.price,
+        sku : checkCart.sku
+      }));
+    } else {
+      message.error("Sản phẩm hết hàng hoặc chọn không đúng số lượng");
+    }
+
+    // console.log( matchingProduct);
+    // console.log(payloadProducts);
+
+    // dispatch(addToCartProduct({
+    //   productId: payloadProducts._id,
+    //   quantity: cartIndex,
+    //   price: payloadProducts.price,
+    //   salePrice: payloadProducts.salePrice,
+    //   attributes:  attributes
+    // }))
+
   }
+
 
 
   return (
@@ -136,7 +164,7 @@ const CardProduct = () => {
               {/* chọn loại */}
               <ProductsCustom
                 select={select} setSelect={setSelect}
-                productType={payloadProducts?.category} attributes={payloadProducts?.attributes}
+                productType={payloadProducts?.category} variants={payloadProducts?.variants}
                 className="p-2" />
               {/* Chon so luong  */}
               <div className="p-2 flex gap-2 items-center">
@@ -147,13 +175,14 @@ const CardProduct = () => {
                     dispatch(removeToCart())
                   }}
                   className="bg-gray-300 px-2 py-1 rounded-md">-</button>
-                <input type="text" value={cartIndex} className="w-12 px-2 py-1 text-center border-gray-300 border-[1px] rounded-md" />
+                <input type="text"
+                value={cartIndex } readOnly className="w-12 px-2 py-1 text-center border-gray-300 border-[1px] rounded-md" />
                 <button
                   onClick={() => {
                     dispatch(addToCart())
                   }}
                   className="bg-gray-300 px-2 py-1 rounded-md">+</button>
-                <p>100000 sản phẩm có sẵn</p>
+                <p>{(select && payloadProducts && checkCart !== null && checkCart !== undefined) ? checkCart.quantity : "1000"}sản phẩm có sẵn</p>
               </div>
 
               <div className="my-10 flex gap-20">
@@ -180,7 +209,16 @@ const CardProduct = () => {
             </div>
           </section>
 
+
         </div>
+        <section className="py-5 m-5 bg-[#fafafa]">
+          <div className="bg-white drop-shadow-sm">
+            <p>
+              Thông tin sản phẩm : <span>{payloadProducts.description}</span>
+            </p>
+          </div>
+
+        </section>
       </div> : "Loading"}
 
     </div>

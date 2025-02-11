@@ -52,9 +52,9 @@ export const getCoinTransaction = createAsyncThunk('getCoinTransaction', async (
     })
     return response.data
 })
-export const createAddress = createAsyncThunk('createAddress', async ({search}) => {
+export const createAddress = createAsyncThunk('createAddress', async ({ search }) => {
     // console.log(search);
-    
+
     const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/address`, search, {
         withCredentials: true,
     })
@@ -76,7 +76,7 @@ export const getAlladdress = createAsyncThunk('/getAlladdress',
     }
 )
 
-export const createSearch =  createAsyncThunk('/createSearch',
+export const createSearch = createAsyncThunk('/createSearch',
     async (data) => {
         const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/search/create`, data, {
             withCredentials: true,
@@ -85,7 +85,7 @@ export const createSearch =  createAsyncThunk('/createSearch',
     }
 )
 
-export const getSearch =  createAsyncThunk('/getSearch',
+export const getSearch = createAsyncThunk('/getSearch',
     async () => {
         const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/search`, {
             withCredentials: true,
@@ -115,7 +115,7 @@ export const getVoucher = createAsyncThunk('/getVoucher', async () => {
 
 export const postQueryProduct = createAsyncThunk('/postQueryProduct', async (data) => {
     // console.log(data);
-    
+
     const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products?query=${data}`, {
         withCredentials: true,
     })
@@ -140,7 +140,7 @@ export const getToCartProduct = createAsyncThunk('getToCartProduct', async () =>
     return response.data
 })
 export const removeToCartProduct = createAsyncThunk('/removeToCartProduct', async (data) => {
-    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/cart/1`,data, {
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/cart/1`, data, {
         withCredentials: true,
     })
     return response.data
@@ -170,29 +170,31 @@ const shoppingProduct = createSlice({
         isTransaction: false,
         isAddress: false,
         isUpdateAddress: false,
-        addressMessageUpdate : null,
+        addressMessageUpdate: null,
         addressMessage: null,
         addressPaydata: null,
-        isSearch : false,
-        payloadSearch : null,
-        isActiveVoucher : false,
-        payloadVoucher : null,
-        isProducts : false,
-        payloadProducts : null,
-        cartIndex : 0,
-        attributes : [],
+        isSearch: false,
+        payloadSearch: null,
+        isActiveVoucher: false,
+        payloadVoucher: null,
+        isProducts: false,
+        payloadProducts: null,
+        cartIndex: 0,
+        attributes: [],
         items: [],
-        isAddToCart : false ,
+        isAddToCart: false,
 
         isGetToCartProduct: false,
-        payloadCartProduct : null,
-        totalCart : 0,
+        payloadCartProduct: null,
+        totalCart: 0,
 
-        isRemoveCartProduct : false,
-        isRemoveAllProduct : false,
+        isRemoveCartProduct: false,
+        isRemoveAllProduct: false,
 
-        isOrder : false,
-        isPaymentOrder : false
+        isOrder: false,
+        isPaymentOrder: false,
+        isOrderMessage: null,
+        messageOrder: null
     },
     reducers: {
         setProduct: (state, action) => { },
@@ -203,28 +205,20 @@ const shoppingProduct = createSlice({
             // state.isCartEmpty = false;
             // Lưu trữ state vào localStorage
             // localStorage.setItem('cart', JSON.stringify(state));
-          },
-        removeToCart : (state,action) => {
+        },
+        removeToCart: (state, action) => {
             if (state.cartIndex === 0) {
-                    return 
+                return
             } else {
                 state.cartIndex -= 1;
-            }        
-          
+            }
+
         },
-        selectAttributes : (state,action) => {
-            console.log(state,action);
-            
-            // switch (action.type) {
-            //     case 'SET_COLOR':
-            //       return { ...state, color: action.payload };
-            //     case 'SET_SIZE':
-            //       return { ...state, size: action.payload };
-            //     default:
-            //       return state;
-            //   }
-        } ,
-        
+        selectAttributes: (state, action) => {
+            console.log(state, action);
+
+        },
+
     },
     extraReducers: (builder) => {
         builder
@@ -301,7 +295,7 @@ const shoppingProduct = createSlice({
                     state.addressMessageUpdate = action.payload.message
             })
             .addCase(editAddress.rejected, (state) => { state.isUpdateAddress = false, state.addressMessageUpdate = action.payload || "An error occurred." })
-        builder 
+        builder
             .addCase(createSearch.pending, (state) => { state.isSearch = false })
             .addCase(createSearch.fulfilled, (state, action) => {
                 state.isSearch = true
@@ -315,37 +309,37 @@ const shoppingProduct = createSlice({
             })
             .addCase(getSearch.rejected, (state) => { state.isSearch = false })
         builder
-            .addCase(postQueryProduct.pending, (state) => { state.isProducts = false , state.payloadProducts = null})
+            .addCase(postQueryProduct.pending, (state) => { state.isProducts = false, state.payloadProducts = null })
             .addCase(postQueryProduct.fulfilled, (state, action) => {
                 state.isProducts = true
                 state.payloadProducts = action?.payload?.products
                 // console.log(action.payload);
-                
+
             })
-            .addCase(postQueryProduct.rejected, (state) => { state.isProducts = false , state.payloadProducts = null})
+            .addCase(postQueryProduct.rejected, (state) => { state.isProducts = false, state.payloadProducts = null })
         builder
-            .addCase(getProductById.pending, (state) => { state.isProducts = false , state.payloadProducts = null})
+            .addCase(getProductById.pending, (state) => { state.isProducts = false, state.payloadProducts = null })
             .addCase(getProductById.fulfilled, (state, action) => {
                 state.isProducts = true
                 state.payloadProducts = action?.payload?.product
 
             })
-            .addCase(getProductById.rejected, (state) => { state.isProducts = false , state.payloadProducts = null})
-        builder 
+            .addCase(getProductById.rejected, (state) => { state.isProducts = false, state.payloadProducts = null })
+        builder
             .addCase(addToCartProduct.pending, (state) => { state.isAddToCart = false })
             .addCase(addToCartProduct.fulfilled, (state, action) => {
                 state.isAddToCart = true
             })
             .addCase(addToCartProduct.rejected, (state) => { state.isAddToCart = false })
         builder
-            .addCase(getToCartProduct .pending, (state) => { state.isGetToCartProduct = true , state.items = [ ] , state.totalCart = 0 })
-            .addCase(getToCartProduct .fulfilled, (state, action) => {
+            .addCase(getToCartProduct.pending, (state) => { state.isGetToCartProduct = true, state.items = [], state.totalCart = 0 })
+            .addCase(getToCartProduct.fulfilled, (state, action) => {
                 state.isGetToCartProduct = false
                 state.payloadCartProduct = action?.payload?.cart
-                state.totalCart = action?.payload?.total 
-                       
+                state.totalCart = action?.payload?.total
+
             })
-            .addCase(getToCartProduct .rejected, (state) => { state.isGetToCartProduct = false ,state.items = [ ] , state.totalCart = 0})
+            .addCase(getToCartProduct.rejected, (state) => { state.isGetToCartProduct = false, state.items = [], state.totalCart = 0 })
 
         builder
             .addCase(removeToCartProduct.pending, (state) => { state.isRemoveCartProduct = true })
@@ -354,7 +348,7 @@ const shoppingProduct = createSlice({
                 state.payloadCartProduct = null
                 // state.payloadCartProduct = action?.payload?.cart
                 // state.totalCart = action?.payload?.total 
-                       
+
             })
             .addCase(removeToCartProduct.rejected, (state) => { state.isRemoveCartProduct = false })
         builder
@@ -365,14 +359,20 @@ const shoppingProduct = createSlice({
                 state.totalCart = 0
             })
             .addCase(removeAllCart.rejected, (state) => { state.isRemoveAllProduct = false })
-        
-        builder 
-            .addCase(createOrder.pending, (state) => { state.isOrder = true })
+
+        builder
+            .addCase(createOrder.pending, (state) => { state.isOrder = true, state.payloadOrder = null, state.messageOrder = null })
             .addCase(createOrder.fulfilled, (state, action) => {
-                state.isOrder = false
-                state.payloadOrder = action?.payload?.order
+                if (action?.payload?.success === false) {
+                    state.isOrder = false
+                    state.payloadOrder = action?.payload?.order
+                    state.messageOrder = action?.payload?.message
+                    // console.log(action?.payload);
+
+                }
+
             })
-            .addCase(createOrder.rejected, (state) => { state.isOrder = false })
+            .addCase(createOrder.rejected, (state) => { state.isOrder = true, state.payloadOrder = null, state.messageOrder = null })
         // builder 
         //     .addCase(createPaymentOrder.pending, (state) => { state.isPaymentOrder = true })
         //     .addCase(createPaymentOrder.fulfilled, (state, action) => {
@@ -380,9 +380,9 @@ const shoppingProduct = createSlice({
         //         state.payloadPaymentOrder = action?.payload?.payment
         //     })
         //     .addCase(createPaymentOrder.rejected, (state) => { state.isPaymentOrder = false })
-        }
+    }
 
 })
 
-export const { setProduct, addToCart, removeToCart,selectAttributes  } = shoppingProduct.actions
+export const { setProduct, addToCart, removeToCart, selectAttributes } = shoppingProduct.actions
 export default shoppingProduct.reducer
