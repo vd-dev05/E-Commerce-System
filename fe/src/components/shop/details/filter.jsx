@@ -8,20 +8,31 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa6";
 import queryString from "query-string";
 import { locationQuery, locationPath, mapCategoryFromUrl } from "@/lib/utils";
-import { postQueryProduct } from "@/store/Shop/users/userThunk";
-const FilterProduct = () => {
+import { getQueryCategoryProduct, postQueryProduct } from "@/store/Shop/users/userThunk";
+const FilterProduct = ({ checkQuery, location, payloadProducts, isProducts, isGetQueryCategoryProduct,query }) => {
+    
     const { routeData, isLoading } = useSelector(state => state.shoppingProduct)
     const [visibleItems, setVisibleItems] = useState(5);
     const dispatch = useDispatch()
 
-    const path = locationPath() 
+    const path = locationPath()
 
-    const query = queryString.parse(locationQuery())
+    // const query = queryString.parse(locationQuery())
     const navigate = useNavigate()
     const [price, setPrice] = useState({
         min: 0,
         max: 0
     })
+
+    const addToSort = () => {
+        if (checkQuery) {
+            const objquery = {
+                ...query,
+                category: location.pathname.split('/shop/listing/')[1]
+            };
+            dispatch(getQueryCategoryProduct(objquery));
+        }
+    };
     const handleSeacrhPrice = () => {
         if (price.min > price.max) toast({
             title: " Giá trị min không được lớn hơn max"
@@ -29,6 +40,7 @@ const FilterProduct = () => {
         else {
             let newQuery = { ...query, minPrice: price.min, maxPrice: price.max || 0 }
             navigate(`?${queryString.stringify(newQuery)}`)
+            addToSort()
         }
 
 
@@ -36,9 +48,9 @@ const FilterProduct = () => {
     const handleShowMore = () => { setVisibleItems(routeData.length); };
     useEffect(() => {
         const pathSplit = decodeURI(path.split('/shop/listing/')[1])
-        dispatch( postQueryProduct(pathSplit))
+        dispatch(postQueryProduct(pathSplit))
     }, [path])
-    
+
     return (
         <div className="flex flex-col gap-5">
             <Link
@@ -100,6 +112,7 @@ const FilterProduct = () => {
                             if (!query.ratingFilter || query.ratingFilter !== index + 1) {
                                 let newQuery = { ...query, ratingFilter: 5 - index };
                                 navigate(`?${queryString.stringify(newQuery)}`);
+                                addToSort()
                             }
                         }}
                         key={index} className="flex space-x-1 gap-2 px-2 my-2 ">

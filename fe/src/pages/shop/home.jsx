@@ -9,6 +9,7 @@ import { categoryList } from "@/config";
 import useCounter from "@/hooks/custom";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
 import { clickRecommend } from "@/store/Shop/users";
+import { message } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
@@ -49,7 +50,35 @@ const ShoppingHome = () => {
         return () => clearInterval(timer)
     }, [])
 
-
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+            const isBlock = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/check-block`, {
+                method: 'GET',
+                credentials: 'include',
+                
+            }) 
+            const data = await isBlock.json()
+            console.log(data);
+            
+            if (data?.success === true && data?.count > 3) {
+                setTimeout(() => {
+                    navigate('/block')
+                    // dispatch(logoutUser())
+                }, 3000);
+                message.error("Ban đã bị block, vui lòng liên hệ admin để được hỗ trợ chuyển huongs trang sau 3s");
+               
+              
+            }
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+      }
+      fetchData();
+    }, [])
+    
 
     return (
         <div className="">
@@ -61,7 +90,7 @@ const ShoppingHome = () => {
             </div>
             {/* header */}
             <ShoppingHeader count={count} user={user} isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-            <main className='flex flex-col w-full px-5 py-5'>
+            <main className='flex flex-col w-full px-5 py-5 bg-[#f5f5f5]'>
                 {/* siler */}
                 <section>
                     <div className="flex  w-full">
@@ -88,19 +117,19 @@ const ShoppingHome = () => {
                         </div>
 
                         <div className="grid grid-cols-10 py-2 ">
-                            {categoryList.map((item) => (
+                            {categoryList?.map((item) => (
 
-                                <div
+                                <Link
                                 onClick={() => dispatch( clickRecommend({id : item.id, path : item.path}))}
-                                 key={item.id} 
-                                //  to={`/shop/listing/${item.path}`} 
+                                 key={`${item._id}_${item.path}`} 
+                                 to={`/shop/listing/${item.path}`} 
                                  className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:shadow-lg hover:border-slate-400 border border-gray-300">
                                     <img
                                         className="w-20 h-20 object-cover"
                                         src={item.url} alt="" />
                                     <span
                                     className="text-xs ">{item.label}</span>
-                                </div>
+                                </Link>
                             ))}
                         </div>
 
@@ -114,7 +143,7 @@ const ShoppingHome = () => {
                     <SearchTop />
                 </section>
                 {/* recommend */}
-                <section>
+                <section >
                     <Recommend />
                 </section>
                 <div className="fixed bottom-0 right-[5px] bg-white drop-shadow-md ">

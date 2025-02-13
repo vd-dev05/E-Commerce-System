@@ -61,6 +61,24 @@ export const updateManager = createAsyncThunk('/updateManager',
     }
 
 )
+
+export const getBlockUser = createAsyncThunk('/getBlockUser',
+    async () => {
+        const response = await axios.get(`${backendUrl}/api/v1/admin/block-users`, {
+            withCredentials: true,
+        })
+        return response.data
+    }
+)
+
+export const editBlockUser = createAsyncThunk('/editBlockUser',
+    async (id) => {
+        const response = await axios.put(`${backendUrl}/api/v1/admin/unblock-user/${id}`, {}, {
+            withCredentials: true,
+        })
+        return response.data  
+    }
+)
 const adminSlice = createSlice({
     name  : 'adminAuth',
     initialState : {
@@ -68,7 +86,13 @@ const adminSlice = createSlice({
         traficUser : [],
         isLoading : true,
         dataManager : null,
-        message : null
+        message : null,
+
+        isBlockUser : false,
+        payloadBlockUser : null,
+
+        isEditBlockUser : false,
+        payloadEditBlockUser : null
     },
     reducers : {
         admin : (state,action) => {
@@ -86,7 +110,7 @@ const adminSlice = createSlice({
             state.isLoading = false;
             state.dataUser = action.payload.data;
            
-            // console.log(action.payload.data);
+            console.log(action.payload.data);
             
         }).addCase(getUser.rejected, (state,action) => {
             state.isLoading = false;
@@ -115,6 +139,26 @@ const adminSlice = createSlice({
         }).addCase(getManager.rejected, (state,action) => {
             state.isLoading = false;
             state.dataManager = null;
+        })
+
+        builder.addCase(getBlockUser.pending, (state,action) => {
+            state.isBlockUser = false
+        }).addCase(getBlockUser.fulfilled, (state,action) => {
+            state.isBlockUser = true
+            state.payloadBlockUser = action?.payload?.data?.users
+        }).addCase(getBlockUser.rejected, (state,action) => {
+            state.isBlockUser = false;
+            state.payloadBlockUser = null;
+        })
+
+        builder.addCase(editBlockUser.pending, (state,action) => {
+            state.isEditBlockUser = false
+        }).addCase(editBlockUser.fulfilled, (state,action) => {
+            state.isEditBlockUser = true
+            state.payloadEditBlockUser = action?.payload?.data?.users
+        }).addCase(editBlockUser.rejected, (state,action) => {
+            state.isEditBlockUser = false;
+            state.payloadEditBlockUser = null;
         })
     }
 })

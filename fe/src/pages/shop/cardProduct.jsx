@@ -12,6 +12,7 @@ import ProductsCustom from "@/hooks/products";
 import { message } from "antd";
 import { FaCartPlus } from "react-icons/fa";
 import test from "node:test";
+import CommentProduct from "@/components/shop/comment";
 
 
 const productImages = [
@@ -209,6 +210,9 @@ const CardProduct = () => {
             </p>
           </div>
 
+        </section>
+        <section className="py-5 m-5 bg-[#fafafa]">
+          <CommentProduct payloadProductsId={payloadProducts._id} />
         </section>
       </div> : "Loading"}
 

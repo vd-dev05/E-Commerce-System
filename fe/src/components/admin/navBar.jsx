@@ -37,7 +37,7 @@ const AdminNavBar = () => {
         {
             key: '4',
             label: (
-                <Link to="user/delete" className="flex items-center space-x-2">
+                <Link to="manager/delete" className="flex items-center space-x-2">
                     <FaAddressCard className="w-5 h-5 text-white" />
                     <span className="text-black">Xóa Nhà bán</span>
                 </Link>

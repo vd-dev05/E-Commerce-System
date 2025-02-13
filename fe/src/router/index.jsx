@@ -11,12 +11,14 @@ import BlockUser from "@/pages/admin/home/block";
 import AdminManager from "@/pages/admin/home/delete/manager";
 import AdminUser from "@/pages/admin/home/delete/user";
 import AdminTrafic from "@/pages/admin/home/trafic";
+import TrashUser from "@/pages/admin/home/trashUser";
 import ManagerCategory from "@/pages/manager/category";
 import ManagerHome from "@/pages/manager/home";
 import ManagerLogin from "@/pages/manager/login";
 import ManagerProduct from "@/pages/manager/product";
 import ManagerRegister from "@/pages/manager/register";
 import AllCategory from "@/pages/shop/allcategory";
+import BlockUserShop from "@/pages/shop/block";
 import CardProduct from "@/pages/shop/cardProduct";
 import ProductDetails from "@/pages/shop/details";
 import ShoppingHome from "@/pages/shop/Home";
@@ -32,6 +34,8 @@ const RootRouter = () => {
         //  Navigation routes
         <div className="font-be flex flex-col w-full h-full ">
             <Routes>
+                {/* Route block user componet */}
+                <Route path="/block" element={<BlockUserShop/>} />
                 {/* Route test componet */}
                 <Route path="/test" element={<Test/>} />
                 <Route path="/" element={<Navigate to="/shop/home" replace />} />
@@ -72,7 +76,7 @@ const RootRouter = () => {
                         <Route path="trafic" element={<AdminTrafic />} />
                         <Route path="user" element={<AdminUser />} />
                         <Route path="manager" element={<AdminManager />} />
-                        <Route path="user/delete" element={<div>delete</div>} />
+                        <Route path="user/delete" element={<TrashUser />  } />
                         <Route path="manager/delete" element={<div>delete</div>} />
                         <Route path="user/block" element={<BlockUser />} />
                         <Route path="manager/block" element={<div></div>} />

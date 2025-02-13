@@ -1,6 +1,19 @@
 import axios from "axios";
 import {createAsyncThunk} from "@reduxjs/toolkit"
 
+export const getQueryCategoryProduct = createAsyncThunk('/getQueryCategoryProduct', async (data) => {
+    // console.log(data);   
+    // console.log("hello" , data);
+    
+    const encode = encodeURIComponent(JSON.stringify(data))
+
+    
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products/category?query=${encode}`, {
+        withCredentials: true,
+    })
+    return response.data
+})
+
 export const recommendProduct = createAsyncThunk('/recommendProduct', async (data) => {
     const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/recommend/list`, data, {
         withCredentials: true,

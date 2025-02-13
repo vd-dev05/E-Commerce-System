@@ -7,7 +7,8 @@ import {
     getOrderProductId,
     editPaymentOrder,
     getOrderPaymentProcess,
-    recommendProduct
+    recommendProduct,
+    getQueryCategoryProduct
 
 
 } from "./userThunk";
@@ -63,7 +64,10 @@ const shoppingProduct = createSlice({
         payloadTotalPaymentProcess : 0,
 
         isLoadingRecommend : false,
-        payloadRecommend : null
+        payloadRecommend : null,
+
+        isGetQueryCategoryProduct : false,
+        payloadQueryCategoryProduct : null
     },
     reducers: {
         setProduct: (state, action) => { },
@@ -321,6 +325,14 @@ const shoppingProduct = createSlice({
                 state.payloadRecommend = action?.payload
             })
             .addCase(recommendProduct.rejected, (state) => { state.isLoadingRecommend = false, state.payloadRecommend = null })
+        builder
+            .addCase(getQueryCategoryProduct.pending, (state) => { state.isGetQueryCategoryProduct = true , state.payloadQueryCategoryProduct = null,state.payloadProducts = null })
+            .addCase(getQueryCategoryProduct.fulfilled, (state, action) => {
+                state.isGetQueryCategoryProduct = false
+                state.payloadQueryCategoryProduct = action?.payload
+                state.payloadProducts = action?.payload?.products
+            })
+            .addCase(getQueryCategoryProduct.rejected, (state) => { state.isGetQueryCategoryProduct = false, state.payloadQueryCategoryProduct = null })
     }
 
 })
