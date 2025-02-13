@@ -4,8 +4,6 @@ const Products = {
     getAllProducts: async (req, res) => {
         try {
             const product = await ProductModel.find({})
-            // console.log(product);
-            
             res.status(200).json({product})
             
         } catch (error) {
@@ -17,9 +15,13 @@ const Products = {
             // const fake = "Thời Trang Nam"
             const {query} = req.query
             // console.log(query);
-            
+            if (!query) {
+
+            }
             const products = await ProductModel.find({category : query})
 
+            // console.log(products);
+            
             res.status(200).json({products}) 
         } catch (error) {
             ErrorNotFoundResponse(res, error)

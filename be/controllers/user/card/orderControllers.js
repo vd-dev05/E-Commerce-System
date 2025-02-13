@@ -50,7 +50,17 @@ const OrderController = {
                 isStatus: 'pending'
             }
 
-            const checkOrder = await OrderModel.findOne({ userId: req.user.id, "products.productId": { $in: arr.map(item => item.productId) } })
+            const checkOrder = await OrderModel
+                .findOne({ userId: req.user.id, "products.productId": { $in: arr.map(item => item.productId) } })
+                .populate({
+                    path: 'products.productId',
+                    select: '_id name images.mainImage price salePrice',
+                    model: 'product',
+                    match: {
+                        _id: { $in: arr.map(item => item.productId) },
+                    }
+                })
+
 
             if (checkOrder) return res.status(200).json({ success: false, message: "Order tồn tại", order: checkOrder })
 
@@ -85,16 +95,16 @@ const OrderController = {
                         res.status(200).json({ message: "thanh toan thanh cong", success: true })
 
                     } else {
-                        res.status(403).json({message : "chua du dieu kien",success: false})
+                        res.status(403).json({ message: "chua du dieu kien", success: false })
                     }
                 } else if (!checkOrder && paymentSuccess === false) {
-                        const order = new OrderModel({ ...data, paymentMeThod: paymentMeThod })
-                        await order.save()
-                        res.status(200).json({
-                            message: "Order created successfully",
-                            order,
-                            success: true
-                        });
+                    const order = new OrderModel({ ...data, paymentMeThod: paymentMeThod })
+                    await order.save()
+                    res.status(200).json({
+                        message: "Order created successfully",
+                        order,
+                        success: true
+                    });
                 } else {
                     res.status(404).json({ message: "not found Order", success: false })
                 }
@@ -124,10 +134,66 @@ const OrderController = {
             ErrorResponse(res, error)
         }
     },
-    getOrder: async (req, res) => {
+    getOrderById: async (req, res) => {
         try {
-            const user = await OrderModel.findOne({ userId: '677d5901b5fceb6a3ce4bf5d' })
-            res.json(user)
+            const { id } = req.params;
+            if (!id) throw Error("id not found")
+            const order = await OrderModel.findOne({ _id: id })
+                .populate({
+                    path: 'products.productId',
+                    select: '_id name price salePrice',
+                });
+        
+            if (!order) {
+                res.status(404).json({
+                    message: "order ko dung",
+                    success: false
+                })
+            } else {
+                res.json(order)
+            }
+
+
+        } catch (error) {
+            ErrorResponse(res, error)
+        }
+    },
+    editAndUpdate : async (req,res) => {
+        try {
+            const {paymentSuccess ,  address , paymentMeThod ,  totalAmount} = req.body
+            const paymentSuccessOrder = await OrderModel.findById(req.params.id)
+           
+            if (paymentSuccess === true) {
+                const data = {
+                    isStatus: "processing",
+                    totalAmount,
+                    paymentMeThod,
+                    address,
+                    paymentStatus: paymentMeThod === "cod" ? "cash" : "paid"
+
+                }
+                await paymentSuccessOrder.updateOne(data)
+                res.status(200).json({
+                    message: "Update order success",
+                    success: true
+                })
+            }
+            
+            
+        } catch (error) {
+            ErrorResponse(res, error)
+        }
+    },
+    getOrderProcess : async (req,res) => {
+        try {
+            const order = await OrderModel.find({isStatus : "processing" , userId : req.user.id})
+            .populate({
+                path: 'products.productId',
+                select: '_id name ',
+            });
+    
+            
+            res.json({payment : order , total : order.length, success : true})
         } catch (error) {
             ErrorResponse(res, error)
         }

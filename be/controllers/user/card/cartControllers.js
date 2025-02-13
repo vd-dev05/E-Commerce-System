@@ -16,13 +16,16 @@ function getSizeAndColor(data) {
 const CartController = {
     getToCart: async (req, res) => {
         try {
-            const cart = await Cart.findOne({ userId: req.user.id }).populate({
+            const cart = await Cart.findOne({ userId: req.user.id })
+            .populate({
                 path: 'items',
                 populate: {
                     path: 'productId',
-                    select: 'imdb name  category images.mainImage'
+                    select: '_id imdb name category images.mainImage'
                 }
             })
+            console.log(cart);
+            
             res.status(200).json({ cart: cart.items, total: cart.items.length })
         } catch (error) {
             ErrorNotFoundResponse(res, error)
@@ -52,7 +55,6 @@ const CartController = {
     },
     addCart: async (req, res) => {
         try {
-            // console.log(req.body);
             const { productId, quantity, price, salePrice, attributes, priceBeta } = req.body
             const data = {
                 productId: productId,
@@ -65,6 +67,8 @@ const CartController = {
                 }
 
             }
+        
+            
             const cart = await Cart.findOne({ userId: req.user.id })
 
             if (!cart) {
@@ -91,7 +95,8 @@ const CartController = {
 
             if (existingItem) {
                 //nếu sản phẩm đã tồn tại, cập nhật số lượng
-                existingItem.quantity += quantity;
+                existingItem.variants[0].quantity += quantity;
+                
             } else {
                 //nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
                 cart.items.push(data);

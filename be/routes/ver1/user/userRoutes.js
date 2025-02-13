@@ -12,13 +12,16 @@ import AddressProfile from "../../../controllers/user/address/index.js";
 import SearchController, { getSearch } from "../../../controllers/user/searchHistory/index.js";
 import Products from "../../../controllers/user/products/products.js";
 import CartController from "../../../controllers/user/card/cartControllers.js";
+import RecommendController from "../../../controllers/user/recommend/index.js";
 const usersRouter = express.Router();
 
 // usersRouter.post('/countdown/start',CountDown.getTimeStart)
 // usersRouter.get('/countdown/end',CountDown.getTimeCountdownEndTime)
-
+usersRouter.post('/recommend/list',authMiddleware,RecommendController.listArray)
+usersRouter.get('/products/process',authMiddleware,OrderController.getOrderProcess)
+usersRouter.put('/products/order/:id',authMiddleware,OrderController.editAndUpdate)
 usersRouter.post('/products/create-order', authMiddleware ,OrderController.addOrder)
-usersRouter.get('/products/get-order', authMiddleware ,OrderController.getOrder)
+usersRouter.get('/products/get-order/:id', authMiddleware ,OrderController.getOrderById)
 usersRouter.post('/file-upload',authMiddleware,uploadUser.single('avatar'),AvartarController)
 usersRouter.post('/order/coin/paypal' ,authMiddleware, PayPalServices.createCoinUser)
 usersRouter.get('/getcoin-paypal' ,authMiddleware, PayPalServices.getCoinUser)
