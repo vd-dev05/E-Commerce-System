@@ -48,6 +48,14 @@ const login = async (req, res) => {
                 message: "Tài khoản Email không tồn tại"
             })
         }
+        if (user?.countBlock >  3 || user?.isBlocked === true) {
+            user.isBlocked = true
+            await user.save()
+            return res.json({
+                success: false,
+                message: "Tài khoản bị block "
+            })
+        }
    
         const passwordMath = await bcrypt.compare(password, user.password)
         

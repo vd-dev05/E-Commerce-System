@@ -40,6 +40,7 @@ const userSchema = mongoose.Schema({
             ref: 'search'
         }
     ],    
+    countBlock : { type: Number, default: 0 },
 }, { timestamps: true })
 const UserModel = mongoose.model('user', userSchema)
 

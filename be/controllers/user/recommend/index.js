@@ -14,12 +14,19 @@ const RecommendController =  {
             category.slice(0,3).forEach(element => {
                 arr.push(element.path)
             });
-            console.log(arr);
+           
             
             if (!arr || !category || !Array.isArray(arr) || arr.length === 0) {
                 return res.status(402).json("Category not found or invalid");
             }
-            const products = await ProductModel.find({ category: { $in: arr} });
+            
+            
+            const products = await ProductModel.find({ category: { $in: arr} })
+            // .populate({
+            //     path: 'products.product',
+            //     select: '_id name images.mainImage category',
+            // }); 
+            
             res.status(200).json(products);
             
 

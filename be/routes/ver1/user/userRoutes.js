@@ -13,10 +13,18 @@ import SearchController, { getSearch } from "../../../controllers/user/searchHis
 import Products from "../../../controllers/user/products/products.js";
 import CartController from "../../../controllers/user/card/cartControllers.js";
 import RecommendController from "../../../controllers/user/recommend/index.js";
+import TopSearch from "../../../controllers/user/topSearch/index.js";
+import CommentController from "../../../controllers/user/comment/index.js";
+import BlockUser from "../../../controllers/user/block/index.js";
 const usersRouter = express.Router();
 
 // usersRouter.post('/countdown/start',CountDown.getTimeStart)
 // usersRouter.get('/countdown/end',CountDown.getTimeCountdownEndTime)
+usersRouter.get('/check-block',authMiddleware, BlockUser.getCountBlockUser )
+usersRouter.get('/products/comment/:id',authMiddleware, CommentController.getCommentProductId)
+usersRouter.post('/products/:id/comment/create',authMiddleware, CommentController.createComment)
+usersRouter.get('/top-search',TopSearch.getAllTopSearch)
+usersRouter.get('/products/category',authMiddleware,Products.getQueryCategory )
 usersRouter.post('/recommend/list',authMiddleware,RecommendController.listArray)
 usersRouter.get('/products/process',authMiddleware,OrderController.getOrderProcess)
 usersRouter.put('/products/order/:id',authMiddleware,OrderController.editAndUpdate)

@@ -24,8 +24,6 @@ const CartController = {
                     select: '_id imdb name category images.mainImage'
                 }
             })
-            console.log(cart);
-            
             res.status(200).json({ cart: cart.items, total: cart.items.length })
         } catch (error) {
             ErrorNotFoundResponse(res, error)
@@ -195,7 +193,7 @@ const CartController = {
             }
 
             const createRating = Rating.create(ratingFake)
-            console.log(createRating);
+            // console.log(createRating);
             if (createRating) {
                 res.status(200).json({
                     messsage: "create done",

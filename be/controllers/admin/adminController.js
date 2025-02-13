@@ -67,8 +67,6 @@ const adminController = {
            
                 const users = await UserModel.find({})
                 .select('-__v  -updatedAt -password -phone -email  -birthday  -username -gender');
-                console.log(users);
-                
                 const data = {
                     total: users.length,
                     block_user : users.filter(user => user.isBlocked === true).length,
@@ -82,9 +80,51 @@ const adminController = {
                     timestamp: new Date().toISOString()
                 });
         } catch (error) {
-            // ErrorNotFoundResponse(res, error.message = "Get Trafic users failed");
+            ErrorNotFoundResponse(res, error.message = "Get Trafic users failed");
         }
     },
+    getBlockUser : async (req,res) => {
+        try {
+            const {page = 1 , limit = 10} = req.query; 
+
+            const totalItems = await UserModel.countDocuments({isBlocked : true});
+            const totalPages = Math.ceil(totalItems / limit);
+            const skip = (page - 1) * limit;
+
+            const users = await UserModel.find({isBlocked : true})
+            .skip(skip)
+            .limit(limit)
+            // .select('');
+            
+            res.status(200).json({
+                success: true,
+                message: "Get all block users successfully",
+                data: {
+                    users,
+                    totalItems,
+                    totalPages,
+                    currentPage: page
+                },
+                timestamp: new Date().toISOString()
+            }); 
+        } catch (error) {
+            ErrorNotFoundResponse(res, error.message = "Get all block users failed");
+        }
+    },
+    unBlockUser : async (req,res) => {
+        try {
+            const {id} = req.params;
+            const user = await UserModel.findByIdAndUpdate(id,{isBlocked : false});
+            res.status(200).json({
+                success: true,
+                message: "Unblock user successfully",
+                data: user,
+                timestamp: new Date().toISOString()
+            }); 
+        } catch (error) {
+            ErrorNotFoundResponse(res, error.message = "Unblock user failed");
+        }
+    }
   
 }
 

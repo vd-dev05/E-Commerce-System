@@ -7,4 +7,6 @@ const adminRouter = express.Router();
 adminRouter.post('/login',adminController.login)
 adminRouter.get('/get-users',adminMiddleware.isAdmin, adminController.getUsers)
 adminRouter.get('/trafic-users',adminMiddleware.isAdmin, adminController.traficUser)
+adminRouter.get('/block-users',adminMiddleware.isAdmin, adminController.getBlockUser)
+adminRouter.put('/unblock-user/:id',adminMiddleware.isAdmin, adminController.unBlockUser)
 export default adminRouter

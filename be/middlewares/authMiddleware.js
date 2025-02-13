@@ -74,6 +74,7 @@ const authMiddleware = async (req, res, next) => {
     }
 }
 
+
 const validateManagerInput = async (req, res, next) => {
     const { manager_name, email, password, phone } = req.body;
     try {
