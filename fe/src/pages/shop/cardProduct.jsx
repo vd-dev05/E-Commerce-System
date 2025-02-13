@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import ShoppingHeader from "@/components/shop/header";
 import { formatPrice, formatRatingLengt, locationPath, mapCategoryFromUrl } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCartProduct, getProductById } from "@/store/Shop/users/userThunk"; 
-import { addToCart, removeToCart ,} from "@/store/Shop/users"; 
+import { addToCartProduct, getProductById } from "@/store/Shop/users/userThunk";
+import { addToCart, removeToCart, } from "@/store/Shop/users";
 
 import { FaStar } from "react-icons/fa6";
 import { allcategory } from "@/config";
@@ -53,6 +53,9 @@ const CardProduct = () => {
           );
         });
       });
+      // console.log(attributes);
+      // console.log(matchingProduct);
+
       if (matchingProduct) {
         setCheckCart(matchingProduct)
       }
@@ -64,45 +67,39 @@ const CardProduct = () => {
   const handleAddToCart = () => {
     if (!select) {
       message.error("Chua chon phan loai")
+     
     } else if (cartIndex === 0) {
       message.error("Vui them so luong")
+      return
+    } else if (!checkCart && cartIndex==0){
+      message.error("Sản phẩm hết hàng hoặc chọn không đúng số lượng");
+      return
     }
-   
-    // console.log(select);
-
-
-    if (checkCart) {
-   
+    if (checkCart ) {
       const attributes = Object.keys(select).map(attributeName => ({
         name: attributeName,
         value: select[attributeName].value
       }));
+    
+      const checkattributes = checkCart?.attributes?.map(({ _id, ...item }) => item);
 
-      message.success("Da them vao gio hang")
+      if (JSON.stringify(attributes) === JSON.stringify(checkattributes)) {
+        message.success("Da them vao gio hang")
+
+      } else {
+        message.error("het hang")
+      }
+    
       dispatch(addToCartProduct({
         productId: payloadProducts._id,
-        quantity: cartIndex,
+        quantity: cartIndex,  
         price: payloadProducts.price,
         salePrice: payloadProducts.salePrice,
         attributes: attributes,
         priceBeta : checkCart.price,
         sku : checkCart.sku
       }));
-    } else {
-      message.error("Sản phẩm hết hàng hoặc chọn không đúng số lượng");
-    }
-
-    // console.log( matchingProduct);
-    // console.log(payloadProducts);
-
-    // dispatch(addToCartProduct({
-    //   productId: payloadProducts._id,
-    //   quantity: cartIndex,
-    //   price: payloadProducts.price,
-    //   salePrice: payloadProducts.salePrice,
-    //   attributes:  attributes
-    // }))
-
+    } 
   }
 
 
@@ -178,7 +175,7 @@ const CardProduct = () => {
                   }}
                   className="bg-gray-300 px-2 py-1 rounded-md">-</button>
                 <input type="text"
-                value={cartIndex } readOnly className="w-12 px-2 py-1 text-center border-gray-300 border-[1px] rounded-md" />
+                  value={cartIndex} readOnly className="w-12 px-2 py-1 text-center border-gray-300 border-[1px] rounded-md" />
                 <button
                   onClick={() => {
                     dispatch(addToCart())
@@ -189,14 +186,6 @@ const CardProduct = () => {
 
               <div className="my-10 flex gap-20">
                 <button
-                  // onClick={() => {
-                  //   // console.log(cartIndex);
-                  //   // let values = Object.values(select).map(item => item.value);
-                  //   // console.log(values);
-                  //   // console.log(payloadProducts._id);
-
-
-                  // }}
                   onClick={handleAddToCart}
                   className="bg-red-200 text-[#951d38] border-[#951d38] border-[1px] p-2 flex  items-center gap-2 rounded-sm"
                 ><span><FaCartPlus /></span><span>Thêm vào giỏ hàng</span></button>
@@ -228,3 +217,5 @@ const CardProduct = () => {
 };
 
 export default CardProduct;
+
+

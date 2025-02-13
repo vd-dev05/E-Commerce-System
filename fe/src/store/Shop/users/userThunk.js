@@ -1,5 +1,38 @@
 import axios from "axios";
 import {createAsyncThunk} from "@reduxjs/toolkit"
+
+export const recommendProduct = createAsyncThunk('/recommendProduct', async (data) => {
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/recommend/list`, data, {
+        withCredentials: true,
+    })
+    return response.data
+} )
+
+export const getOrderPaymentProcess = createAsyncThunk('/getOrderPaymentProcess', async () => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products/process`, {
+        withCredentials: true,
+    })
+    return response.data
+} )
+
+export const editPaymentOrder = createAsyncThunk('/editPaymentOrder', async ({ id, data }) => {
+   
+    
+    const response = await axios.put(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products/order/${id}`, data, {
+        withCredentials: true,
+    })
+    return response.data
+})
+
+export const  getOrderProductId = createAsyncThunk('/getOrderProductId' , async (id) => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products/get-order/${id}`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data
+})
+
 export const getRouteData = createAsyncThunk('getRouteProducts', (data) => {
     return data
 })
@@ -74,7 +107,6 @@ export const getAlladdress = createAsyncThunk('/getAlladdress',
         }
     }
 )
-
 export const createSearch = createAsyncThunk('/createSearch',
     async (data) => {
         const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/search/create`, data, {
@@ -83,7 +115,6 @@ export const createSearch = createAsyncThunk('/createSearch',
         return response.data
     }
 )
-
 export const getSearch = createAsyncThunk('/getSearch',
     async () => {
         const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/search`, {
@@ -111,7 +142,6 @@ export const getVoucher = createAsyncThunk('/getVoucher', async () => {
     })
     return response.data
 })
-
 export const postQueryProduct = createAsyncThunk('/postQueryProduct', async (data) => {
     // console.log(data);
 

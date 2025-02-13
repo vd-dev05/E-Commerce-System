@@ -1,6 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { formatPrice, formatTitleLenght } from "@/lib/utils";
-import {  createOrder, getCoinPaypal, getToCartProduct, removeAllCart, removeToCartProduct } from "@/store/Shop/users/userThunk";
+import { formatPrice, formatTitleLenght, generateUniqueId } from "@/lib/utils";
+import { createOrder, getCoinPaypal, getToCartProduct, removeAllCart, removeToCartProduct } from "@/store/Shop/users/userThunk";
 import { addToCart, removeToCart } from "@/store/Shop/users";
 import { message, Tooltip } from "antd";
 import { useEffect, useState } from "react";
@@ -17,12 +17,6 @@ import {
 } from "@/components/ui/dialog";
 import queryString from "query-string";
 
-const generateUniqueId = (item) => {
-    const color = item?.variants[0]?.attributes?.find(attr => attr.name === "Màu sắc")?.value;
-    const size = item?.variants[0]?.attributes?.find(attr => attr.name === "Kích thước")?.value;
-    const beta = item?.variants[0]?.attributes?.find(attr => attr.name === "Chất liệu")?.value;
-    return `${item?.productId?._id}-${item?.quantity}-${item?.price}-${color}-${size}-${beta}`;
-};
 
 
 const ShoppingCart = () => {
@@ -37,7 +31,7 @@ const ShoppingCart = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [dataProduct, setDataProduct] = useState()
     const [paymentEcom, setpaymentEcom] = useState(false)
-   
+
     const handleSelect = (e) => {
         setIsPrice(e.target.value === "usd");
     };
@@ -82,8 +76,7 @@ const ShoppingCart = () => {
             setDataProduct(dataProduct ? [...dataProduct, item] : [item]);
         }
     };
-
-    // console.log(selectProduct);
+      
     const { totalAmount, totalItems } = payloadCartProduct?.reduce(
         (acc, item) => {
             const uniqueId = generateUniqueId(item);
@@ -97,6 +90,8 @@ const ShoppingCart = () => {
     ) ?? { totalAmount: 0, totalItems: 0 };
 
     const totalAmountUpdate = paymentEcom ? Math.max(0, coinUpdate - totalAmount) : totalAmount;
+ 
+
     return (
         <div>
             <header>
@@ -116,63 +111,53 @@ const ShoppingCart = () => {
                     test
                 </div>
                 <section>
-                    <div className="flex justify-between bg-white p-5 shadow-sm my-2 rounded-md">
-                        <div className="flex items-center gap-4">
-                            <Checkbox
-                                onClick={() => toggleSelectAll()}
-                                checked={selectAll}
-                            />
-                            <p className="font-semibold">Sản phẩm</p>
-                        </div>
-                        <div className="flex gap-16 px-8">
-                            <p className="font-semibold">Đơn Giá</p>
-                            <p className="font-semibold">Số Lượng</p>
-                            <p className="font-semibold">Số Tiền</p>
-                            <p className="font-semibold">Thao tác</p>
-                        </div>
-                    </div>
-                </section>
-                {payloadCartProduct?.map((item, index) => (
-                    <section key={index}>
-
-                        <div className="bg-white p-5 shadow-sm my-2 rounded-md">
-                            <div className="flex items-center justify-between gap-4">
-                                <div className="flex gap-4">
-                                    <Checkbox
-
-                                        checked={selectProduct.includes(generateUniqueId(item))}
-                                        onClick={() => toggleSelectItem(item)}
-                                    />
-                                    <img
-                                        className="h-14 w-14 object-cover rounded"
-                                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/new-year-background-736885_1280.jpg"
-                                        alt=""
-                                    />
-                                    <Tooltip title={item?.productId?.name}>
-                                        <h2 className="truncate">{formatTitleLenght(item?.productId?.name, 20)}</h2>
-                                    </Tooltip>
-                                    <div className="flex flex-col">
-                                        <span className="text-sm text-gray-500">Phân Loại Hàng:</span>
-                                        <div className="flex flex-col">
-                                            {item?.variants[0]?.attributes.map((attribute, idx) => (
-                                                <span className="text-xs" key={idx}>
-                                                    {attribute?.name}: {attribute?.value}
-                                                </span>
-                                            ))}
+                    <table className="w-full">
+                        <thead>
+                            <tr className="text-left border-b-2">
+                                <th className="py-2 px-4 flex gap-2 ">
+                                    <span>
+                                        <Checkbox
+                                            onClick={() => toggleSelectAll()}
+                                            checked={selectAll}
+                                        />
+                                    </span>
+                                    Sản Phẩm</th>
+                                <th className="py-2 px-4 ">Đơn giá</th>
+                                <th className="py-2 px-4">Số lượng</th>
+                                <th className="py-2 px-4">Tổng Tiền</th>
+                                <th className="py-2 px-4">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        {payloadCartProduct?.map((item, index) => (
+                            <tbody key={index}>
+                                <tr className="border-b-2">
+                                    <td className="py-2 px-4 flex items-center gap-4 ">
+                                        <Checkbox
+                                            checked={selectProduct.includes(generateUniqueId(item))}
+                                            onClick={() => toggleSelectItem(item)}
+                                        />
+                                        <img
+                                            className="h-14 w-14 object-cover rounded"
+                                            src="https://cdn.pixabay.com/photo/2015/04/23/22/00/new-year-background-736885_1280.jpg"
+                                            alt=""
+                                        />
+                                        <Tooltip title={item?.productId?.name}>
+                                            <h2 className="truncate">{formatTitleLenght(item?.productId?.name, 20)}</h2>
+                                        </Tooltip>
+                                    </td>
+                                    <td className="py-2 px-4">
+                                        <div className="flex flex-col ">
+                                            <span className="text-sm text-gray-500">Phân Loại Hàng:</span>
+                                            <div className="flex flex-col">
+                                                {item?.variants[0]?.attributes.map((attribute, idx) => (
+                                                    <span className="text-xs" key={idx}>
+                                                        {attribute?.name}: {attribute?.value}
+                                                    </span>
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex gap-16 items-center px-8">
-                                        <div className="space-x-4">
-                                            <span className="line-through text-gray-500">
-                                                {formatPrice(item?.price)}
-                                            </span>
-                                            <span className="text-red-500 font-semibold">
-                                                {formatPrice(item?.salePrice)}
-                                            </span>
-                                        </div>
-
+                                    </td>
+                                    <td className="py-2 px-4">
                                         <div className="flex items-center">
                                             <button
                                                 onClick={() => {
@@ -199,45 +184,45 @@ const ShoppingCart = () => {
                                                 +
                                             </button>
                                         </div>
-                                        <div>
-                                            <span className="text-red-500 font-semibold">
-                                                {formatPrice(item?.variants[0]?.quantity * item.salePrice)}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <Dialog>
-                                                <DialogTrigger className="bg-red-500 px-3 py-1 rounded-md text-white">
-                                                    Xóa
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <DialogHeader>
-                                                        <DialogTitle>
-                                                            Ban chac chan xoa gio hang chu
-                                                        </DialogTitle>
-                                                        <DialogDescription>
-                                                            Tại sao bạn lại xóa ?
-                                                        </DialogDescription>
-                                                    </DialogHeader>
-                                                    <DialogFooter>
-                                                        <DialogTrigger className="bg-red-500 px-3 py-1 rounded-md text-white">
-                                                            Hủy
-                                                        </DialogTrigger>
-                                                        <DialogTrigger
-                                                            onClick={() => handleDeleteCart(item)}
-                                                            className="bg-red-500 px-3 py-1 rounded-md text-white"
-                                                        >
-                                                            Xóa
-                                                        </DialogTrigger>
-                                                    </DialogFooter>
-                                                </DialogContent>
-                                            </Dialog>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                ))}
+                                    </td>
+                                    <td className="py-2 px-4">
+                                        <span className="text-red-500 font-semibold">
+                                            {formatPrice(item?.variants[0]?.quantity * item.salePrice)}
+                                        </span>
+                                    </td>
+                                    <td className="py-2 px-4">
+                                        <Dialog>
+                                            <DialogTrigger className="bg-red-500 px-3 py-1 rounded-md text-white">
+                                                Xóa
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        Ban chac chan xoa gio hang chu
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        Tại sao bạn lại xóa ?
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <DialogTrigger className="bg-red-500 px-3 py-1 rounded-md text-white">
+                                                        Hủy
+                                                    </DialogTrigger>
+                                                    <DialogTrigger
+                                                        onClick={() => handleDeleteCart(item)}
+                                                        className="bg-red-500 px-3 py-1 rounded-md text-white"
+                                                    >
+                                                        Xóa
+                                                    </DialogTrigger>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        ))}
+                    </table>
+                </section>
 
                 <section>
                     <div className="flex  p-5 bg-slate-50 w-full ">
@@ -319,7 +304,7 @@ const ShoppingCart = () => {
                                                 if (isLoading === false) {
                                                     // const encodeIdarr = payloadOrder.map((item) => (item._id ? [item._id] : [])).flat() 
                                                     // console.log(encodeIdarr);
-                                                    
+
                                                     if (isOrder === true && messageOrder === "Order tồn tại") {
                                                         nav(`/shop/checkout/${payloadOrder._id}?isSatus=false&payment=${payloadOrder.paymentMeThod}`)
                                                     }

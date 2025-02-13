@@ -34,8 +34,8 @@ const CartShop = () => {
                                     className="h-[90px] w-[90px] object-cover"
                                     src={assets.banner_1} alt="anh 1" />
                                 <div className="flex p-2 gap-10 items-center justify-between">
-                                    <h2>{formatTitleLenght(item?.productId?.name, 13)}</h2>
-                                    <span>Gia : {formatPrice(item?.salePrice)}</span>
+                                    <h2 className="text-nowrap">{formatTitleLenght(item?.productId?.name, 13)}</h2>
+                                    <span className="text-red-400 text-nowrap">{formatPrice(item?.salePrice)}</span>
                                 </div>
                             </div>
                         
@@ -48,7 +48,7 @@ const CartShop = () => {
                 <button
                     onClick={() => nav("/shop/cart")}
                     className="bg-red-400 rounded-lg p-2 text-white"
-                >Xem sanr pham</button>
+                >Xem sản phẩm</button>
             </div>
         </div>
     );

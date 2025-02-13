@@ -1,4 +1,24 @@
+import { recommendProduct } from "@/store/Shop/users/userThunk";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 const Recommend = () => {
+    const [data,setData] = useState([])
+    const recommendHistory = localStorage.getItem('recommend') || [];
+    const dispatch = useDispatch()
+    // console.log(recommendHistory);
+    const {isLoadingRecommend , payloadRecommend} = useSelector(state => state.shoppingProduct)
+    useEffect(() => {
+        if (recommendHistory) {
+            // const pare = JSON.parse(recommendHistory);
+            // console.log(pare);
+            dispatch(recommendProduct({obj : recommendHistory}))
+        }
+    }, [recommendHistory])
+
+    console.log(isLoadingRecommend ,payloadRecommend);
+    
+    
     return (
         <div>
             <h2 className="text-xl font-normal">Gợi ý cho bạn</h2>

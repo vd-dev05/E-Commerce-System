@@ -49,9 +49,6 @@ const PaymentProfile = () => {
                         to={'/shop/profile/payment/checkout'}
                     >
                         Nạp ngay
-                        {/* <PayPalScriptProvider options={initialOptions}>
-                            <Checkout />
-                        </PayPalScriptProvider> */}
                     </Link>
 
 

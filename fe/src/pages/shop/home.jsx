@@ -8,6 +8,7 @@ import { SilderHome } from "@/components/shop/slides";
 import { categoryList } from "@/config";
 import useCounter from "@/hooks/custom";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
+import { clickRecommend } from "@/store/Shop/users";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
@@ -89,12 +90,17 @@ const ShoppingHome = () => {
                         <div className="grid grid-cols-10 py-2 ">
                             {categoryList.map((item) => (
 
-                                <Link key={item.id} to={`/shop/listing/${item.path}`} className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:shadow-lg hover:border-slate-400 border border-gray-300">
+                                <div
+                                onClick={() => dispatch( clickRecommend({id : item.id, path : item.path}))}
+                                 key={item.id} 
+                                //  to={`/shop/listing/${item.path}`} 
+                                 className="flex flex-col items-center py-5  gap-2 cursor-pointer hover:shadow-lg hover:border-slate-400 border border-gray-300">
                                     <img
                                         className="w-20 h-20 object-cover"
                                         src={item.url} alt="" />
-                                    <span className="text-xs ">{item.label}</span>
-                                </Link>
+                                    <span
+                                    className="text-xs ">{item.label}</span>
+                                </div>
                             ))}
                         </div>
 

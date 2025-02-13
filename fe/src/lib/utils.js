@@ -50,6 +50,7 @@ function mapCategoryFromUrl(path) {
   return categoryMapping[path]
 }
 function formatTitleLenght(title,number = 20) {
+  if (!title) return "not found text"
   return title.length > number ? title.slice(0,number) + "..." : title;
 }
 
@@ -74,6 +75,14 @@ function formatRatingLengt(rating) {
     return String(rating);
   }
 }
+
+const generateUniqueId = (item) => {
+  const color = item?.variants[0]?.attributes?.find(attr => attr.name === "Màu sắc")?.value;
+  const size = item?.variants[0]?.attributes?.find(attr => attr.name === "Kích thước")?.value;
+  const beta = item?.variants[0]?.attributes?.find(attr => attr.name === "Chất liệu")?.value;
+  return `${item?.productId?._id}-${item?.quantity}-${item?.price}-${color}-${size}-${beta}`;
+};
+
 export {
   formatPrice,
   formatTitle,
@@ -84,5 +93,6 @@ export {
   formatTitleLenght,
   locationQuery,
   locationPath,
-  formatPriceUSD,formatTime,formatRatingLengt
+  formatPriceUSD,formatTime,formatRatingLengt,
+  generateUniqueId 
 }

@@ -1,5 +1,11 @@
 import { assets } from "@/assets/assets";
 
+export const initialOptionsPayPal = {
+    clientId: import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID ,
+    // Add other options as needed
+};
+
+
 // menu
 export const shoppingHeaderItems = [
     {

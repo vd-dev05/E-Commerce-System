@@ -1,3 +1,4 @@
+import { initialOptionsPayPal } from "@/config";
 import { toast } from "@/hooks/use-toast";
 import { formatPriceUSD } from "@/lib/utils";
 import { checkAuthUser } from "@/store/Shop/auth";
@@ -7,10 +8,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
-const initialOptions = {
-    clientId: "AQDghmw_Z8JaQEQeI3cKylU10zpUNx0VZxz26_N_OXbg7UOnnF2cbkQJBeMEXfucjJkpampJBJk8gByL",
-    // Add other options as needed
-};
+
 
 const styles = {
     shape: "rect",
@@ -91,7 +89,7 @@ const CheckOutPayment = () => {
                 className="bg-black text-white p-2 rounded-sm"
             >Nạp tiền</button>
             <div>
-                <PayPalScriptProvider options={initialOptions}>
+                <PayPalScriptProvider options={initialOptionsPayPal}>
 
                  <PayPalButtons
                         onClick={() => 

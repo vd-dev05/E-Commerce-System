@@ -3,7 +3,11 @@ import {
     getRouteData, uploadAvatar, addToCartProduct, createOrder, createAddress,
     createSearch, editAddress, editProfile, getAlladdress, getCoinPaypal,
     getCoinTransaction, getSearch,getToCartProduct,getVoucher,orderCoinPayPal,
-    getProductById,postQueryProduct,removeAllCart,removeToCartProduct
+    getProductById,postQueryProduct,removeAllCart,removeToCartProduct,
+    getOrderProductId,
+    editPaymentOrder,
+    getOrderPaymentProcess,
+    recommendProduct
 
 
 } from "./userThunk";
@@ -41,11 +45,25 @@ const shoppingProduct = createSlice({
 
         isRemoveCartProduct: false,
         isRemoveAllProduct: false,
-
+      
         isOrder: false,
         isPaymentOrder: false,
         isOrderMessage: null,
-        messageOrder: null
+        messageOrder: null,
+        payloadOrder : null,
+
+        isLoadingOrderProduct : false,
+        payloadOrderProduct : null,
+
+        isPaymentSuccess : false,
+        payloadPaymentSuccess : null,
+
+        isPaymentProcess : false,
+        payloadPaymentProcess : null,
+        payloadTotalPaymentProcess : 0,
+
+        isLoadingRecommend : false,
+        payloadRecommend : null
     },
     reducers: {
         setProduct: (state, action) => { },
@@ -74,6 +92,35 @@ const shoppingProduct = createSlice({
                 state.messageOrder = null,
                 state.isPaymentOrder = false,
                 state.isOrderMessage = null
+        },
+        clickRecommend : (state ,action ) => {
+            let arrRecommend = localStorage.getItem('recommend')
+
+            if (!arrRecommend) {
+                arrRecommend = [];
+                localStorage.setItem('recommend', JSON.stringify(arrRecommend));
+            } else {
+                arrRecommend = JSON.parse(arrRecommend);
+          
+                const sortedArr = arrRecommend.sort((a, b) => b.date - a.date);
+                const checkDuplicate = sortedArr.find(item => item.id === action.payload.id);
+                if (checkDuplicate) {
+                    const index = sortedArr.indexOf(checkDuplicate);
+                    sortedArr.splice(index, 1);
+                    localStorage.setItem('recommend', JSON.stringify(sortedArr));
+                }
+
+            }
+
+            if (arrRecommend) {
+                // console.log(action);
+                const data =  {
+                    ...action.payload,
+                    date : new Date().getTime()
+                }
+                arrRecommend.push(data);
+                localStorage.setItem('recommend', JSON.stringify(arrRecommend));
+            }
         }
 
     },
@@ -149,7 +196,9 @@ const shoppingProduct = createSlice({
             .addCase(editAddress.pending, (state) => { state.isUpdateAddress = false, state.addressMessageUpdate = null })
             .addCase(editAddress.fulfilled, (state, action) => {
                 state.isUpdateAddress = true,
-                    state.addressMessageUpdate = action.payload.message
+                state.isAddress = false
+                state.addressPaydata = null
+                state.addressMessageUpdate = action.payload.message
             })
             .addCase(editAddress.rejected, (state) => { state.isUpdateAddress = false, state.addressMessageUpdate = action.payload || "An error occurred." })
         builder
@@ -231,6 +280,15 @@ const shoppingProduct = createSlice({
 
             })
             .addCase(createOrder.rejected, (state) => { state.isOrder = false, state.isLoading === true, state.payloadOrder = null, state.messageOrder = null })
+
+        builder
+            .addCase(getOrderProductId.pending, (state) => { state.isLoadingOrderProduct = true })
+            .addCase(getOrderProductId.fulfilled, (state, action) => {
+                state.isLoadingOrderProduct = false
+                state.payloadOrderProduct = action?.payload    
+            })
+            .addCase(getOrderProductId.rejected, (state,action) => { console.log(action);
+              })
         // builder 
         //     .addCase(createPaymentOrder.pending, (state) => { state.isPaymentOrder = true })
         //     .addCase(createPaymentOrder.fulfilled, (state, action) => {
@@ -238,9 +296,34 @@ const shoppingProduct = createSlice({
         //         state.payloadPaymentOrder = action?.payload?.payment
         //     })
         //     .addCase(createPaymentOrder.rejected, (state) => { state.isPaymentOrder = false })
+        builder
+            .addCase(editPaymentOrder.pending, (state) => { state.isPaymentOrder = true , state.isPaymentSuccess = false,  state.payloadPaymentSuccess = null })
+            .addCase(editPaymentOrder.fulfilled, (state, action) => {
+                state.isPaymentOrder = false
+                state.isPaymentSuccess = action?.payload?.success
+                state.payloadPaymentSuccess = action?.payload?.message
+       
+            })
+            .addCase(editPaymentOrder.rejected, (state) => { state.isPaymentOrder = false ,state.isPaymentSuccess = false,  state.payloadPaymentSuccess = null })
+        builder
+            .addCase(getOrderPaymentProcess.pending, (state) => { state.isPaymentProcess = true, state.payloadPaymentProcess = null })
+            .addCase(getOrderPaymentProcess.fulfilled, (state, action) => {
+                state.isPaymentProcess = false
+                state.payloadPaymentProcess = action?.payload?.payment
+                state.payloadTotalPaymentProcess = action?.payload?.total
+    
+            })
+            .addCase(getOrderPaymentProcess.rejected, (state) => { state.isPaymentProcess = false, state.payloadPaymentProcess = null })
+        builder
+            .addCase(recommendProduct.pending, (state) => { state.isLoadingRecommend = true })
+            .addCase(recommendProduct.fulfilled, (state, action) => {
+                state.isLoadingRecommend = false
+                state.payloadRecommend = action?.payload
+            })
+            .addCase(recommendProduct.rejected, (state) => { state.isLoadingRecommend = false, state.payloadRecommend = null })
     }
 
 })
 
-export const { setProduct, addToCart, removeToCart, selectAttributes, onpopstate } = shoppingProduct.actions
+export const { setProduct, addToCart, removeToCart, selectAttributes, onpopstate,  clickRecommend } = shoppingProduct.actions
 export default shoppingProduct.reducer
