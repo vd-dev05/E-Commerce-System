@@ -12,14 +12,14 @@ const Recommend = () => {
     const { isLoadingRecommend, payloadRecommend } = useSelector(state => state.shoppingProduct)
     const { user , isAuthenticated } = useSelector(state => state.shoppingAuth)
     useEffect(() => {
-        if (recommendHistory) {
-            // const pare = JSON.parse(recommendHistory);
-            // console.log(pare);
+        if (recommendHistory !== null && recommendHistory !== undefined && user !== null ) {
+    
             dispatch(recommendProduct({ obj: recommendHistory }))
+        } else {
+            return
         }
     }, [recommendHistory, clickRecommend])
 
-    // console.log(isLoadingRecommend, payloadRecommend);
 
 
     return (
