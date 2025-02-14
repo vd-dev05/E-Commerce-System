@@ -42,7 +42,7 @@ const adminController = {
         const totalPages = Math.ceil(totalItems / limit);
         const skip = (page - 1) * limit;
 
-        const users = await UserModel.find()
+        const users = await UserModel.find({isActive : true})
         .skip(skip)
         .limit(limit)
         .select('-__v  -updatedAt -password') 
@@ -123,6 +123,71 @@ const adminController = {
             }); 
         } catch (error) {
             ErrorNotFoundResponse(res, error.message = "Unblock user failed");
+        }
+    },
+    deleteUsers : async (req,res) => {
+        try {
+            const {id} = req.params;
+            const user = await UserModel.findByIdAndUpdate(id,{
+                isActive : false,
+                deleteCount : Date.now() + 30 * 24 * 60 * 60 * 1000
+            });
+            res.status(200).json({
+                success: true,
+                message: "Delete user successfully",
+                data: user,
+                timestamp: new Date().toISOString()
+            });
+        } catch (error) {
+            ErrorNotFoundResponse(res, error.message = "Delete users failed");
+        }
+    },
+    getTraficDate : async (req,res) => {
+        try {
+            const now = new Date();
+            const twelveMonthsAgo = new Date(now.setMonth(now.getMonth() - 12));
+       
+            const data = await UserModel.aggregate([
+                {
+                  $match: {
+                    createdAt: { $gte: twelveMonthsAgo } // Lọc người dùng đã đăng ký trong 12 tháng qua
+                  }
+                },
+                {
+                  $project: {
+                    username: 1,
+                    email: 1,
+                    createdAt: 1,  // Trích xuất ngày tạo tài khoản
+                    month: { $month: "$createdAt" }, // Trích xuất tháng từ trường `createdAt`
+                    year: { $year: "$createdAt" },   // Trích xuất năm từ trường `createdAt`
+                    isBlocked: 1, // Thông tin về người dùng bị khóa
+                  }
+                },
+                {
+                  $group: {
+                    _id: { month: "$month", year: "$year" }, // Nhóm theo tháng và năm
+                    newUserCount: { $sum: 1 },  // Đếm số lượng người dùng mới trong tháng đó
+                    violationUserCount: { $sum: { $cond: [{ $eq: ["$isBlocked", true] }, 1, 0] } }, // Đếm số người dùng bị khóa
+                  }
+                },
+                {
+                  $sort: { "_id.year": -1, "_id.month": -1 } // Sắp xếp theo tháng gần nhất
+                },
+                {
+                  $limit: 12 // Giới hạn chỉ lấy dữ liệu của 12 tháng
+                }
+              ]).exec();
+
+            const totalUserCount = await UserModel.countDocuments({ createdAt: { $gte: twelveMonthsAgo } });
+
+            res.status(200).json({
+                success: true,
+                message: "Get trafic date successfully",
+                data: { monthlyData: data.reverse(), totalUserCount },
+                timestamp: new Date().toISOString()
+            })
+        } catch (error) {
+            ErrorNotFoundResponse(res, error.message = "Get trafic date failed");
         }
     }
   

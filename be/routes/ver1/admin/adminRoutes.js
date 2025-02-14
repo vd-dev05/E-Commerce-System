@@ -9,4 +9,6 @@ adminRouter.get('/get-users',adminMiddleware.isAdmin, adminController.getUsers)
 adminRouter.get('/trafic-users',adminMiddleware.isAdmin, adminController.traficUser)
 adminRouter.get('/block-users',adminMiddleware.isAdmin, adminController.getBlockUser)
 adminRouter.put('/unblock-user/:id',adminMiddleware.isAdmin, adminController.unBlockUser)
+adminRouter.delete('/delete-user/:id',adminMiddleware.isAdmin, adminController.deleteUsers)
+adminRouter.get('/test',adminMiddleware.isAdmin,adminController.getTraficDate)
 export default adminRouter

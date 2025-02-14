@@ -15,7 +15,7 @@ const register = async (req, res) => {
             email,
             gender,
             birthday: formattedBirthday,
-            phone,
+            phone : Number(phone),
             password: hashPassword,
             isActive: true,
             last_login: Date.now(),

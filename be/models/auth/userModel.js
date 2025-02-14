@@ -41,6 +41,7 @@ const userSchema = mongoose.Schema({
         }
     ],    
     countBlock : { type: Number, default: 0 },
+    deleteCount : { type: Number },
 }, { timestamps: true })
 const UserModel = mongoose.model('user', userSchema)
 
