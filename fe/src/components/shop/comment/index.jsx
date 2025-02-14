@@ -3,10 +3,10 @@ import { message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const CommentProduct = ({ payloadProductsId }) => {
+const CommentProduct = ({ payloadProductsId, user, isAuthenticated ,nav }) => {
     const [value, setValue] = useState('');
     const [data, setData] = useState([])
-    const [isLoading,setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const sanitizeInput = (input) => {
         const div = document.createElement('div');
         div.appendChild(document.createTextNode(input));
@@ -16,13 +16,25 @@ const CommentProduct = ({ payloadProductsId }) => {
     const handleChange = (e) => {
         setValue(e.target.value);
     };
-
+    useEffect(() => {
+        if (!isAuthenticated && user === null) {
+            message.error("Vui long dang nhap") 
+        }
+    }, [value])
+    
     const handleSend = async () => {
         try {
             setIsLoading(true)
             if (value.trim() === '') {
                 message.error("Vui lòng nhập nội dung");
                 return;
+            }
+            if (!isAuthenticated && user === null) {
+                message.error("Vui long dang nhap.Chuyen huong trang sau 3s")
+                setTimeout(() => {
+                    nav('/shop/login')
+                }, 3000);
+                return
             }
             const sanitizedValue = sanitizeInput(value);
             const response = await axios.post(
@@ -98,7 +110,7 @@ const CommentProduct = ({ payloadProductsId }) => {
                             <img src={item?.userId?.avartar}
                                 className="w-[50px] h-[50px] object-cover rounded-full"
                                 alt="" />
-                            <div className="flex flex-col gap-[1px]"> 
+                            <div className="flex flex-col gap-[1px]">
                                 <p className="text-[14px]">{item?.userId?.username}</p>
                                 <span className="text-[12px]">{item.update_at ? formatDateCountDown(item?.update_at) : ''}</span>
                             </div>
@@ -109,10 +121,10 @@ const CommentProduct = ({ payloadProductsId }) => {
                         <p>Nội dung :{item?.message}</p>
 
                     </div>
-                )): 
-                <div
-                className="p-2 my-2 drop-shadow-lg bg-white "
-                >Chưa có đánh giá nào !</div>}
+                )) :
+                    <div
+                        className="p-2 my-2 drop-shadow-lg bg-white "
+                    >Chưa có đánh giá nào !</div>}
             </div>
         </div>
     );

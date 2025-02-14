@@ -38,7 +38,7 @@ export const updateUser = createAsyncThunk('/updateUser',
 )
 export const deleteUser = createAsyncThunk('/deleteUser',
     async (id) => {
-        const response = await axios.delete(`${backendUrl}/api/v1/admin/delete-user/${id}`, {
+        const response = await axios.delete(`${backendUrl}/api/v1/admin/delete-user/${id}` ,{
             withCredentials: true,
         })
         return response.data
@@ -79,6 +79,16 @@ export const editBlockUser = createAsyncThunk('/editBlockUser',
         return response.data  
     }
 )
+
+export const getTraficDate = createAsyncThunk('/getTraficDate',
+    async () => {
+        const response = await axios.get(`${backendUrl}/api/v1/admin/test`, {
+            withCredentials: true,
+        })
+        return response.data
+    }   
+)
+
 const adminSlice = createSlice({
     name  : 'adminAuth',
     initialState : {
@@ -92,7 +102,13 @@ const adminSlice = createSlice({
         payloadBlockUser : null,
 
         isEditBlockUser : false,
-        payloadEditBlockUser : null
+        payloadEditBlockUser : null,
+
+        isDeleteUser : false,
+        payloadDeleteUser : null,
+
+        isGetTraficUserChart  :false,
+        payloadTraficUserChart : null
     },
     reducers : {
         admin : (state,action) => {
@@ -108,10 +124,7 @@ const adminSlice = createSlice({
             state.isLoading = true
         }).addCase(getUser.fulfilled, (state,action) => {
             state.isLoading = false;
-            state.dataUser = action.payload.data;
-           
-            console.log(action.payload.data);
-            
+            state.dataUser = action.payload.data;        
         }).addCase(getUser.rejected, (state,action) => {
             state.isLoading = false;
             state.dataUser = null;
@@ -159,6 +172,27 @@ const adminSlice = createSlice({
         }).addCase(editBlockUser.rejected, (state,action) => {
             state.isEditBlockUser = false;
             state.payloadEditBlockUser = null;
+        })
+
+        builder.addCase( deleteUser.pending, (state,action) => {
+            state.isDeleteUser = false
+        }).addCase( deleteUser.fulfilled, (state,action) => {
+            state.isDeleteUser = true
+            state.payloadDeleteUser = action?.payload?.data?.users
+        }).addCase( deleteUser.rejected, (state,action) => {
+            state.isDeleteUser = false;
+            state.payloadDeleteUser = null;
+        })
+        builder.addCase( getTraficDate.pending, (state,action) => {
+            state.isGetTraficUserChart = false
+        }).addCase( getTraficDate.fulfilled, (state,action) => {
+            state.isGetTraficUserChart = true
+            state.payloadTraficUserChart = action?.payload?.data
+            // console.log(action?.payload?.data);
+            
+        }).addCase( getTraficDate.rejected, (state,action) => {
+            state.isGetTraficUserChart = false;
+            state.payloadTraficUserChart = null;
         })
     }
 })

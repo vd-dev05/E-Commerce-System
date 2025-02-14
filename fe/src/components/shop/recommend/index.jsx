@@ -10,6 +10,7 @@ const Recommend = () => {
     const dispatch = useDispatch()
     // console.log(recommendHistory);
     const { isLoadingRecommend, payloadRecommend } = useSelector(state => state.shoppingProduct)
+    const { user , isAuthenticated } = useSelector(state => state.shoppingAuth)
     useEffect(() => {
         if (recommendHistory) {
             // const pare = JSON.parse(recommendHistory);
@@ -25,24 +26,32 @@ const Recommend = () => {
         <div>
             <h2 className="text-xl font-normal">Gợi ý cho bạn</h2>
             <div className="grid grid-cols-6 mt-4">
-                {isLoadingRecommend === false && payloadRecommend?.map((item, index) => (
-                    <div key={item._id} className="cursor-pointer w-[200px]">
-                        <div className="relative w-full drop-shadow-lg py-2">
-                            <img
-                                className="w-full h-[200px] object-cover rounded-md"
-                                src={item?.images?.mainImage} alt="" />
-                            <div className="absolute bottom-0 w-full p-2 bg-white">
-                                <div className="flex flex-col items-start">
-                                    <div className="flex items-center justify-center text-black">{item?.name}</div>
-                                    <div className="flex items-center justify-center">
-                                        <span>{item.price ? formatPrice(item?.price) : 0}</span>
-                                        <sup>- 30%</sup>
+                {user && isAuthenticated ? (
+                    !isLoadingRecommend && payloadRecommend?.length > 0 ? (
+                        payloadRecommend.map((item) => (
+                            <div key={item._id} className="cursor-pointer w-[200px]">
+                                <div className="relative w-full drop-shadow-lg py-2">
+                                    <img
+                                        className="w-full h-[200px] object-cover rounded-md"
+                                        src={item?.images?.mainImage} alt="" />
+                                    <div className="absolute bottom-0 w-full p-2 bg-white">
+                                        <div className="flex flex-col items-start">
+                                            <div className="flex items-center justify-center text-black">{item?.name}</div>
+                                            <div className="flex items-center justify-center">
+                                                <span>{item.price ? formatPrice(item?.price) : 0}</span>
+                                                <sup>- 30%</sup>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                ))}
+                        ))
+                    ) : (
+                        <div className="text-nowrap">Chưa có sản phẩm gợi ý nào</div>
+                    )
+                ) : (
+                    <div className="text-nowrap">Bạn phải đăng nhập để sử dụng tính năng này</div>
+                )}
             </div>
         </div>
     );

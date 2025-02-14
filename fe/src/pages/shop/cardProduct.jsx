@@ -28,9 +28,11 @@ const CardProduct = () => {
   const nav = useNavigate()
   const [mainImage, setMainImage] = useState(productImages[0]);
   const { cartIndex, items, payloadProducts, isProducts } = useSelector((state) => state.shoppingProduct);
+  const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
   const [select, setSelect] = useState()
   const [checkCart, setCheckCart] = useState()
-
+  // console.log(isAuthenticated, user);
+  
 
 
   useEffect(() => {
@@ -66,6 +68,7 @@ const CardProduct = () => {
 
 
   const handleAddToCart = () => {
+
     if (!select) {
       message.error("Chua chon phan loai")
      
@@ -75,7 +78,15 @@ const CardProduct = () => {
     } else if (!checkCart && cartIndex==0){
       message.error("Sản phẩm hết hàng hoặc chọn không đúng số lượng");
       return
+    } else if (!isAuthenticated && user === null ) {
+      message.error("Vui long dang nhap.Chuyen huong trang sau 3s")
+      setTimeout(() => {
+        nav('/shop/login')
+      }, 3000);
+      return
     }
+
+
     if (checkCart ) {
       const attributes = Object.keys(select).map(attributeName => ({
         name: attributeName,
@@ -193,8 +204,15 @@ const CardProduct = () => {
 
                 <button
                   onClick={() => {
+                    if (!isAuthenticated && user === null) {
+                      message.error("Vui long dang nhap.Chuyen huong trang sau 3s")
+                      setTimeout(() => {
+                          nav('/shop/login')
+                      }, 3000);
+                      return
+                  } else {
                     nav('/shop/cart')
-                  }}
+                  }}}
                   className="bg-red-700 text-white p-2 flex  items-center gap-2 rounded-sm"
                 >Mua ngay</button>
               </div>
@@ -212,7 +230,7 @@ const CardProduct = () => {
 
         </section>
         <section className="py-5 m-5 bg-[#fafafa]">
-          <CommentProduct payloadProductsId={payloadProducts._id} />
+          <CommentProduct  nav={nav} user={user} isAuthenticated={isAuthenticated} payloadProductsId={payloadProducts._id} />
         </section>
       </div> : "Loading"}
 

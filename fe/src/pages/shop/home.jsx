@@ -59,8 +59,10 @@ const ShoppingHome = () => {
                 
             }) 
             const data = await isBlock.json()
-            console.log(data);
-            
+            // console.log(data);
+            // if (data?.success === false && data?.message === "jwt must be provided" ) {
+
+            // }
             if (data?.success === true && data?.count > 3) {
                 setTimeout(() => {
                     navigate('/block')

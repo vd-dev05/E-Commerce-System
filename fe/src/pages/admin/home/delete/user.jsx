@@ -1,4 +1,4 @@
-import { getUser } from "@/store/admin";
+import { deleteUser, getUser } from "@/store/admin";
 import { Table, Input, Button, notification, Select, Tooltip, Modal, Image } from 'antd';
 import { Edit, SearchIcon, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AdminUser = () => {
     const [data, setData] = useState([])
-    const dispath = useDispatch()
+    const dispatch = useDispatch()
     const { dataUser } = useSelector(state => state.adminAuth)    
     const [isLoading, setIsLoading] = useState(false)
     const [totalUsers, setTotalUsers] = useState(0);
@@ -14,12 +14,14 @@ const AdminUser = () => {
     const [pageSize, setPageSize] = useState(10);
     const [editingUsers, setEditingUsers] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalDelete, setIsModalDelete] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
 
     useEffect(() => {
         const obj = { page: currentPage, limit: pageSize }
-        dispath(getUser( obj))
+        dispatch(getUser( obj))
         setIsLoading(true)
-    }, [dispath, currentPage, pageSize])
+    }, [dispatch, currentPage, pageSize])
 
     useEffect(() => {
         if (dataUser && dataUser.users && dataUser.users.length > 0) { 
@@ -96,7 +98,6 @@ const AdminUser = () => {
             render: (text) => {
                 return new Date(text).toLocaleString();
             },
-
         },
         {
             title: 'Thao tác',
@@ -112,6 +113,7 @@ const AdminUser = () => {
                     </Tooltip>
                     <Tooltip title="Xóa người dùng">
                         <Button
+                            onClick={() => handleDeleteUsers(record)}
                             type="link"
                             icon={<Trash />}
                         />
@@ -138,13 +140,25 @@ const AdminUser = () => {
         setEditingUsers(null);
     };
     const handleSaveUsers = () => {
-        
         notification.success({
             message: 'User Updated',
             description: 'User details have been updated successfully',
         });
         setIsModalVisible(false);
         setEditingUsers(null);
+    };
+
+    const handleDeleteUsers = (record) => {
+        setUserToDelete(record);
+        setIsModalDelete(true);
+    };
+
+    const confirmDeleteUser = () => {
+        // console.log(`Deleting user with ID: ${userToDelete._id}`);
+        dispatch(deleteUser(userToDelete._id))
+        setIsLoading(true)
+        setIsModalDelete(false);
+        setUserToDelete(null);
     };
 
     return (
@@ -157,7 +171,7 @@ const AdminUser = () => {
                     size="large"
                 />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 flex items-center gap-5">
                 <Select
                     defaultValue={10}
                     style={{ width: 120 }}
@@ -169,6 +183,7 @@ const AdminUser = () => {
                     <Select.Option value={30}>30 users/trang</Select.Option>
                     <Select.Option value={100}>100 users/trang</Select.Option>
                 </Select>
+                <div>Tổng số user : {totalUsers}</div>
             </div>
             <div>
                 <Table className="scale-95"
@@ -224,6 +239,16 @@ const AdminUser = () => {
                     <Button type="primary" onClick={handleSaveUsers}>
                         Save
                     </Button>
+                </Modal>
+                <Modal 
+                    title="Bạn chắc chắn muốn xóa?"
+                    visible={isModalDelete}
+                    onOk={confirmDeleteUser}
+                    onCancel={() => setIsModalDelete(false)}
+                    okText="Xóa"
+                    cancelText="Hủy"
+                >
+                    <p>Bạn có chắc chắn muốn xóa người dùng này không?</p>
                 </Modal>
             </div>
         </div>
