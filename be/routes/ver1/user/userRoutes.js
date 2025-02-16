@@ -16,10 +16,16 @@ import RecommendController from "../../../controllers/user/recommend/index.js";
 import TopSearch from "../../../controllers/user/topSearch/index.js";
 import CommentController from "../../../controllers/user/comment/index.js";
 import BlockUser from "../../../controllers/user/block/index.js";
+import VoucherController from "../../../controllers/user/voucher/index.js";
+import Favorite from "../../../controllers/user/favorite/index.js";
 const usersRouter = express.Router();
 
 // usersRouter.post('/countdown/start',CountDown.getTimeStart)
 // usersRouter.get('/countdown/end',CountDown.getTimeCountdownEndTime)
+usersRouter.post('/favorite/unlike/:id',authMiddleware,Favorite.removeToList)
+usersRouter.post('/favorite/check/:id',authMiddleware,Favorite.checkFavorite)
+usersRouter.post('/favorite/like/:id',authMiddleware,Favorite.addToList)
+usersRouter.get('/voucher/promotion',authMiddleware, VoucherController.getVoucherPromotion)
 usersRouter.get('/check-block',authMiddleware, BlockUser.getCountBlockUser )
 usersRouter.get('/products/comment/:id',authMiddleware, CommentController.getCommentProductId)
 usersRouter.post('/products/:id/comment/create',authMiddleware, CommentController.createComment)

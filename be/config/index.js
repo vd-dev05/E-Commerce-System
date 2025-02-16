@@ -13,9 +13,7 @@ export const CommentSort = [
     'fuck',
     'bán như cặc',
     'cho bo xin dia chi',
-    'dit me',
     'con me may',
-    'địt mẹ mày',
     'con mẹ mày',
     'ngu vậy',
     'shop làm ăn như cặc'
