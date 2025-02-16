@@ -59,14 +59,9 @@ const ShoppingHome = () => {
                 
             }) 
             const data = await isBlock.json()
-            // console.log(data);
-            // if (data?.success === false && data?.message === "jwt must be provided" ) {
-
-            // }
             if (data?.success === true && data?.count > 3) {
                 setTimeout(() => {
                     navigate('/block')
-                    // dispatch(logoutUser())
                 }, 3000);
                 message.error("Ban đã bị block, vui lòng liên hệ admin để được hỗ trợ chuyển huongs trang sau 3s");
                

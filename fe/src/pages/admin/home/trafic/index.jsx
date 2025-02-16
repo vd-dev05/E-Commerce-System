@@ -51,7 +51,6 @@ const AdminTrafic = () => {
     //         });
     //     }
     // }, [payloadTraficUserChart]);
-    console.log(payloadTraficUserChart);
     
     // const labelDate = Array.from({ length: 12 }, (_, i) => `Tháng ${i + 1}`);
     const labelDate = payloadTraficUserChart?.monthlyData?.map(item => {

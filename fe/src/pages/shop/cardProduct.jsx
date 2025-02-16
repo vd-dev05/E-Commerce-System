@@ -3,16 +3,17 @@ import React, { useEffect, useRef, useState } from "react";
 import ShoppingHeader from "@/components/shop/header";
 import { formatPrice, formatRatingLengt, locationPath, mapCategoryFromUrl } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCartProduct, getProductById } from "@/store/Shop/users/userThunk";
-import { addToCart, removeToCart, } from "@/store/Shop/users";
+import { addProductFavorite, addToCartProduct, getProductById, removeProductFavorite } from "@/store/Shop/users/userThunk";
+import { addToCart, removeToCart, setProduct, } from "@/store/Shop/users";
 
-import { FaStar } from "react-icons/fa6";
+import { FaCopy, FaHeart, FaHeartCrack, FaRegHeart, FaStar } from "react-icons/fa6";
 import { allcategory } from "@/config";
 import ProductsCustom from "@/hooks/products";
 import { message } from "antd";
-import { FaCartPlus } from "react-icons/fa";
+import { FaCartPlus, FaHeartBroken } from "react-icons/fa";
 import test from "node:test";
 import CommentProduct from "@/components/shop/comment";
+import axios from "axios";
 
 
 const productImages = [
@@ -27,12 +28,13 @@ const CardProduct = () => {
   const dispatch = useDispatch()
   const nav = useNavigate()
   const [mainImage, setMainImage] = useState(productImages[0]);
-  const { cartIndex, items, payloadProducts, isProducts } = useSelector((state) => state.shoppingProduct);
+  const { cartIndex, items, payloadProducts, isProducts, isAddToLove, isUnlikeLove } = useSelector((state) => state.shoppingProduct);
   const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
   const [select, setSelect] = useState()
   const [checkCart, setCheckCart] = useState()
+  const [isLove, setIsLove] = useState(null)
   // console.log(isAuthenticated, user);
-  
+
 
 
   useEffect(() => {
@@ -66,19 +68,33 @@ const CardProduct = () => {
     }
   }, [select, payloadProducts])
 
+  useEffect(() => {
+    (
+      async () => {
+  
+        if (payloadProducts) {
+          const resposne = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/favorite/check/${payloadProducts._id}`, {}, {
+            withCredentials: true
+          })
+          if (resposne.statusText === "OK") {
+            setIsLove(resposne.data.isFavorite)
+          } 
+        } })()
+  }, [isAuthenticated, user, isAddToLove, isUnlikeLove , dispatch ])
+
 
   const handleAddToCart = () => {
 
     if (!select) {
       message.error("Chua chon phan loai")
-     
+
     } else if (cartIndex === 0) {
       message.error("Vui them so luong")
       return
-    } else if (!checkCart && cartIndex==0){
+    } else if (!checkCart && cartIndex == 0) {
       message.error("Sản phẩm hết hàng hoặc chọn không đúng số lượng");
       return
-    } else if (!isAuthenticated && user === null ) {
+    } else if (!isAuthenticated && user === null) {
       message.error("Vui long dang nhap.Chuyen huong trang sau 3s")
       setTimeout(() => {
         nav('/shop/login')
@@ -87,12 +103,12 @@ const CardProduct = () => {
     }
 
 
-    if (checkCart ) {
+    if (checkCart) {
       const attributes = Object.keys(select).map(attributeName => ({
         name: attributeName,
         value: select[attributeName].value
       }));
-    
+
       const checkattributes = checkCart?.attributes?.map(({ _id, ...item }) => item);
 
       if (JSON.stringify(attributes) === JSON.stringify(checkattributes)) {
@@ -101,17 +117,17 @@ const CardProduct = () => {
       } else {
         message.error("het hang")
       }
-    
+
       dispatch(addToCartProduct({
         productId: payloadProducts._id,
-        quantity: cartIndex,  
+        quantity: cartIndex,
         price: payloadProducts.price,
         salePrice: payloadProducts.salePrice,
         attributes: attributes,
-        priceBeta : checkCart.price,
-        sku : checkCart.sku
+        priceBeta: checkCart.price,
+        sku: checkCart.sku
       }));
-    } 
+    }
   }
 
 
@@ -122,7 +138,7 @@ const CardProduct = () => {
         < ShoppingHeader></ShoppingHeader>
 
       </header>
-      {isProducts === true ? <div className="py-5 m-5 bg-[#fafafa]">
+      {isProducts === true && isLove !== null  ? <div className="py-5 m-5 bg-[#fafafa]">
         <div className="flex bg-white drop-shadow-sm" >
           <section className="w-1/2">
             <div className="flex space-x-4 ">
@@ -140,13 +156,61 @@ const CardProduct = () => {
               </div>
 
               {/* ảnh lớn hiển thị */}
-              <div className="flex-1">
-                <img
-                  src={mainImage}
-                  alt="Main Product"
-                  className="w-[350px] h-[400px] object-cover rounded-lg"
-                />
+              <div>
+                <div className="flex-1">
+                  <img
+                    src={mainImage}
+                    alt="Main Product"
+                    className="w-[350px] h-[400px] object-cover rounded-lg"
+                  />
+
+                </div>
+                <div className="flex items-center space-x-2 gap-2 p-2">
+                  <button className="p-2 border-2 border-gray-300 rounded-md hover:bg-gray-200 flex gap-2 items-center" onClick={() => {
+                    message.success("Sao chép thành công")
+                    navigator.clipboard.writeText(window.location.href)
+                  }
+                  }>
+
+                    <span>
+                      <FaCopy className="w-5 h-5" />
+                    </span>
+                    <p className="text-xs" >Chia sẻ </p>
+                  </button>
+                  {isLove === false
+                    ?
+                    <button
+                      onClick={() => {
+                        dispatch(addProductFavorite(payloadProducts._id))
+                        if (isAddToLove === false   ) {
+                          message.success("Thêm sản phẩm thành công")
+                        }
+                   
+                      }}
+                      className="p-2 border-2 border-gray-300 rounded-md hover:bg-gray-200 flex gap-2 items-center">
+
+                      <span><FaRegHeart className="w-5 h-5" /></span>
+                      <p className="text-xs">Nhấn thích sản phẩm</p>
+                    </button>
+                    :
+                    <button
+                      onClick={() => {
+                        dispatch(removeProductFavorite(payloadProducts._id))
+                        if (isUnlikeLove === false) {
+                          message.success("Xóa sản phẩm yêu thích thành công")
+                        }
+                      }}
+                      className="p-2 border-2 border-gray-300 rounded-md hover:bg-gray-200 flex gap-2 items-center">
+
+                      <span> <FaHeart className="w-5 h-5" /></span>
+                      <p className="text-xs">Bỏ thích sản phẩm</p>
+                    </button>
+                  }
+
+                </div>
               </div>
+
+
             </div>
           </section>
           <section className="w-2/3">
@@ -207,12 +271,13 @@ const CardProduct = () => {
                     if (!isAuthenticated && user === null) {
                       message.error("Vui long dang nhap.Chuyen huong trang sau 3s")
                       setTimeout(() => {
-                          nav('/shop/login')
+                        nav('/shop/login')
                       }, 3000);
                       return
-                  } else {
-                    nav('/shop/cart')
-                  }}}
+                    } else {
+                      nav('/shop/cart')
+                    }
+                  }}
                   className="bg-red-700 text-white p-2 flex  items-center gap-2 rounded-sm"
                 >Mua ngay</button>
               </div>
@@ -230,9 +295,15 @@ const CardProduct = () => {
 
         </section>
         <section className="py-5 m-5 bg-[#fafafa]">
-          <CommentProduct  nav={nav} user={user} isAuthenticated={isAuthenticated} payloadProductsId={payloadProducts._id} />
+          <CommentProduct nav={nav} user={user} isAuthenticated={isAuthenticated} payloadProductsId={payloadProducts._id} />
         </section>
-      </div> : "Loading"}
+      </div> : 
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
+        <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
+        <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
+      </div>
+      }
 
     </div>
   );

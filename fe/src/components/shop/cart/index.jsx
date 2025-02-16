@@ -59,7 +59,8 @@ const CartShop = () => {
                     </div> : ''}
 
                 </div>
-                : <div className=" absolute right-10 flex items-center flex-col justify-between h-full">
+                : 
+                <div className=" absolute right-10 flex items-center flex-col justify-between h-full">
                     <div className="flex flex-col items-center">
                         <img
                             className="w-40 h-40 object-contain"
@@ -78,7 +79,8 @@ const CartShop = () => {
                             className="bg-red-400 rounded-lg p-2 text-white"
                         >Dang ky</button>
                     </div>
-                </div>}
+                </div>
+                }
 
         </div>
     );

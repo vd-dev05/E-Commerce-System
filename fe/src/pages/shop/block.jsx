@@ -1,4 +1,36 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+
 const BlockUserShop = () => {
+    
+    const nav = useNavigate()
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+              const isBlock = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/check-block`, {
+                  method: 'GET',
+                  credentials: 'include',
+                  
+              }) 
+              const data = await isBlock.json()
+             
+              
+              if (data?.success === false && data?.message === "jwt must be provided" ) {
+                nav('/shop/login')
+              } else  if ( data?.message !== "jwt must be provided" && data?.success === true &&  data?.count > 3 && data?.message === "Get block user successfully" ) {
+                nav('/block')
+              } else {
+                nav('/shop/home')
+              }
+          } catch (error) {
+              console.log(error);
+              
+          }
+        }
+        fetchData();
+      }, [])
+      
 
     return (
         <div className="px-16 py-10 w-full">

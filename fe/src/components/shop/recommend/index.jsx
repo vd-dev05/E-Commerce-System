@@ -8,7 +8,6 @@ const Recommend = () => {
     const [data, setData] = useState([])
     const recommendHistory = localStorage.getItem('recommend') || [];
     const dispatch = useDispatch()
-    // console.log(recommendHistory);
     const { isLoadingRecommend, payloadRecommend } = useSelector(state => state.shoppingProduct)
     const { user , isAuthenticated } = useSelector(state => state.shoppingAuth)
     useEffect(() => {

@@ -1,13 +1,30 @@
 import axios from "axios";
 import {createAsyncThunk} from "@reduxjs/toolkit"
 
+export const addProductFavorite = createAsyncThunk('/addProductFavorite', async (id) =>{
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/favorite/like/${id}`, {} , {
+        withCredentials: true,
+    })
+    return response.data
+})
+
+export const removeProductFavorite = createAsyncThunk('/removeProductFavorite', async (id) =>{
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/favorite/unlike/${id}`, {} , {
+        withCredentials: true,
+    })
+    return response.data
+})
+
+export const getVoucherPromotion = createAsyncThunk('/getVoucherPromotion', async () => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/voucher/promotion`, {
+        withCredentials: true,
+    })
+    return response.data
+})
+
 export const getQueryCategoryProduct = createAsyncThunk('/getQueryCategoryProduct', async (data) => {
-    // console.log(data);   
-    // console.log("hello" , data);
-    
     const encode = encodeURIComponent(JSON.stringify(data))
 
-    
     const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products/category?query=${encode}`, {
         withCredentials: true,
     })

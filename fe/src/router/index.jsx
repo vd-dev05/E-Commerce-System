@@ -1,4 +1,8 @@
 import Setting from "@/components/shop/profile/delete";
+import NotificationWallet from "@/components/shop/profile/notification/wallet";
+import NotificationEcom from "@/components/shop/profile/notification/ecom";
+import NotificationOrder from "@/components/shop/profile/notification/order";
+import NotificationUserPromotion from "@/components/shop/profile/notification/promotion";
 import OrderProfile from "@/components/shop/profile/order/order";
 import PaymentProfile from "@/components/shop/profile/payment";
 import CheckOutPayment from "@/components/shop/profile/payment/checkout";
@@ -12,6 +16,7 @@ import AdminManager from "@/pages/admin/home/delete/manager";
 import AdminUser from "@/pages/admin/home/delete/user";
 import AdminTrafic from "@/pages/admin/home/trafic";
 import TrashUser from "@/pages/admin/home/trashUser";
+import VoucherAdmin from "@/pages/admin/home/voucher";
 import ManagerCategory from "@/pages/manager/category";
 import ManagerHome from "@/pages/manager/home";
 import ManagerLogin from "@/pages/manager/login";
@@ -54,6 +59,14 @@ const RootRouter = () => {
                             <Route path="password" element={<PasswordProfile/>} />
                             <Route path="address" element={< AddressProfile/>} />
                         </Route>
+                        <Route path="notifications" element={<NotificationUserPromotion/>}>
+                            <Route path="promotion" element={<NotificationUserPromotion/>}/>
+                            <Route path="wallet" element={<NotificationWallet/>}/>
+                            <Route path="order" element={<NotificationOrder/>} />
+                            <Route path="ecom" element={<NotificationEcom/>} />
+                            
+                        </Route>
+                        
                         <Route path="purchase" element={<OrderProfile/>} />
                         <Route path="voucher" element={<div>test</div>} />
                         <Route path="payment" element={<PaymentProfile/>}/>
@@ -76,7 +89,7 @@ const RootRouter = () => {
                         <Route path="trafic" element={<AdminTrafic />} />
                         <Route path="user" element={<AdminUser />} />
                         <Route path="manager" element={<AdminManager />} />
-                        <Route path="user/delete" element={<TrashUser />  } />
+                        <Route path="user/voucher" element={<VoucherAdmin  />  } />
                         <Route path="manager/delete" element={<div>delete</div>} />
                         <Route path="user/block" element={<BlockUser />} />
                         <Route path="manager/block" element={<div></div>} />

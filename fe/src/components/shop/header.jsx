@@ -9,11 +9,11 @@ import AvartarHeader from "./avartar";
 import CartShop from "./cart";
 import { toast } from "@/hooks/use-toast";
 import { message } from "antd";
-import { createSearch, getSearch, getToCartProduct } from "@/store/Shop/users/userThunk";
+import { createSearch, getSearch, getToCartProduct, getVoucherPromotion } from "@/store/Shop/users/userThunk";
 import ModalNotification from "./notification/modal";
 
 
-const ShoppingHeader = ({ handleLogout, count }) => {
+const ShoppingHeader = ({count }) => {
     const dispatch = useDispatch()
     const [isHovered, setIsHovered] = useState(false);
     const [isHoverNotification, setIsHoverNotification] = useState(false)
@@ -24,13 +24,17 @@ const ShoppingHeader = ({ handleLogout, count }) => {
         dispatch(checkAuthUser())
         dispatch(getSearch(search))
         if (payloadCartProduct === null) dispatch(getToCartProduct())
+      
     }, [dispatch])
 
     useEffect(() => {
         if (isAddToCart === true) {
             dispatch(getToCartProduct())
         }
-    }, [isAddToCart])
+        if (user !== null && isHoverNotification === true) {
+            dispatch(getVoucherPromotion())
+        }
+    }, [isAddToCart, isHoverNotification])
     //   console.log(payloadSearch);
     const filteredHeaderItems = shoppingHeaderItems.filter(item => {
         if (isAuthenticated && (item.name === "login" || item.name === "register")) {
@@ -39,13 +43,13 @@ const ShoppingHeader = ({ handleLogout, count }) => {
         return true;
     });
     const navigate = useNavigate()
-    // const handleLogout = () => {
-    //     dispatch(logoutUser()).then(data => {
-    //         if (data?.payload?.success) {
-    //             navigate('/shop/login')
-    //         }
-    //     })
-    // }
+    const handleLogout = () => {
+        dispatch(logoutUser()).then(data => {
+            if (data?.payload?.success) {
+                navigate('/shop/login')
+            }
+        })
+    }
 
 
 
@@ -58,7 +62,7 @@ const ShoppingHeader = ({ handleLogout, count }) => {
                     {
                         filteredHeaderItems.map((item) => (
                             item.id === 4 ? (
-                                <div>
+                                <div key={item.id}>
                                     <Link key={item.id}
                                         onMouseEnter={() => {
                                             setIsHoverNotification(true)

@@ -28,9 +28,9 @@ const AdminNavBar = () => {
         {
             key: '3',
             label: (
-                <Link to="user/delete" className="flex items-center space-x-2">
+                <Link to="user/voucher?s=user" className="flex items-center space-x-2">
                     <FaAddressCard className="w-5 h-5 text-white" />
-                    <span className="text-black">Xóa người dùng</span>
+                    <span className="text-black">Tạo voucher, thông báo</span>
                 </Link>
             ),
         },

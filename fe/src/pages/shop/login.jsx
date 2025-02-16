@@ -1,4 +1,4 @@
-import { Facebook } from 'lucide-react'
+import { Facebook, Hand } from 'lucide-react'
 import { FaGoogle } from "react-icons/fa";
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router';
@@ -8,12 +8,11 @@ import { loginUser } from '@/store/Shop/auth';
 import { ToastAction } from '@/components/ui/toast';
 import { useFormik } from 'formik';
 import { userSchemaSignUpLogin } from '@/validations/Yup/useYupForm';
-
+import app from '@/services/firebase/config';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 const ShoppingLogin = () => {
-
     const { toast } = useToast()
     const navigate = useNavigate()
-
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -41,6 +40,22 @@ const ShoppingLogin = () => {
         },
         validationSchema: userSchemaSignUpLogin
     })
+    // login firebase gg 
+    const auth = getAuth(app);
+    const googleSignIn = () => {
+        const provider = new GoogleAuthProvider();
+
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const user = result.user;
+                console.log("Đăng nhập thành công với Google:", user);
+                // Xử lý sau khi đăng nhập thành công (ví dụ: lưu thông tin người dùng vào state, localStorage, etc.)
+            })
+            .catch((error) => {
+                console.error("Lỗi khi đăng nhập với Google:", error);
+            });
+    };
+
     return (
         <form action="" onSubmit={formik.handleSubmit}
             className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-32 gap-4 text-gray-700'>
@@ -94,7 +109,12 @@ const ShoppingLogin = () => {
             <div className=' flex flex-col gap-4 mt-10 text-sm text-center'>
                 <p>Hoặc, đăng nhập bằng</p>
                 <div className='flex justify-center gap-10 text-gray-400'>
-                    <p className='flex gap-1 items-center cursor-pointer'><FaGoogle className='size-8 text-red-600' /> <span>Google</span></p>
+                    <button
+                        onClick={googleSignIn}
+                    >
+                        <p className='flex gap-1 items-center cursor-pointer'><FaGoogle className='size-8 text-red-600' /> <span>Google</span></p>
+                    </button>
+
                     <p className='flex gap-1 items-center cursor-pointer'><Facebook className='text-white bg-blue-700 p-1 rounded-full size-8' /> <span>Facebook</span></p>
                 </div>
             </div>

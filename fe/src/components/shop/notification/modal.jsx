@@ -1,14 +1,35 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router";
 
 const ModalNotification = () => {
     const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
+    const {isGetVoucherPromotion , payloadGetVoucherPromotion} = useSelector(state => state.shoppingProduct)
+    console.log(isGetVoucherPromotion ,payloadGetVoucherPromotion);
+    
     return (
-        <div className="w-[400px] h-[400px] bg-white drop-shadow-md rounded-md absolute top-5 right-5 z-10">
+        <div className="w-[400px] h-[400px] bg-white drop-shadow-md rounded-md absolute top-5 right-5 z-10 flex flex-col justify-between">
             {isAuthenticated === true && user !== null
                 ?
-                <div></div>
+                <div>
+                    {(isGetVoucherPromotion === false && payloadGetVoucherPromotion !== null )
+                     ? 
+                     <div>
+                        {payloadGetVoucherPromotion?.map((item) => {
+                            return (
+                                <div key={item?._id} className="p-2 border-b border-gray-300">
+                                    <h3 className="font-be text-[15px]">{item?.promotionTitle}</h3>
+                                    <p>{item?.promotionDescription}</p>
+                                </div>
+                            )
+                        })}
+                      
+                     </div>
+                     : 
+                    <div> Bạn chưa có voucher nào </div>}
+
+                </div>
                 :
-                <div className=" absolute right-10 flex items-center flex-col justify-between h-full">
+                <div className=" flex items-center flex-col justify-between h-full">
                     <div className="flex flex-col items-center">
                         <img
                             className="w-40 h-40 object-contain"
@@ -29,6 +50,10 @@ const ModalNotification = () => {
                     </div>
                 </div>
             }
+              <Link 
+              to={'/shop/profile/notifications/promotion'}
+              className="w-full p-2 text-[14px] border-[1px]  flex justify-center items-center"
+              >Xem tất cả</Link>
         </div>
     );
 }

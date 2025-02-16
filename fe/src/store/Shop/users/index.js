@@ -2,13 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
     getRouteData, uploadAvatar, addToCartProduct, createOrder, createAddress,
     createSearch, editAddress, editProfile, getAlladdress, getCoinPaypal,
-    getCoinTransaction, getSearch,getToCartProduct,getVoucher,orderCoinPayPal,
-    getProductById,postQueryProduct,removeAllCart,removeToCartProduct,
+    getCoinTransaction, getSearch, getToCartProduct, getVoucher, orderCoinPayPal,
+    getProductById, postQueryProduct, removeAllCart, removeToCartProduct,
     getOrderProductId,
     editPaymentOrder,
     getOrderPaymentProcess,
     recommendProduct,
-    getQueryCategoryProduct
+    getQueryCategoryProduct,
+    getVoucherPromotion,
+    addProductFavorite,
+    removeProductFavorite
 
 
 } from "./userThunk";
@@ -46,28 +49,36 @@ const shoppingProduct = createSlice({
 
         isRemoveCartProduct: false,
         isRemoveAllProduct: false,
-      
+
         isOrder: false,
         isPaymentOrder: false,
         isOrderMessage: null,
         messageOrder: null,
-        payloadOrder : null,
+        payloadOrder: null,
 
-        isLoadingOrderProduct : false,
-        payloadOrderProduct : null,
+        isLoadingOrderProduct: false,
+        payloadOrderProduct: null,
 
-        isPaymentSuccess : false,
-        payloadPaymentSuccess : null,
+        isPaymentSuccess: false,
+        payloadPaymentSuccess: null,
 
-        isPaymentProcess : false,
-        payloadPaymentProcess : null,
-        payloadTotalPaymentProcess : 0,
+        isPaymentProcess: false,
+        payloadPaymentProcess: null,
+        payloadTotalPaymentProcess: 0,
 
-        isLoadingRecommend : false,
-        payloadRecommend : null,
+        isLoadingRecommend: false,
+        payloadRecommend: null,
 
-        isGetQueryCategoryProduct : false,
-        payloadQueryCategoryProduct : null
+        isGetQueryCategoryProduct: false,
+        payloadQueryCategoryProduct: null,
+
+        isGetVoucherPromotion: false,
+        payloadGetVoucherPromotion: null,
+
+        isAddToLove: false,
+        payloadFavorite: null,
+        payloadFavoriteId: null,
+        isUnlikeLove: false
     },
     reducers: {
         setProduct: (state, action) => { },
@@ -97,7 +108,7 @@ const shoppingProduct = createSlice({
                 state.isPaymentOrder = false,
                 state.isOrderMessage = null
         },
-        clickRecommend : (state ,action ) => {
+        clickRecommend: (state, action) => {
             let arrRecommend = localStorage.getItem('recommend')
 
             if (!arrRecommend) {
@@ -105,7 +116,7 @@ const shoppingProduct = createSlice({
                 localStorage.setItem('recommend', JSON.stringify(arrRecommend));
             } else {
                 arrRecommend = JSON.parse(arrRecommend);
-          
+
                 const sortedArr = arrRecommend.sort((a, b) => b.date - a.date);
                 const checkDuplicate = sortedArr.find(item => item.id === action.payload.id);
                 if (checkDuplicate) {
@@ -118,9 +129,9 @@ const shoppingProduct = createSlice({
 
             if (arrRecommend) {
                 // console.log(action);
-                const data =  {
+                const data = {
                     ...action.payload,
-                    date : new Date().getTime()
+                    date: new Date().getTime()
                 }
                 arrRecommend.push(data);
                 localStorage.setItem('recommend', JSON.stringify(arrRecommend));
@@ -200,7 +211,7 @@ const shoppingProduct = createSlice({
             .addCase(editAddress.pending, (state) => { state.isUpdateAddress = false, state.addressMessageUpdate = null })
             .addCase(editAddress.fulfilled, (state, action) => {
                 state.isUpdateAddress = true,
-                state.isAddress = false
+                    state.isAddress = false
                 state.addressPaydata = null
                 state.addressMessageUpdate = action.payload.message
             })
@@ -289,10 +300,11 @@ const shoppingProduct = createSlice({
             .addCase(getOrderProductId.pending, (state) => { state.isLoadingOrderProduct = true })
             .addCase(getOrderProductId.fulfilled, (state, action) => {
                 state.isLoadingOrderProduct = false
-                state.payloadOrderProduct = action?.payload    
+                state.payloadOrderProduct = action?.payload
             })
-            .addCase(getOrderProductId.rejected, (state,action) => { console.log(action);
-              })
+            .addCase(getOrderProductId.rejected, (state, action) => {
+                console.log(action);
+            })
         // builder 
         //     .addCase(createPaymentOrder.pending, (state) => { state.isPaymentOrder = true })
         //     .addCase(createPaymentOrder.fulfilled, (state, action) => {
@@ -301,21 +313,21 @@ const shoppingProduct = createSlice({
         //     })
         //     .addCase(createPaymentOrder.rejected, (state) => { state.isPaymentOrder = false })
         builder
-            .addCase(editPaymentOrder.pending, (state) => { state.isPaymentOrder = true , state.isPaymentSuccess = false,  state.payloadPaymentSuccess = null })
+            .addCase(editPaymentOrder.pending, (state) => { state.isPaymentOrder = true, state.isPaymentSuccess = false, state.payloadPaymentSuccess = null })
             .addCase(editPaymentOrder.fulfilled, (state, action) => {
                 state.isPaymentOrder = false
                 state.isPaymentSuccess = action?.payload?.success
                 state.payloadPaymentSuccess = action?.payload?.message
-       
+
             })
-            .addCase(editPaymentOrder.rejected, (state) => { state.isPaymentOrder = false ,state.isPaymentSuccess = false,  state.payloadPaymentSuccess = null })
+            .addCase(editPaymentOrder.rejected, (state) => { state.isPaymentOrder = false, state.isPaymentSuccess = false, state.payloadPaymentSuccess = null })
         builder
             .addCase(getOrderPaymentProcess.pending, (state) => { state.isPaymentProcess = true, state.payloadPaymentProcess = null })
             .addCase(getOrderPaymentProcess.fulfilled, (state, action) => {
                 state.isPaymentProcess = false
                 state.payloadPaymentProcess = action?.payload?.payment
                 state.payloadTotalPaymentProcess = action?.payload?.total
-    
+
             })
             .addCase(getOrderPaymentProcess.rejected, (state) => { state.isPaymentProcess = false, state.payloadPaymentProcess = null })
         builder
@@ -326,16 +338,36 @@ const shoppingProduct = createSlice({
             })
             .addCase(recommendProduct.rejected, (state) => { state.isLoadingRecommend = false, state.payloadRecommend = null })
         builder
-            .addCase(getQueryCategoryProduct.pending, (state) => { state.isGetQueryCategoryProduct = true , state.payloadQueryCategoryProduct = null,state.payloadProducts = null })
+            .addCase(getQueryCategoryProduct.pending, (state) => { state.isGetQueryCategoryProduct = true, state.payloadQueryCategoryProduct = null, state.payloadProducts = null })
             .addCase(getQueryCategoryProduct.fulfilled, (state, action) => {
                 state.isGetQueryCategoryProduct = false
                 state.payloadQueryCategoryProduct = action?.payload
                 state.payloadProducts = action?.payload?.products
             })
             .addCase(getQueryCategoryProduct.rejected, (state) => { state.isGetQueryCategoryProduct = false, state.payloadQueryCategoryProduct = null })
+
+        builder
+            .addCase(getVoucherPromotion.pending, (state) => { state.isGetVoucherPromotion = true, state.payloadGetVoucherPromotion = null })
+            .addCase(getVoucherPromotion.fulfilled, (state, action) => {
+                state.isGetVoucherPromotion = false
+                state.payloadGetVoucherPromotion = action?.payload?.voucher
+            })
+            .addCase(getVoucherPromotion.rejected, (state) => { state.isGetVoucherPromotion = false, state.payloadGetVoucherPromotion = null })
+        builder
+            .addCase(addProductFavorite.pending, (state) => { state.isAddToLove = true, state.payloadFavoriteId = null, state.payloadMessageFavorite = null })
+            .addCase(addProductFavorite.fulfilled, (state, action) => {
+                state.isAddToLove = false
+            })
+            .addCase(addProductFavorite.rejected, (state) => { state.isAddToLove = false, state.payloadFavoriteId = null, state.payloadMessageFavorite = null })
+        builder
+            .addCase(removeProductFavorite.pending, (state) => { state.isUnlikeLove = true, state.payloadFavoriteId = null, state.payloadMessageFavorite = null })
+            .addCase(removeProductFavorite.fulfilled, (state, action) => {
+                state.isUnlikeLove = false
+            })
+            .addCase(removeProductFavorite.rejected, (state) => { state.isUnlikeLove = false, state.payloadFavoriteId = null, state.payloadMessageFavorite = null })
     }
 
 })
 
-export const { setProduct, addToCart, removeToCart, selectAttributes, onpopstate,  clickRecommend } = shoppingProduct.actions
+export const { setProduct, addToCart, removeToCart, selectAttributes, onpopstate, clickRecommend } = shoppingProduct.actions
 export default shoppingProduct.reducer

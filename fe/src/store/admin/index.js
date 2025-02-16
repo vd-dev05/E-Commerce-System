@@ -89,6 +89,23 @@ export const getTraficDate = createAsyncThunk('/getTraficDate',
     }   
 )
 
+export const createVoucher = createAsyncThunk('/createVoucher', 
+    async (data) => {
+        const response = await axios.post(`${backendUrl}/api/v1/admin/voucher/create`, data, {
+            withCredentials: true,
+        })
+        return response.data
+    }
+)
+
+export const getVoucherPromotion = createAsyncThunk('/getVoucherPromotion',
+    async () => {
+        const response = await axios.get(`${backendUrl}/api/v1/admin/voucher/all`, {
+            withCredentials: true,
+        })
+        return response.data
+    }
+)
 const adminSlice = createSlice({
     name  : 'adminAuth',
     initialState : {
@@ -108,7 +125,15 @@ const adminSlice = createSlice({
         payloadDeleteUser : null,
 
         isGetTraficUserChart  :false,
-        payloadTraficUserChart : null
+        payloadTraficUserChart : null,
+
+        isCreateVoucher : false,
+        payloadCreateVoucher : null,
+
+        isGetVoucherPromotion : false,
+        payloadGetVoucherPromotion : null,
+
+        payloadEditVoucher : null
     },
     reducers : {
         admin : (state,action) => {
@@ -116,9 +141,25 @@ const adminSlice = createSlice({
             state.dataManager = action.payload
             state.isLoading = false
             state.message = null
+        },
+        setPayLoadEditVoucher : (state,action) => {
+            state.payloadEditVoucher = action.payload
         }
     },
     extraReducers : (builder) => {
+        // get voucher Promotion
+        builder.addCase(getVoucherPromotion.pending, (state, action) => {
+            state.isGetVoucherPromotion = true;
+            state.payloadGetVoucherPromotion = null;
+        }).addCase(getVoucherPromotion.fulfilled, (state, action) => {
+            state.isGetVoucherPromotion = false;
+            state.payloadGetVoucherPromotion = action.payload.voucher;    
+        }).addCase(getVoucherPromotion.rejected, (state, action) => {
+            state.isGetVoucherPromotion = true;
+            state.payloadGetVoucherPromotion = null;
+        })
+
+
         // getUser
         builder.addCase(getUser.pending, (state,action) => {      
             state.isLoading = true
@@ -194,8 +235,20 @@ const adminSlice = createSlice({
             state.isGetTraficUserChart = false;
             state.payloadTraficUserChart = null;
         })
+
+        builder.addCase( createVoucher.pending, (state,action) => {
+            state.isCreateVoucher = false
+        }).addCase( createVoucher.fulfilled, (state,action) => {
+            state.isCreateVoucher = true
+            state.payloadCreateVoucher = action?.payload?.data
+        }).addCase( createVoucher.rejected, (state,action) => {
+            state.isCreateVoucher = false
+            state.payloadCreateVoucher = null
+        })
+
+
     }
 })
 
-export const {setData } = adminSlice.actions;
+export const {setData , setPayLoadEditVoucher } = adminSlice.actions;
 export default adminSlice.reducer
