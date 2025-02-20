@@ -39,9 +39,10 @@ const userSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'search'
         }
-    ],
-
-    
+    ],    
+    countBlock : { type: Number, default: 0 },
+    deleteCount : { type: Number },
+    favoriteProducts : [{type : mongoose.Schema.Types.ObjectId , ref : 'product'}]
 }, { timestamps: true })
 const UserModel = mongoose.model('user', userSchema)
 

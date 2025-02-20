@@ -15,7 +15,7 @@ const register = async (req, res) => {
             email,
             gender,
             birthday: formattedBirthday,
-            phone,
+            phone : Number(phone),
             password: hashPassword,
             isActive: true,
             last_login: Date.now(),
@@ -46,6 +46,14 @@ const login = async (req, res) => {
             return res.json({
                 success: false,
                 message: "Tài khoản Email không tồn tại"
+            })
+        }
+        if (user?.countBlock >  3 || user?.isBlocked === true) {
+            user.isBlocked = true
+            await user.save()
+            return res.json({
+                success: false,
+                message: "Tài khoản bị block "
             })
         }
    

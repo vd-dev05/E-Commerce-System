@@ -38,7 +38,7 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: ['VND', 'USD'],
-        default: 'USD',
+        default: 'VND',
     },
     totalStock: Number,
     images: {
@@ -48,6 +48,7 @@ const ProductSchema = new mongoose.Schema({
         },
         additionalImages: [String],
     },
+
     attributes: [{
         title: String,
         options: [

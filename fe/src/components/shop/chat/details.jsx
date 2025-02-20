@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
 import { io } from 'socket.io-client';
-
+const chatconnect = io('http://localhost:5001');
 const ChatDetails = ({ setIsOpen, isOpen }) => {
     const fakechat = [
         {
@@ -17,24 +17,27 @@ const ChatDetails = ({ setIsOpen, isOpen }) => {
     const [message, setMessage] = useState()
     const [data, setData] = useState()
     // useEffect(() => {
-    //     const chatconnect = io('http://localhost:5001/chat-connect');
-    //     chatconnect.on('chat', (msg) => {
+    //     const chatconnect = io('http://localhost:5001/connection');
+    //     chatconnect.on('message', (msg) => {
+    //         console.log(msg);
             
             
     //     });
     //     return () => {
-    //         chatconnect.off('chat');
+    //         chatconnect.off('message');
     //     }
     // }, [])
     
-    const test = async () => {
-        const chatconnect = io('http://localhost:5001/chat-connect');
-        chatconnect.emit('chat', (msg) => {
-            console.log(msg);
+    const test = () => {
+        // console.log("test");
+        
+        // const chatconnect = io('http://localhost:5001/connection');
+        chatconnect.on('message', (msg) => {
+            chatconnect.emit("message", { managerId : 1, userId : 2, message : "hello" });
         });
     }
     const  handleSendMessageTest = async () => {
-        const chatconnect = io('http://localhost:5001/chat-connect');
+        // const chatconnect = io('http://localhost:5001/chat-connect');
         chatconnect.emit("chat", { message: message });
         chatconnect.on("chat", (msg) => {
             setData(msg.message)
@@ -43,19 +46,23 @@ const ChatDetails = ({ setIsOpen, isOpen }) => {
         
     }
     const handleSendMessage = async () => {
-       const chatconnect = io('http://localhost:5001/chat-connect');
-       chatconnect.on("room")
-       let alert = prompt("nhap id room")
+      
+       chatconnect.on("createRoom")
+    //    let alert = prompt("nhap id room")
        let role = prompt("nhap role ")
        let user = prompt("nhap userId ")
-       chatconnect.emit("chat", {  room: alert , user: user ,role : role });
+       if (role && user) {
+        // console.log("test");
+        
+        chatconnect.emit("createRoom", { managerId: role, userId: user });
+       }
     }
     return (
         <div className="bg-slate-50  w-[600px] h-[450px] ">
             <div className="flex justify-between items-center bg-slate-400 p-2">
                 <div
                 onClick={handleSendMessage}
-                >test</div>
+                >test nhap</div>
                 <div onClick={test}>test nhan tin nhan</div>
                 <h1>Tin nhắn </h1>
                 <IoClose className="float-right cursor-pointer" onClick={() => setIsOpen(!isOpen)} />

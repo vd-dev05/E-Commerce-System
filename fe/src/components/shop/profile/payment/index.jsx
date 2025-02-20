@@ -5,7 +5,7 @@ import { Link, Outlet } from "react-router";
 import Checkout from "./checkout";
 import { checkAuthUser } from "@/store/Shop/auth";
 import { useEffect, useState } from "react";
-import { getCoinPaypal, getCoinTransaction } from "@/store/Shop/users";
+import { getCoinPaypal, getCoinTransaction } from "@/store/Shop/users/userThunk";
 import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 import { Input, Modal } from "antd";
 const initialOptions = {
@@ -49,9 +49,6 @@ const PaymentProfile = () => {
                         to={'/shop/profile/payment/checkout'}
                     >
                         Nạp ngay
-                        {/* <PayPalScriptProvider options={initialOptions}>
-                            <Checkout />
-                        </PayPalScriptProvider> */}
                     </Link>
 
 

@@ -7,7 +7,6 @@ const adminMiddleware = {
     isAdmin: (req, res, next) => {
         try {
             const token = req.cookies.admin_token;
-
             if (!token) throw new UnauthorizedError('Unauthorised user !');
             const decoded = jwt.verify(token, process.env.JWT_SECRET_ADMIN);
 

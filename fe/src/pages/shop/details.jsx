@@ -4,7 +4,7 @@ import { allcategory } from "@/config";
 import useCounter from "@/hooks/custom";
 import { mapCategoryFromUrl } from "@/lib/utils";
 import { checkAuthUser, logoutUser } from "@/store/Shop/auth";
-import { getRouteData } from "@/store/Shop/users";
+import { getRouteData } from "@/store/Shop/users/userThunk";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

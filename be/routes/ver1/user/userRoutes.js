@@ -10,13 +10,32 @@ import { ChangePassword, EditPassword } from "../../../controllers/user/edit/pas
 import TransitionsController from "../../../controllers/user/transition/index.js";
 import AddressProfile from "../../../controllers/user/address/index.js";
 import SearchController, { getSearch } from "../../../controllers/user/searchHistory/index.js";
+import Products from "../../../controllers/user/products/products.js";
+import CartController from "../../../controllers/user/card/cartControllers.js";
+import RecommendController from "../../../controllers/user/recommend/index.js";
+import TopSearch from "../../../controllers/user/topSearch/index.js";
+import CommentController from "../../../controllers/user/comment/index.js";
+import BlockUser from "../../../controllers/user/block/index.js";
+import VoucherController from "../../../controllers/user/voucher/index.js";
+import Favorite from "../../../controllers/user/favorite/index.js";
 const usersRouter = express.Router();
 
 // usersRouter.post('/countdown/start',CountDown.getTimeStart)
 // usersRouter.get('/countdown/end',CountDown.getTimeCountdownEndTime)
-
-usersRouter.post('/products/add', authMiddleware ,OrderController.addOrder)
-usersRouter.get('/products/get-order', authMiddleware ,OrderController.getOrder)
+usersRouter.post('/favorite/unlike/:id',authMiddleware,Favorite.removeToList)
+usersRouter.post('/favorite/check/:id',authMiddleware,Favorite.checkFavorite)
+usersRouter.post('/favorite/like/:id',authMiddleware,Favorite.addToList)
+usersRouter.get('/voucher/promotion',authMiddleware, VoucherController.getVoucherPromotion)
+usersRouter.get('/check-block',authMiddleware, BlockUser.getCountBlockUser )
+usersRouter.get('/products/comment/:id',authMiddleware, CommentController.getCommentProductId)
+usersRouter.post('/products/:id/comment/create',authMiddleware, CommentController.createComment)
+usersRouter.get('/top-search',TopSearch.getAllTopSearch)
+usersRouter.get('/products/category',Products.getQueryCategory )
+usersRouter.post('/recommend/list',authMiddleware,RecommendController.listArray)
+usersRouter.get('/products/process',authMiddleware,OrderController.getOrderProcess)
+usersRouter.put('/products/order/:id',authMiddleware,OrderController.editAndUpdate)
+usersRouter.post('/products/create-order', authMiddleware ,OrderController.addOrder)
+usersRouter.get('/products/get-order/:id', authMiddleware ,OrderController.getOrderById)
 usersRouter.post('/file-upload',authMiddleware,uploadUser.single('avatar'),AvartarController)
 usersRouter.post('/order/coin/paypal' ,authMiddleware, PayPalServices.createCoinUser)
 usersRouter.get('/getcoin-paypal' ,authMiddleware, PayPalServices.getCoinUser)
@@ -30,6 +49,15 @@ usersRouter.put('/address/:id', authMiddleware,AddressProfile.updateAddress)
 usersRouter.post('/search/create', authMiddleware,SearchController)
 usersRouter.get('/search', authMiddleware,getSearch)
 usersRouter.get('/get-voucher' , authMiddleware, )
+usersRouter.get('/products', authMiddleware,Products.getAllProducts)
+usersRouter.post('/products',Products.getQueryProducts)
+usersRouter.get('/products/:id', Products.getProductById)
+usersRouter.post('/rating', authMiddleware,CartController.createRatingController)
+usersRouter.post('/cart/add', authMiddleware ,CartController.addCart)
+usersRouter.get('/cart', authMiddleware, CartController.getToCart)
+usersRouter.get('/cart/3',authMiddleware ,CartController.getToCartThree)  
+usersRouter.post('/cart/1',authMiddleware ,CartController.removeToCart)  
+usersRouter.delete('/cart/all',authMiddleware ,CartController.removeAllCart)
 usersRouter.post('/', (req,res) => { console.log("tets");
 } )
 

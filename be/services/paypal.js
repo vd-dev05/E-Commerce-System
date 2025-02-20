@@ -143,7 +143,7 @@ const PayPalServices = {
             if (!accessToken) {
                 UnauthorizedError("Invalid token")
             } else {
-                console.log(url);
+                // console.log(url);
 
                 const response = await axios.post(url, data1, {
                     headers: {

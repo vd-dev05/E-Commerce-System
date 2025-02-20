@@ -1,5 +1,11 @@
 import { assets } from "@/assets/assets";
 
+export const initialOptionsPayPal = {
+    clientId: import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID ,
+    // Add other options as needed
+};
+
+
 // menu
 export const shoppingHeaderItems = [
     {
@@ -49,7 +55,7 @@ export const categoryList = [
     { id: 2, label: "thoi trang nu", url: assets.women, path: "Thời Trang Nữ" },
     { id: 3, label: "giay dep nam", url: assets.shoes, path: "Giày Dép Nam" },
     { id: 4, label: "dong ho", url: assets.clock, path: "Đồng Hồ" },
-    { id: 5, label: "thiet bi da dung", url: assets.appliances, path: "thiet-bi-dien-gia-dung" },
+    { id: 5, label: "thiet bi da dung", url: assets.appliances, path: "Thiết Bị Điện Gia Dụng" },
     { id: 6, label: "dien thoai", url: assets.phone, path: "Điện Thoại Phụ Kiện" },
 ]
 
@@ -355,7 +361,7 @@ export const categoryMapping = {
     "nhac-cu-va-phu-kien-am-nhac" : "O",
     "phu-kien-va-trang-suc-nu" : "P",
     "sac-dep" : "S",
-    "thiet-bi-dien-gia-dung" : "T",
+    "Thiết Bị Điện Gia Dụng" : "T",
     "Thời Trang Nam" : "T",
     "Thời Trang Nữ" : "T",
     "Thời Trang Trẻ Em" : "T",

@@ -26,8 +26,8 @@ const validateUserInput = async (req, res, next) => {
                 message: 'Định dạng email không hợp lệ'
             });
         }
-        const phoneRegex = /^0[1-9][0-9]{8}$/;
-        if (!phoneRegex.test(phone)) {
+        const phoneRegex =  /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        if (!phoneRegex.test(Number(phone))) {
             return res.json({
                 success: false,
                 message: 'Số điện thoại phải là số và có 10 chữ số'
@@ -60,20 +60,21 @@ const validateUserInput = async (req, res, next) => {
 const authMiddleware = async (req, res, next) => {
     
     const token = req.cookies.token;
+
     
-    try {
+    try {        
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = decoded;
             
             next()
     } catch (error) {
-        console.log(error);
         res.json({
             success: false,
             message: error.message
         })
     }
 }
+
 
 const validateManagerInput = async (req, res, next) => {
     const { manager_name, email, password, phone } = req.body;

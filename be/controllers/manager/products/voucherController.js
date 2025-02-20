@@ -23,7 +23,7 @@ export const createVoucher = async (req, res) => {
         }
 
         const newVoucher = await Voucher.create(dataFake)
-        console.log(newVoucher);
+        // console.log(newVoucher);
         
     } catch (error) {
         res.status(500).json({ message: error.message });
