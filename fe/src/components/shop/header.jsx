@@ -23,18 +23,14 @@ const ShoppingHeader = ({count }) => {
     useEffect(() => {
         dispatch(checkAuthUser())
         dispatch(getSearch(search))
-        if (payloadCartProduct === null) dispatch(getToCartProduct())
-      
     }, [dispatch])
 
     useEffect(() => {
-        if (isAddToCart === true) {
-            dispatch(getToCartProduct())
-        }
-        if (user !== null && isHoverNotification === true) {
+        if ( isHoverNotification === true) {
             dispatch(getVoucherPromotion())
         }
-    }, [isAddToCart, isHoverNotification])
+        if (payloadCartProduct === null && isAuthenticated === true && user !== null) dispatch(getToCartProduct())        
+    }, [isAddToCart, isHoverNotification , isAuthenticated ,user])
     //   console.log(payloadSearch);
     const filteredHeaderItems = shoppingHeaderItems.filter(item => {
         if (isAuthenticated && (item.name === "login" || item.name === "register")) {
@@ -92,7 +88,7 @@ const ShoppingHeader = ({count }) => {
                         </Link>
                     </div>
                     <div className="w-2/3  translate-y-3 flex flex-col gap-2">
-                        <div className=" flex w-full border-2 border-gray-300 relative items-center">
+                        <div className=" flex w-full border-2 border-gray-300 relative items-center rounded-sm">
                             {/* tim kiem san pham */}
                             <input
                                 onChange={(e) => setSearch(e.target.value.replace(/<|>|&|"/g, ''))}
@@ -100,14 +96,13 @@ const ShoppingHeader = ({count }) => {
                                     if (isAuthenticated === false) return message.error("Vui lòng đăng nhập để sử dụng chức năng tìm kiếm")
                                     if (!search && e.key === 'Enter') message.error("không tìm thấy giá trị tìm kiếm ")
                                     if (e.key === 'Enter') {
-                                        // console.log(search);
                                         dispatch(createSearch({ search }))
                                         navigate(`/shop/search?q=${search}`)
 
                                     }
                                 }}
-
-                                type="text" placeholder="Tìm kiếm sản phẩm" className="py-2 pl-8 w-full" />
+                                 autocomplete="off"
+                                type="text" placeholder="Tìm kiếm sản phẩm" className="py-2 pl-8 w-full " />
                             < Search
                                 onClick={() => {
                                     if (search) dispatch(createSearch(search))
@@ -140,7 +135,6 @@ const ShoppingHeader = ({count }) => {
 
                                 // }
                             }}
-                            // onMouseLeave={() => setIsHovered(false)}
                             className="cursor-pointer relative ">
                             <ShoppingCart size={28} />
                             <span className={`${totalCart > 0 ? "visible" : "invisible"} absolute size-4 rounded-full bg-red-500 top-[-2px] right-[-2px] text-[10px] flex items-center justify-center text-white`}>{totalCart}</span>

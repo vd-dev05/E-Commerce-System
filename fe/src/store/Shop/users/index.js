@@ -128,7 +128,6 @@ const shoppingProduct = createSlice({
             }
 
             if (arrRecommend) {
-                // console.log(action);
                 const data = {
                     ...action.payload,
                     date: new Date().getTime()
@@ -352,7 +351,7 @@ const shoppingProduct = createSlice({
                 state.isGetVoucherPromotion = false
                 state.payloadGetVoucherPromotion = action?.payload?.voucher
             })
-            .addCase(getVoucherPromotion.rejected, (state) => { state.isGetVoucherPromotion = false, state.payloadGetVoucherPromotion = null })
+            .addCase(getVoucherPromotion.rejected, (state) => { state.isGetVoucherPromotion = true, state.payloadGetVoucherPromotion = null })
         builder
             .addCase(addProductFavorite.pending, (state) => { state.isAddToLove = true, state.payloadFavoriteId = null, state.payloadMessageFavorite = null })
             .addCase(addProductFavorite.fulfilled, (state, action) => {

@@ -5,19 +5,10 @@ import { UnauthorizedError } from "../../../error/user/userError.js"
 const ChangePassword = async (req, res) => {
     try {
 
+        console.log(req.body);
         
-        const { password } = req.body
-        
-        if (!password) throw new UnauthorizedError("mat khau chua co")
 
-        const user = await UserModel.findById(req.user.id)
-        const checkPassword = await bcrypt.compare(password, user.password)
-        
-        if (!checkPassword) {
-            throw new UnauthorizedError("mat khau cu khong dung")
-        }
-
-        res.status(200).json({success : true ,message:"Mat khau dung"})
+        // res.status(200).json({success : true ,message:"Mat khau dung"})
     } catch (error) {
         res.status(403).json({success : false ,message:error.message})
     }

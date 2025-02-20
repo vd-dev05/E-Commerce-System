@@ -23,7 +23,7 @@ const productImages = [
   "https://images.pexels.com/photos/210178/pexels-photo-210178.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 ];
 const CardProduct = () => {
-  const split = locationPath().split("/")[4];
+  const split = locationPath().split("/")[4];  
   const queryProductType = locationPath().split("/")[3]
   const dispatch = useDispatch()
   const nav = useNavigate()
@@ -33,19 +33,16 @@ const CardProduct = () => {
   const [select, setSelect] = useState()
   const [checkCart, setCheckCart] = useState()
   const [isLove, setIsLove] = useState(null)
-  // console.log(isAuthenticated, user);
-
-
-
   useEffect(() => {
-    if (split) {
-      // setIsLoading(!isLoading)
-      dispatch(getProductById(split))
+    if (payloadProducts === null && isProducts === false) {
+      dispatch(getProductById(split))  
     }
+  
   }, [split])
 
+  
   useEffect(() => {
-    if (select !== undefined && payloadProducts !== undefined) {
+    if (select !== undefined && payloadProducts !== undefined && isProducts === true) {
       const attributes = Object.keys(select).map(attributeName => ({
         name: attributeName,
         value: select[attributeName].value
@@ -58,12 +55,11 @@ const CardProduct = () => {
           );
         });
       });
-      // console.log(attributes);
-      // console.log(matchingProduct);
-
+  
       if (matchingProduct) {
         setCheckCart(matchingProduct)
-      }
+      } 
+
 
     }
   }, [select, payloadProducts])
@@ -72,14 +68,14 @@ const CardProduct = () => {
     (
       async () => {
   
-        if (payloadProducts) {
+        if (payloadProducts !== null) {
           const resposne = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/favorite/check/${payloadProducts._id}`, {}, {
             withCredentials: true
           })
           if (resposne.statusText === "OK") {
             setIsLove(resposne.data.isFavorite)
           } 
-        } })()
+        } })()  
   }, [isAuthenticated, user, isAddToLove, isUnlikeLove , dispatch ])
 
 
@@ -130,15 +126,14 @@ const CardProduct = () => {
     }
   }
 
-
-
+  
   return (
     <div>
       <header>
         < ShoppingHeader></ShoppingHeader>
 
       </header>
-      {isProducts === true && isLove !== null  ? <div className="py-5 m-5 bg-[#fafafa]">
+      {(isProducts === true && payloadProducts !== null  ) ? <div className="py-5 m-5 bg-[#fafafa]">
         <div className="flex bg-white drop-shadow-sm" >
           <section className="w-1/2">
             <div className="flex space-x-4 ">

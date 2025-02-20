@@ -4,8 +4,19 @@ import ManagerModel from '../models/shop/managerModel.js';
 import { UnauthorizedError } from '../error/user/userError.js';
 
 const validateUserInput = async (req, res, next) => {
-    const { username, email, password, gender, birthday, phone } = req.body;
+    const { username, email, password, gender, birthday, phone , isLoginGoogle } = req.body;
     try {
+        const emailExists = await UserModel.findOne({ email })
+        if (emailExists) {
+            return res.json({
+                success: false,
+                message: "Địa chỉ email này đã tồn tại"
+            });
+        }
+        
+        if (isLoginGoogle === true) {
+            return next()
+        }
         if (!username || !email || !password || !gender || !birthday || !phone) {
             return res.json({
                 success: false,
@@ -34,13 +45,7 @@ const validateUserInput = async (req, res, next) => {
             });
         }
 
-        const emailExists = await UserModel.findOne({ email })
-        if (emailExists) {
-            return res.json({
-                success: false,
-                message: "Địa chỉ email này đã tồn tại"
-            });
-        }
+     
         const phoneExists = await UserModel.findOne({ phone })
         if (phoneExists) {
             return res.json({

@@ -4,14 +4,14 @@ import { Link } from "react-router";
 const ModalNotification = () => {
     const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
     const {isGetVoucherPromotion , payloadGetVoucherPromotion} = useSelector(state => state.shoppingProduct)
-    console.log(isGetVoucherPromotion ,payloadGetVoucherPromotion);
+    // console.log(isGetVoucherPromotion ,payloadGetVoucherPromotion , isAuthenticated , user);
     
     return (
         <div className="w-[400px] h-[400px] bg-white drop-shadow-md rounded-md absolute top-5 right-5 z-10 flex flex-col justify-between">
             {isAuthenticated === true && user !== null
                 ?
                 <div>
-                    {(isGetVoucherPromotion === false && payloadGetVoucherPromotion !== null )
+                    {(isGetVoucherPromotion === false && payloadGetVoucherPromotion !== null && payloadGetVoucherPromotion?.length !== 0  )
                      ? 
                      <div>
                         {payloadGetVoucherPromotion?.map((item) => {
@@ -25,7 +25,7 @@ const ModalNotification = () => {
                       
                      </div>
                      : 
-                    <div> Bạn chưa có voucher nào </div>}
+                    <div className="text-center flex items-center justify-center"> Bạn chưa có voucher nào </div>}
 
                 </div>
                 :

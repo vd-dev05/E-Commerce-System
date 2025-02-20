@@ -34,7 +34,7 @@ export const userSchemaSignInRegister = Yup.object().shape({
     phone: Yup.string()
       .required("Required")
       .matches(
-        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+        /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
         "Invalid phone number"
       ),
     birthday: Yup.date()

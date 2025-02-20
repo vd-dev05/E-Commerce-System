@@ -6,6 +6,7 @@ const ProductsCustom = ({ productType, variants, className, select, setSelect })
   const dispatch = useDispatch()
   // const [variants, setVariants] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState({});
+  // console.log(variants);
 
   const allAttributeNames = [
     ...new Set(

@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true, unique: true },
-    birthday: { type: Date, required: true },
-    gender: { type: String, required: true },
-    password: { type: String, required: true },
+    phone: { type: String, unique: true , sparse: true },
+    birthday: { type: Date },
+    gender: { type: String },
+    password: { type: String },
     role: { type: String, default: 'user' },
     isActive: { type: Boolean, default: true },
     isBlocked: { type: Boolean, default: false },
@@ -42,8 +42,17 @@ const userSchema = mongoose.Schema({
     ],    
     countBlock : { type: Number, default: 0 },
     deleteCount : { type: Number },
-    favoriteProducts : [{type : mongoose.Schema.Types.ObjectId , ref : 'product'}]
+    favoriteProducts : [{type : mongoose.Schema.Types.ObjectId , ref : 'product'}],
+    isLoginGoogle : { type: Boolean, default: false },
+    googleId: { type: String, unique: true },
+    isPasswordSet: { type: Boolean, default: false }, // Chỉ đánh dấu nếu người dùng đã thiết lập mật khẩu
+    isLoginFacebook : { type: Boolean, default: false },
 }, { timestamps: true })
+
+userSchema.methods.setPassword = function(password) {
+    this.password = password ;
+    this.isPasswordSet = true ;
+}
 const UserModel = mongoose.model('user', userSchema)
 
 export default UserModel

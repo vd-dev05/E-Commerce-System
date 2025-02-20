@@ -3,23 +3,28 @@ import { clickRecommend } from "@/store/Shop/users";
 import { recommendProduct } from "@/store/Shop/users/userThunk";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
 
 const Recommend = () => {
-    const [data, setData] = useState([])
     const recommendHistory = localStorage.getItem('recommend') || [];
     const dispatch = useDispatch()
     const { isLoadingRecommend, payloadRecommend } = useSelector(state => state.shoppingProduct)
-    const { user , isAuthenticated } = useSelector(state => state.shoppingAuth)
+    const { user, isAuthenticated } = useSelector(state => state.shoppingAuth)
     useEffect(() => {
-        if (recommendHistory !== null && recommendHistory !== undefined && user !== null ) {
-    
-            dispatch(recommendProduct({ obj: recommendHistory }))
-        } else {
+        if (recommendHistory.length === 0) {
             return
+        } else {
+            if (recommendHistory !== null || user !== null || recommendHistory.length > 0) {
+                dispatch(recommendProduct({ obj: recommendHistory }))
+            } else {
+                return
+            }
         }
+
     }, [recommendHistory, clickRecommend])
 
-
+ 
+    
 
     return (
         <div>
@@ -28,7 +33,9 @@ const Recommend = () => {
                 {user && isAuthenticated ? (
                     !isLoadingRecommend && payloadRecommend?.length > 0 ? (
                         payloadRecommend.map((item) => (
-                            <div key={item._id} className="cursor-pointer w-[200px]">
+                            <Link
+                            to={`/shop/listing/${item.category}/${item._id}`}
+                            key={item._id} className="cursor-pointer w-[200px]">
                                 <div className="relative w-full drop-shadow-lg py-2">
                                     <img
                                         className="w-full h-[200px] object-cover rounded-md"
@@ -43,10 +50,10 @@ const Recommend = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))
                     ) : (
-                        <div className="text-nowrap">Chưa có sản phẩm gợi ý nào</div>
+                        <div className="text-nowrap">Chưa có sản phẩm gợi ý nào hãy tìm sản phẩm đi </div>
                     )
                 ) : (
                     <div className="text-nowrap">Bạn phải đăng nhập để sử dụng tính năng này</div>

@@ -11,8 +11,13 @@ const CartShop = () => {
     const { isGetToCartProduct, payloadCartProduct, totalCart } = useSelector(state => state.shoppingProduct);
     const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
     useEffect(() => {
-        if (payloadCartProduct === null) dispatch(getToCartProduct());
+        if (payloadCartProduct === null && isAuthenticated === true && user !== null) {
+            // console.log("lan 3");
+            
+            // dispatch(getToCartProduct());
+        } 
     }, [dispatch]);
+
 
     const uniqueProducts = payloadCartProduct?.reduce((acc, item) => {
         const existingItem = acc.find(product => product.productId._id === item.productId._id);

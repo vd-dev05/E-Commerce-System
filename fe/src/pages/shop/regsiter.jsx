@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router'
 import { useFormik } from 'formik';
 import { userSchemaSignInRegister } from '@/validations/Yup/useYupForm';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from '@firebase/auth'
+import app from '@/services/firebase/config'
 
 const ShoppingRegsiter = () => {
 
@@ -33,46 +35,6 @@ const ShoppingRegsiter = () => {
             [name]: value
         }))
     }
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            toast({
-                variant: "destructive",
-                title: "Đăng ký thất bại",
-                description: "Xác nhận mật khẩu không trùng khớp",
-                action: <ToastAction altText="Try again">Thử lại</ToastAction>
-            })
-            return
-        }
-        dispatch(registerUser(formData)).then(data => {
-            if (data?.payload?.success) {
-                toast({
-                    title: data?.payload?.message
-                })
-                setFormData({
-                    username: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    gender: 'Male',
-                    birthday: '',
-                    phone: ''
-                })
-                navigate('/shop/login')
-            }
-            else {
-                toast({
-                    variant: "destructive",
-                    title: "Đăng ký thất bại",
-                    description: data?.payload?.message,
-                    action: <ToastAction altText="Try again">Thử lại</ToastAction>
-                })
-            }
-        }
-        )
-    }
-
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -81,10 +43,11 @@ const ShoppingRegsiter = () => {
             birthday: '',
             gender: 'Male',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            isPasswordSet: true,
+            isLoginGoogle: false
         },
         onSubmit: (values) => {
-      
             dispatch(registerUser(values)).then(data => {
                 if (data?.payload?.success) {
                     toast({
@@ -109,7 +72,55 @@ const ShoppingRegsiter = () => {
         validationSchema: userSchemaSignInRegister
     })
 
+    const auth = getAuth(app);
+    const googleSignIn = () => {
+        const provider = new GoogleAuthProvider();
 
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const user = result.user;
+
+                const data = {
+                    username: user.displayName,
+                    email: user.email,
+                    phone : '',
+                    password: '',
+                    confirmPassword: '',
+                    gender: 'Male',
+                    birthday: '',
+                    phone: '',
+                    isLoginGoogle: true,
+                    googleId: user.uid,
+                    avartar: user.photoURL,
+                    isPasswordSet: false
+                }
+                if (data && user) {
+                    dispatch(registerUser(data)).then(data => {
+                        if (data?.payload?.success) {
+                            toast({
+                                title: data?.payload?.message
+                            })
+                            formik.resetForm()
+                            navigate('/shop/home')
+                        }
+                        else {
+                            toast({
+                                variant: "destructive",
+                                title: "Đăng ký thất bại",
+                                description: data?.payload?.message,
+                                action: <ToastAction altText="Try again">Thử lại</ToastAction>
+                            })
+                        }
+                    }
+                    )
+                }
+
+            })
+            .catch((error) => {
+                console.error("Lỗi khi đăng nhập với Google:", error);
+                message.error(error.message)
+            });
+    };
     return (
         <div>
             <form action="" onSubmit={formik.handleSubmit} className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-700'>
@@ -165,32 +176,37 @@ const ShoppingRegsiter = () => {
                 </div>
 
                 <div className='flex items-center w-full gap-2'>
-                    <input
-                        type="date"
-                        className='w-3/4 px-3 py-2 border border-gray-800'
-                        placeholder='Ngày sinh'
-                        name='birthday'
-                        value={formik.values.birthday}
-                        onChange={formik.handleChange}
-                        required
-                    />
-                    {formik.errors.birthday && (
-                        <p className='text-[#dc2626] text-[12px]'>{formik.errors.birthday}</p>
-                    )}
-                    <div className='border border-gray-800'>
-                        <select
-                            className='w-full px-3 py-2'
-                            name='gender'
-                            value={formik.values.gender}
+                    <div className='w-full'>
+                        <input
+                            type="date"
+                            className='w-3/4 px-3 py-2 border border-gray-800'
+                            placeholder='Ngày sinh'
+                            name='birthday'
+                            value={formik.values.birthday}
                             onChange={formik.handleChange}
-                        >
-                            <option value="Male">Nam</option>
-                            <option value="Female">Nữ</option>
-                        </select>
+                            required
+                        />
+                        {formik.errors.birthday && (
+                            <p className='text-[#dc2626] text-[12px]'>{formik.errors.birthday}</p>
+                        )}
                     </div>
-                    {formik.errors.gender && (
-                        <p className='text-[#dc2626] text-[12px]'>{formik.errors.gender}</p>
-                    )}
+                    <div className={`${formik.errors.birthday ? '-translate-y-2 ' : ''} w-2/3`}>
+                        <div className='border border-gray-800'>
+                            <select
+                                className='w-full px-3 py-2'
+                                name='gender'
+                                value={formik.values.gender}
+                                onChange={formik.handleChange}
+                            >
+                                <option value="Male">Nam</option>
+                                <option value="Female">Nữ</option>
+                            </select>
+                        </div>
+                        {formik.errors.gender && (
+                            <p className='text-[#dc2626] text-[12px]'>{formik.errors.gender}</p>
+                        )}
+                    </div>
+
                 </div>
 
                 <div className='w-full'>
@@ -229,14 +245,17 @@ const ShoppingRegsiter = () => {
                         <Link to={'/shop/login'}>Đăng nhập ngay</Link>
                     </span>
                 </p>
-                <div className=' flex flex-col gap-4 mt-8 text-sm text-center'>
-                    <p>Hoặc, Đăng kí bằng</p>
-                    <div className='flex justify-center gap-10 text-gray-400'>
-                        <p className='flex gap-1 items-center cursor-pointer'><FaGoogle className='size-8 text-red-600' /> <span>Google</span></p>
-                        <p className='flex gap-1 items-center cursor-pointer'><Facebook className='text-white bg-blue-700 p-1 rounded-full size-8' /> <span>Facebook</span></p>
-                    </div>
-                </div>
+
             </form>
+            <div className=' flex flex-col gap-4 mt-8 text-sm text-center'>
+                <p>Hoặc, Đăng kí bằng</p>
+                <div className='flex justify-center gap-10 text-gray-400'>
+                    <button
+                        onClick={googleSignIn}
+                        className='flex gap-1 items-center cursor-pointer'><FaGoogle className='size-8 text-red-600' /> <span>Google</span></button>
+                    <p className='flex gap-1 items-center cursor-pointer'><Facebook className='text-white bg-blue-700 p-1 rounded-full size-8' /> <span>Facebook</span></p>
+                </div>
+            </div>
         </div>
     )
 }
