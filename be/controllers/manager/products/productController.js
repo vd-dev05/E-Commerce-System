@@ -7,7 +7,7 @@ export const uploadProductImages = async (req, res) => {
         const files = req.files;
 
         if (!files || !files.mainImage || files.mainImage.length === 0) {
-            return res.status(400).json({
+            return res.json({
                 success: false,
                 message: "Main image is required",
             });
@@ -31,7 +31,7 @@ export const uploadProductImages = async (req, res) => {
             additionalImagesResults = await Promise.all(additionalUploadPromises);
         }
 
-        res.status(200).json({
+        res.json({
             success: true,
             message: "Images uploaded successfully!",
             data: {
@@ -40,11 +40,10 @@ export const uploadProductImages = async (req, res) => {
             },
         });
     } catch (error) {
-        console.error("Image upload error:", error);
-        res.status(500).json({
+        console.log("Image upload error:", error);
+        res.json({
             success: false,
-            message: "Failed to upload images",
-            error: error.message,
+            message: error.message,
         });
     }
 };
@@ -56,17 +55,32 @@ export const createProduct = async (req, res) => {
             name,
             description,
             category,
+            subCategory,
             price,
             salePrice,
+            currency,
             images,
             attributes,
+            totalStock
         } = req.body;
+        console.log(req.body);
+
+
+
+        const manager = await ManagerModel.findById(managerId);
+        if (!manager) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy quản lý",
+            });
+        }
         if (!name || !description || !category || !price || !images?.mainImage) {
             return res.status(400).json({
                 success: false,
                 message: "Thiếu thông tin bắt buộc!",
             });
         }
+
         if (salePrice > price) {
             return res.status(400).json({
                 success: false,
@@ -74,13 +88,36 @@ export const createProduct = async (req, res) => {
             });
         }
 
+
+        let initialStock = totalStock || 0;
+
+        if (attributes?.length > 0) {
+            initialStock = attributes.reduce((total, attr) => {
+                return total + (attr.options?.reduce((optionTotal, option) => {
+                    let subTotal = option.quantity || 0;
+
+                    if (option.subAttribute?.options?.length > 0) {
+                        subTotal += option.subAttribute.options.reduce(
+                            (sum, sub) => sum + (Number(sub.quantity) || 0),
+                            0
+                        );
+                    }
+
+                    return optionTotal + subTotal;
+                }, 0) || 0);
+            }, 0);
+        }
+
         const newProduct = new ProductModel({
             managerId,
             name,
             description,
             category,
+            subCategory,
             price,
             salePrice: salePrice || 0,
+            currency: currency || "USD",
+            totalStock: totalStock === "" || totalStock === undefined ? initialStock : totalStock,
             images,
             attributes,
         });
@@ -89,17 +126,19 @@ export const createProduct = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: "Thêm mới sản phẩm thành công !",
+            message: "Thêm mới sản phẩm thành công!",
             data: newProduct,
         });
     } catch (error) {
-        console.error("Create product error:", error);
+        console.error("Lỗi khi tạo sản phẩm:", error);
         res.status(500).json({
             success: false,
+            message: "Đã xảy ra lỗi khi thêm sản phẩm.",
             error: error.message,
         });
     }
 };
+
 
 export const updateProduct = async (req, res) => {
     try {
@@ -163,6 +202,7 @@ export const deleteProduct = async (req, res) => {
                 message: "Manager not found"
             });
         }
+
         const product = await ProductModel.findById(productId);
         if (!product) {
             return res.json({
@@ -176,7 +216,7 @@ export const deleteProduct = async (req, res) => {
                 message: "You are not authorized to delete this product"
             });
         }
-        await product.remove();
+        await product.deleteOne();
         res.json({
             success: true,
             message: "Xóa sản phẩm thành công!"
@@ -219,6 +259,8 @@ export const fetchProductsByManager = async (req, res) => {
 export const fetchProductByDetails = async (req, res) => {
     try {
         const { managerId, productId } = req.params;
+        console.log("Nhận request", req.params);
+        console.log(`Fetching product for managerId: ${managerId}, productId: ${productId}`);
 
         const manager = await ManagerModel.findById(managerId);
         if (!manager) {
@@ -227,14 +269,10 @@ export const fetchProductByDetails = async (req, res) => {
                 message: "Manager not found"
             });
         }
-        const products = await ProductModel.findOne(
-            {
-                managerId,
-                _id: productId,
-            }
-        );
+        const product = await ProductModel.findOne({ managerId, _id: productId });
+        console.log("Product found:", product);
 
-        if (!products) {
+        if (!product) {
             return res.json({
                 success: false,
                 message: "Product not found"
@@ -242,7 +280,7 @@ export const fetchProductByDetails = async (req, res) => {
         }
         res.json({
             success: true,
-            data: products
+            data: product
         });
     } catch (error) {
         console.error("fetch product details error:", error);

@@ -1,6 +1,6 @@
 import express from "express";
 import { upload } from "../../../config/cloudinary.js";
-import { createProduct, deleteProduct, fetchProductsByManager, updateProduct, uploadProductImages } from "../../../controllers/manager/products/productController.js";
+import { createProduct, deleteProduct, fetchProductByDetails, fetchProductsByManager, updateProduct, uploadProductImages } from "../../../controllers/manager/products/productController.js";
 import { managerAuthMiddleware, validateManagerInput } from "../../../middlewares/authMiddleware.js";
 import { checkAuth, login, logout, register } from "../../../controllers/manager/auth/managerController.js";
 import { createCategoryByManager, deleteCategoryByManager, listCategoryByManager, updateCategoryByManager } from "../../../controllers/manager/products/categoryController.js";
@@ -33,7 +33,7 @@ manageRouter.post("/products/create", createProduct);
 manageRouter.put("/products/update/:managerId/:productId", updateProduct);
 manageRouter.delete("/products/delete/:managerId/:productId", deleteProduct);
 manageRouter.get("/products/list/:managerId", fetchProductsByManager);
-manageRouter.get("/products/list-details/:managerId/:productId", fetchProductsByManager);
+manageRouter.get("/products/list-details/:managerId/:productId", fetchProductByDetails);
 
 // Voucher manager
 manageRouter.post('/voucher/create', createVoucher)

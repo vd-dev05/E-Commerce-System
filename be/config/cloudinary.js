@@ -9,8 +9,11 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_SECRET_KEY
 });
+// console.log(cloudinary.config());
+
 
 const stroage = new multer.memoryStorage();
+const upload = multer({ stroage });
 
 const imageUpload = async (file) => {
     const result = await cloudinary.uploader.upload(file,
@@ -20,7 +23,5 @@ const imageUpload = async (file) => {
     )
     return result
 }
-
-const upload = multer({ stroage });
 
 export { upload, imageUpload }

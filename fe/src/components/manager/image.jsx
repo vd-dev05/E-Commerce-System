@@ -20,7 +20,7 @@ const ProductImageUpload = ({ additionalImages, setAdditionalImages, mainImage, 
     const handleMainImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setMainImage(file); // Store the file itself
+            setMainImage(file);
         }
     };
     const handleRemoveImage = () => {
@@ -59,7 +59,7 @@ const ProductImageUpload = ({ additionalImages, setAdditionalImages, mainImage, 
         });
 
         try {
-            const response = await axios.post("http://localhost:5000/api/v1/manager/product/upload-images", formData);
+            const response = await axios.post("http://localhost:5000/api/v1/manager/product/upload-images", formData,);
             if (response.data.success) {
                 setUploadImageUrl(response.data.data)
                 setImageLoading(false);
@@ -74,7 +74,6 @@ const ProductImageUpload = ({ additionalImages, setAdditionalImages, mainImage, 
             uploadImageToCloudinary()
         }
     }, [mainImage, additionalImages])
-    console.log(uploadImageUrl);
 
     return (
         <div className="py-5">
