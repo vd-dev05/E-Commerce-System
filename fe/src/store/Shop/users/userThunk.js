@@ -1,6 +1,36 @@
 import axios from "axios";
 import {createAsyncThunk} from "@reduxjs/toolkit"
 
+export const createOrderPaymentSepay = createAsyncThunk('/createOrderPaymentSepay', async (data) => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_PAYMENT_SEPAY}/payment/list?code=${data}`, {} , {
+        withCredentials: true,
+    })
+    console.log(response);
+    
+    return response.data
+})
+
+export const addMessageChat = createAsyncThunk('/addMessageChat', async ({roomId, message}) => {
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/chat/${roomId}/list`, message, {
+        withCredentials: true,
+    })
+    return response.data
+})
+
+export const getMessageChat = createAsyncThunk('/getMessageChat', async ({roomId}) => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/chat/${roomId}/roomId`, {
+        withCredentials: true,
+    })
+    return response.data
+})
+
+export const getRoomChat = createAsyncThunk('/room', async () => {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/room`, {
+        withCredentials: true,
+    })
+    return response.data
+})
+
 export const addProductFavorite = createAsyncThunk('/addProductFavorite', async (id) =>{
     const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/favorite/like/${id}`, {} , {
         withCredentials: true,

@@ -5,6 +5,7 @@ import managerCategorySlice from '../store/manager/category'
 import managerProductSlice from '../store/manager/product'
 import adminSlice from '../store/admin/index.js'
 import shoppingProduct from '../store/Shop/users/index.js'
+import managerChatSlice from '../store/manager/chat/index.js'
 const store = configureStore({
     reducer: {
         shoppingAuth: shoppingAuthSlice,
@@ -13,6 +14,7 @@ const store = configureStore({
         managerProduct: managerProductSlice,
         adminAuth: adminSlice,
         shoppingProduct: shoppingProduct,
+        managerChat : managerChatSlice
     }
 })
 

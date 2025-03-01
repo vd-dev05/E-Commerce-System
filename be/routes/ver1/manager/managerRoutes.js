@@ -5,6 +5,7 @@ import { managerAuthMiddleware, validateManagerInput } from "../../../middleware
 import { checkAuth, login, logout, register } from "../../../controllers/manager/auth/managerController.js";
 import { createCategoryByManager, deleteCategoryByManager, listCategoryByManager, updateCategoryByManager } from "../../../controllers/manager/products/categoryController.js";
 import { createVoucher } from "../../../controllers/manager/products/voucherController.js";
+import ChatManagerController from "../../../controllers/manager/chat/index.js";
 
 const manageRouter = express.Router();
 
@@ -37,5 +38,10 @@ manageRouter.get("/products/list-details/:managerId/:productId", fetchProductByD
 
 // Voucher manager
 manageRouter.post('/voucher/create', createVoucher)
+
+// Message manager 
+manageRouter.get('/message/:id',managerAuthMiddleware,ChatManagerController.getMessageRoomAll)
+manageRouter.get('/room/all',managerAuthMiddleware,ChatManagerController.getRoomMessageAll)
+manageRouter.post('/send/:id', managerAuthMiddleware, ChatManagerController.sendUser )
 
 export default manageRouter

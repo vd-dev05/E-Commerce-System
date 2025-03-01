@@ -18,12 +18,17 @@ import CommentController from "../../../controllers/user/comment/index.js";
 import BlockUser from "../../../controllers/user/block/index.js";
 import VoucherController from "../../../controllers/user/voucher/index.js";
 import Favorite from "../../../controllers/user/favorite/index.js";
+import ChatManager from "../../../controllers/user/chat/index.js";
 const usersRouter = express.Router();
 
 // usersRouter.post('/countdown/start',CountDown.getTimeStart)
 // usersRouter.get('/countdown/end',CountDown.getTimeCountdownEndTime)
+usersRouter.post('/chat/:id/list',authMiddleware,ChatManager.createMessageList)
+usersRouter.get('/chat/:id/roomId',authMiddleware,ChatManager.getMessageId)
+usersRouter.get('/room',authMiddleware,ChatManager.getRoomListId)
+usersRouter.post('/room/create/:id' ,authMiddleware,ChatManager.createRoomId)
 usersRouter.post('/favorite/unlike/:id',authMiddleware,Favorite.removeToList)
-usersRouter.post('/favorite/check/:id',authMiddleware,Favorite.checkFavorite)
+usersRouter.post('/favorite/:id/check',authMiddleware,Favorite.checkFavorite)
 usersRouter.post('/favorite/like/:id',authMiddleware,Favorite.addToList)
 usersRouter.get('/voucher/promotion',authMiddleware, VoucherController.getVoucherPromotion)
 usersRouter.get('/check-block',authMiddleware, BlockUser.getCountBlockUser )
@@ -58,6 +63,9 @@ usersRouter.get('/cart', authMiddleware, CartController.getToCart)
 usersRouter.get('/cart/3',authMiddleware ,CartController.getToCartThree)  
 usersRouter.post('/cart/1',authMiddleware ,CartController.removeToCart)  
 usersRouter.delete('/cart/all',authMiddleware ,CartController.removeAllCart)
+usersRouter.get('/token/accesstoken/id', authMiddleware ,(req,res) => {
+    res.send(req.user.id)
+})
 usersRouter.post('/', (req,res) => { console.log("tets");
 } )
 

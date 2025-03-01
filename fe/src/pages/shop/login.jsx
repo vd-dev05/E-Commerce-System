@@ -23,6 +23,7 @@ const ShoppingLogin = () => {
         },
         onSubmit: (values) => {
             dispatch(loginUser(values)).then(data => {
+                // console.log(data);
                 if (data?.payload?.success) {
                     toast({
                         title: data?.payload?.message
@@ -50,10 +51,13 @@ const ShoppingLogin = () => {
             .then((result) => {
                 const user = result.user;
                 dispatch(loginUser({email : user.email , isLoginGoogle : true})).then(data => {
+                    // console.log(data);
                     if (data?.payload?.success) {
                         toast({
                             title: data?.payload?.message
                         })
+                    
+                        
                         navigate('/shop/home')
                     }
                     else {

@@ -1,7 +1,8 @@
+import { cacheTime } from "../../../config/index.js";
 import { ErrorNotFoundResponse } from "../../../error/errorResponse.js";
 import UserModel from "../../../models/auth/userModel.js";
 import { Notification } from "../../../models/shop/notificationModel.js";
-
+import { cache } from "../../../../socket/src/countDown.js";
 
 const Voucher = {
     createVoucher: async (req, res) => {
@@ -83,6 +84,19 @@ const Voucher = {
                 success : true,
                 message : "Get All Voucher Successfull"
             })
+        } catch (error) {
+            ErrorNotFoundResponse(res, error);
+        }
+    },
+    updatetime : async (req,res) => {
+        try {
+            const {sale} = req.body 
+            cacheTime.time =Number( sale)
+
+            cache.timeLeft = cacheTime.time;
+            cache.timeStart = 1;
+            
+            res.status(200).json({success : true , cacheTime})
         } catch (error) {
             ErrorNotFoundResponse(res, error);
         }

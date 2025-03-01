@@ -31,6 +31,7 @@ const Products = {
         try {
             const {id} = req.params
             const product = await ProductModel.findById(id)
+            .populate("managerId" , '-updatedAt -role -phone -email -password')
             res.status(200).json({product}) 
         } catch (error) {
             ErrorNotFoundResponse(res, error)

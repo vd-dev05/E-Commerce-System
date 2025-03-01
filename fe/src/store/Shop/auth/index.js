@@ -99,7 +99,8 @@ const shoppingAuthSlice = createSlice({
         user: null,
         checkpassMessage : null,
         isMessage : true,
-        isNewPassword : false
+        isNewPassword : false,
+        role : null,
     },
     reducers: {
         setUser: (state, action) => { },
@@ -121,6 +122,7 @@ const shoppingAuthSlice = createSlice({
             state.isLoading = false;
             state.user = action.payload.success ? action.payload.user : null;
             state.isAuthenticated = action.payload.success;
+            state.role = action.payload.user.role
         }).addCase(loginUser.rejected, (state, action) => {
             state.isLoading = false;
             state.user = null;
@@ -132,6 +134,7 @@ const shoppingAuthSlice = createSlice({
             state.isLoading = false;
             state.user = action.payload.success ? action.payload.user : null;
             state.isAuthenticated = action.payload.success;
+            state.role = action.payload.user.role
         }).addCase(checkAuthUser.rejected, (state, action) => {
             state.isLoading = false;
             state.user = null;

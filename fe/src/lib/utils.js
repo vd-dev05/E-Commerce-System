@@ -90,8 +90,33 @@ const generateUniqueId = (item) => {
   const beta = item?.variants[0]?.attributes?.find(attr => attr.name === "Chất liệu")?.value;
   return `${item?.productId?._id}-${item?.quantity}-${item?.price}-${color}-${size}-${beta}`;
 };
+function calculateLastSeen(lastSeenDate) {
+
+  const lastSeen = new Date(lastSeenDate);
+  const now = new Date();
+  const diff = now - lastSeen;
+
+ 
+  const minutes = Math.floor(diff / 1000 / 60);
+
+  // logic hiển thị
+  if (minutes < 1) {
+    return "Vừa mới hoạt động";
+  } else if (minutes < 60) {
+    return `${minutes} phút trước`;
+  } else if (minutes > 60 && minutes < 1440) {
+    return `${Math.floor(minutes / 60)} giờ trước`;
+    // // xử lý giờ/ngày nếu cần
+    // return lastSeen.toLocaleString(); 
+  } else if (minutes > 1440) {
+  
+    return `${Math.floor(minutes / 60 / 24)} ngày trước`;
+  }
+}
+
 
 export {
+  calculateLastSeen,
   formatPrice,
   formatTitle,
   cn,

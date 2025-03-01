@@ -132,6 +132,7 @@ const validateManagerInput = async (req, res, next) => {
 
 const managerAuthMiddleware = async (req, res, next) => {
     const token = req.cookies.manager_token;
+  
     if (!token) return res.json({
         success: false,
         message: 'Unauthorised user !'
@@ -140,6 +141,7 @@ const managerAuthMiddleware = async (req, res, next) => {
     try {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+     
         req.manager = decoded;
         next()
     } catch (error) {

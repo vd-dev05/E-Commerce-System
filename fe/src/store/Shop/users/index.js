@@ -11,7 +11,10 @@ import {
     getQueryCategoryProduct,
     getVoucherPromotion,
     addProductFavorite,
-    removeProductFavorite
+    removeProductFavorite,
+    getRoomChat,
+    getMessageChat,
+    addMessageChat
 
 
 } from "./userThunk";
@@ -78,7 +81,19 @@ const shoppingProduct = createSlice({
         isAddToLove: false,
         payloadFavorite: null,
         payloadFavoriteId: null,
-        isUnlikeLove: false
+        isUnlikeLove: false,
+
+        isRoomProduct : false ,
+        payloadRoomProduct : null,
+
+        isMessageRoom : false,
+        payloadMessageRoom  : null,
+        roomId : null,
+
+        isLoadingCountChat : false,
+        payloadCountChat : null,
+
+        transition : null,
     },
     reducers: {
         setProduct: (state, action) => { },
@@ -135,6 +150,14 @@ const shoppingProduct = createSlice({
                 arrRecommend.push(data);
                 localStorage.setItem('recommend', JSON.stringify(arrRecommend));
             }
+        },
+        setDataTransition : (state,action) => {
+            localStorage.setItem("qrData", JSON.stringify(action.payload)); 
+            // return action.payload
+        },
+        clearDataTransition : () => {
+            localStorage.removeItem("qrData")
+            return null
         }
 
     },
@@ -364,9 +387,33 @@ const shoppingProduct = createSlice({
                 state.isUnlikeLove = false
             })
             .addCase(removeProductFavorite.rejected, (state) => { state.isUnlikeLove = false, state.payloadFavoriteId = null, state.payloadMessageFavorite = null })
-    }
+        builder
+        builder
+            .addCase(getRoomChat.pending, (state) => { state.isLoadingRoomChat = true, state.payloadRoomChat = null })
+            .addCase(getRoomChat.fulfilled, (state, action) => {
+                state.isLoadingRoomChat = false
+                state.payloadRoomChat = action?.payload?.room                
+            })
+            .addCase(getRoomChat.rejected, (state) => { state.isLoadingRoomChat = false, state.payloadRoomChat = null })
+        builder
+            .addCase(getMessageChat.pending, (state) => { state.isMessageRoom= false, state.payloadMessageRoom= null ,state.roomId = null })
+            .addCase(getMessageChat.fulfilled, (state, action) => {
+                state.isMessageRoom= true
+                state.payloadMessageRoom= action?.payload?.message
+                state.roomId = action?.payload?.roomId
+            })
+            .addCase(getMessageChat.rejected, (state) => { state.isMessageRoom = false, state.payloadMessageRoom= null , state.roomId = null })
+        builder
+            .addCase(addMessageChat.pending, (state) => { state.isLoadingCountChat = true, state.payloadCountChat = null })
+            .addCase(addMessageChat.fulfilled, (state, action) => {
+                state.isLoadingCountChat = false
+                state.payloadCountChat = action?.payload?.message
+            })
+            .addCase(addMessageChat.rejected, (state) => { state.isLoadingCountChat = false, state.payloadCountChat = null })
+        
+        }
 
 })
 
-export const { setProduct, addToCart, removeToCart, selectAttributes, onpopstate, clickRecommend } = shoppingProduct.actions
+export const { setProduct, addToCart, removeToCart, selectAttributes, onpopstate, clickRecommend , setDataTransition , clearDataTransition } = shoppingProduct.actions
 export default shoppingProduct.reducer

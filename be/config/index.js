@@ -8,7 +8,9 @@ export const SearchTop = {
     'ao nam': "Thời Trang Nam",
     'ao nu': "Thời Trang Nữ"
 }
-
+export const cacheTime = {
+    time : 70
+}
 export const CommentSort = [
     'fuck',
     'bán như cặc',

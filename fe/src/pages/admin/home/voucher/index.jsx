@@ -1,3 +1,4 @@
+import SaleUser from "@/components/admin/ui/SaleUser";
 import VoucherAllUser from "@/components/admin/ui/VoucherAllUser";
 import VoucherCreate from "@/components/admin/ui/VoucherCreate";
 import VoucherEditUser from "@/components/admin/ui/VouchereditUser";
@@ -6,7 +7,8 @@ import queryString from "query-string";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router";
-
+import NotificationAdmin from "@/components/admin/ui/notification";
+    
 const VoucherAdmin = () => {
     const location = useLocation()
     const query = queryString.parse(location.search)
@@ -35,13 +37,17 @@ const VoucherAdmin = () => {
                 <Link
                 className={`${query.s === 'edit' ? 'border-b-2 pb-2 transition duration-300 ease-in-out' :'transition duration-300 ease-in-out opacity-50'}`}
                 to="?s=edit">Cập nhật voucher</Link>
-              
+                <Link 
+                className={`${query.s === 'sale' ? 'border-b-2 pb-2 transition duration-300 ease-in-out' :'transition duration-300 ease-in-out opacity-50'}`}
+                to="?s=sale">Cập nhật thời gian sale</Link>
             </div>
 
             <div className=" m-2 drop-shadow-md bg-white">
                 {query.s === 'user' && <VoucherAllUser />}
                 {query.s === "create" && <VoucherCreate />}
                 {query.s === "edit" && <VoucherEditUser />}
+                {query.s === "sale" && <SaleUser/>}
+                {query.s === "notification" && <NotificationAdmin/> }
             </div>
 
         </div>

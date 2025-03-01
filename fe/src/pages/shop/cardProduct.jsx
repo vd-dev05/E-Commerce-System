@@ -14,6 +14,8 @@ import { FaCartPlus, FaHeartBroken } from "react-icons/fa";
 import test from "node:test";
 import CommentProduct from "@/components/shop/comment";
 import axios from "axios";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { IoIosChatboxes } from "react-icons/io";
 
 
 const productImages = [
@@ -23,7 +25,7 @@ const productImages = [
   "https://images.pexels.com/photos/210178/pexels-photo-210178.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 ];
 const CardProduct = () => {
-  const split = locationPath().split("/")[4];  
+  const split = locationPath().split("/")[4];
   const queryProductType = locationPath().split("/")[3]
   const dispatch = useDispatch()
   const nav = useNavigate()
@@ -33,14 +35,23 @@ const CardProduct = () => {
   const [select, setSelect] = useState()
   const [checkCart, setCheckCart] = useState()
   const [isLove, setIsLove] = useState(null)
+
   useEffect(() => {
     if (payloadProducts === null && isProducts === false) {
-      dispatch(getProductById(split))  
+      dispatch(getProductById(split))
     }
-  
+    const fetech = async () => {
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/favorite/${split}/check`, {}, {
+        withCredentials: true
+      })
+      if (response.statusText === "OK") {
+        setIsLove(response.data.isFavorite)
+      }
+    }
+    fetech()
   }, [split])
 
-  
+
   useEffect(() => {
     if (select !== undefined && payloadProducts !== undefined && isProducts === true) {
       const attributes = Object.keys(select).map(attributeName => ({
@@ -55,29 +66,14 @@ const CardProduct = () => {
           );
         });
       });
-  
+
       if (matchingProduct) {
         setCheckCart(matchingProduct)
-      } 
+      }
 
 
     }
   }, [select, payloadProducts])
-
-  useEffect(() => {
-    (
-      async () => {
-  
-        if (payloadProducts !== null) {
-          const resposne = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/favorite/check/${payloadProducts._id}`, {}, {
-            withCredentials: true
-          })
-          if (resposne.statusText === "OK") {
-            setIsLove(resposne.data.isFavorite)
-          } 
-        } })()  
-  }, [isAuthenticated, user, isAddToLove, isUnlikeLove , dispatch ])
-
 
   const handleAddToCart = () => {
 
@@ -125,16 +121,29 @@ const CardProduct = () => {
       }));
     }
   }
+  const handleCreateChat = async () => {
 
-  
+    const receiverId = `userId-${user.id}-managerId-${payloadProducts.managerId._id}-${new Date().getTime()}`
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/room/create/${payloadProducts.managerId._id}`, {
+      receiverId,
+    }, {
+      withCredentials: true,
+    })
+    // console.log(response);
+    
+
+  }
+
+
   return (
     <div>
       <header>
         < ShoppingHeader></ShoppingHeader>
 
       </header>
-      {(isProducts === true && payloadProducts !== null  ) ? <div className="py-5 m-5 bg-[#fafafa]">
+      {(isProducts === true && payloadProducts !== null) ? <div className="py-5 m-5 bg-[#fafafa]">
         <div className="flex bg-white drop-shadow-sm" >
+          {/* image  */}
           <section className="w-1/2">
             <div className="flex space-x-4 ">
               {/* danh sách ảnh nhỏ */}
@@ -177,10 +186,10 @@ const CardProduct = () => {
                     <button
                       onClick={() => {
                         dispatch(addProductFavorite(payloadProducts._id))
-                        if (isAddToLove === false   ) {
+                        if (isAddToLove === false) {
                           message.success("Thêm sản phẩm thành công")
                         }
-                   
+
                       }}
                       className="p-2 border-2 border-gray-300 rounded-md hover:bg-gray-200 flex gap-2 items-center">
 
@@ -208,6 +217,7 @@ const CardProduct = () => {
 
             </div>
           </section>
+          {/* select option so luong san pham */}
           <section className="w-2/3">
             <div >
               <h1 className="text-2xl font-bold">{payloadProducts?.name} </h1>
@@ -278,9 +288,44 @@ const CardProduct = () => {
               </div>
             </div>
           </section>
-
-
         </div>
+        {/* thong tin nha ban */}
+        <section>
+          <div className="py-5 m-5 bg-[#fafafa]">
+            <div className="flex justify-between">
+              <div className="flex gap-10">
+                <Avatar className="h-[100px] w-[100px] cursor-pointer">
+                  <AvatarImage
+
+                    src="https://down-vn.img.susercontent.com/file/c652e52ce1c2187aaa4e67fa060a3f16@resize_w80_nl.webp" />
+                </Avatar>
+
+                <div className="flex flex-col gap-3">
+                  <h4>KICHAELS</h4>
+                  <p>Online 33 phút trước</p>
+                  <button
+                    onClick={() => handleCreateChat()}
+                    className="flex w-[140px] gap-2 border-[2px] border-red-500 text-red-700 p-2 items-center bg-[#ffd5c8] "
+                  ><span><IoIosChatboxes /></span>Chat ngay</button>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-10">
+                <div className="flex gap-5">
+                  <p>Thời gian </p>
+                  <p>Đã tham gia 5 năm trước</p>
+                </div>
+                <div className="flex gap-5">
+                  <p>Đánh giá </p>
+                  <span className="text-[#d14f49]">54 k</span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </section>
+        {/* thong tin san pham */}
         <section className="py-5 m-5 bg-[#fafafa]">
           <div className="bg-white drop-shadow-sm">
             <p>
@@ -289,15 +334,16 @@ const CardProduct = () => {
           </div>
 
         </section>
+        {/* comment san pham */}
         <section className="py-5 m-5 bg-[#fafafa]">
           <CommentProduct nav={nav} user={user} isAuthenticated={isAuthenticated} payloadProductsId={payloadProducts._id} />
         </section>
-      </div> : 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
-        <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
-        <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
-      </div>
+      </div> :
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
+          <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
+          <div className="w-full h-96 bg-gray-300 rounded animate-pulse"></div>
+        </div>
       }
 
     </div>

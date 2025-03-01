@@ -43,12 +43,21 @@ const ManagerMenu = () => {
             label: 'Kênh Marketing',
 
         },
+        {
+            id: 4,
+            label: 'Quản Lý Khách Hàng',
+            items: [
+                {
+                    id: 4 - 1,
+                    label: 'Chat với khách hàng', path: '/manager/home/customer/chat'}
+                ]
+        }
     ]
 
     const navigate = useNavigate()
     return (
         <nav className='flex flex-col gap-2 mt-8'>
-            <Accordion type="multiple" collapsible className="w-full">
+            <Accordion type="multiple" collapsible="true" className="w-full">
                 {
                     managerSidebarMenuItems?.map((menu) => (
                         <AccordionItem value={`item-${menu.id}`} key={menu.id}>

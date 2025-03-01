@@ -1,9 +1,9 @@
 import { editAddress, editPaymentOrder, getAlladdress, getCoinPaypal, getOrderProductId } from "@/store/Shop/users/userThunk";
-import { onpopstate } from "@/store/Shop/users";
+import { onpopstate, setDataTransition } from "@/store/Shop/users";
 import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router";
+import { data, Link, useLocation, useNavigate } from "react-router";
 import React from 'react';
 import { message, Modal, Tooltip } from 'antd';
 import { Button } from "@/components/ui/button";
@@ -14,12 +14,12 @@ import { Label } from "@/components/ui/label";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { initialOptionsPayPal } from "@/config";
 import { toast } from "@/hooks/use-toast";
-
+import { v4 as uuidv4 } from 'uuid';
 
 const ShoppingPayment = () => {
     const dispatch = useDispatch()
     const location = useLocation()
-    const { isAddress, addressPaydata, isUpdateAddress, addressMessage, isOrder, payloadOrderProduct, isLoadingOrderProduct, coinUpdate , isPaymentSuccess , payloadPaymentSuccess } = useSelector(state => state.shoppingProduct)
+    const { isAddress, addressPaydata, isUpdateAddress, addressMessage, isOrder, payloadOrderProduct, isLoadingOrderProduct, coinUpdate, isPaymentSuccess, payloadPaymentSuccess } = useSelector(state => state.shoppingProduct)
     // const [addressDefault, setaddressDefault] = useState()
     const [selectedAddress, setSelectedAddress] = useState('')
     const [searchParams] = useSearchParams();
@@ -32,22 +32,22 @@ const ShoppingPayment = () => {
     const nav = useNavigate()
 
     // console.log(payloadPaymentSuccess ,isPaymentSuccess);
-    
+
     // console.log(isAddress,addressPaydata);
 
     useEffect(() => {
-        console.log(isPaymentSuccess , payloadPaymentSuccess);
-        
-     if (isPaymentSuccess  === true && payloadPaymentSuccess === "Update order success") {
-        setTimeout(() => {
-            message.success( "Chuyển Hướng Tới Trang Đơn Hàng Đã Thanh Toán ")
-            nav('/shop/profile/purchase')      
-        }, 2000);
-    
-     }
+        // console.log(isPaymentSuccess, payloadPaymentSuccess);
 
-    }, [isPaymentSuccess , payloadPaymentSuccess , dispatch])
-    
+        if (isPaymentSuccess === true && payloadPaymentSuccess === "Update order success") {
+            setTimeout(() => {
+                message.success("Chuyển Hướng Tới Trang Đơn Hàng Đã Thanh Toán ")
+                nav('/shop/profile/purchase')
+            }, 2000);
+
+        }
+
+    }, [isPaymentSuccess, payloadPaymentSuccess, dispatch])
+
 
     useEffect(() => {
         const paymentMethodFromUrl = searchParams.get('payment');
@@ -138,7 +138,7 @@ const ShoppingPayment = () => {
 
     const paymentMethod = () => {
         let result = '';
-        const checkQuery = ["momo", "cod", "paypal"].includes(currentPaymentMethod)
+        const checkQuery = ["momo", "cod", "paypal", "qrcode"].includes(currentPaymentMethod)
         if (currentPaymentMethod === "bank_ecom") {
             result = formatPrice(Math.max(0, coinUpdate - totalAmount));
         } else if (checkQuery) {
@@ -151,7 +151,7 @@ const ShoppingPayment = () => {
         }
         return result;
     }
-    
+
     useEffect(() => {
         paymentMethod()
     }, [isStatus, currentPaymentMethod])
@@ -179,9 +179,28 @@ const ShoppingPayment = () => {
         })
         return price
     }
+    const { transition } = useSelector(state => state.shoppingProduct)
 
     const handlePaymentPaid = () => {
-        // console.log(isStatus);
+        
+        if (options === "qrcode" && totalAmount) {
+            const map = addressPaydata.filter((item) => item.is_default === true)
+
+            const dataOrder = {
+                _id : payloadOrderProduct._id,
+                address: map[0].address,
+                paymentMeThod: "qrcode"
+            }
+           
+            dispatch( setDataTransition({
+                amount : totalAmount,
+                dataOrder
+            }))
+
+            nav('/payment/sepay')
+
+        }
+
 
 
     }
@@ -202,23 +221,31 @@ const ShoppingPayment = () => {
             <main>
                 <section className="bg-slate-50">
                     <div className="px-10 py-5 m-10 bg-white drop-shadow-sm">
-                        <h2 className="flex gap-2 text-red-500 text"><span><MapPin /></span>Địa Chỉ Nhận Hàng</h2>
+
+
+                        <div className="flex gap-8 items-center"> 
+                            <h2 className="flex gap-2 text-red-500 text"><span><MapPin /></span>Địa Chỉ Nhận Hàng</h2>
+                            <button onClick={showModal} className="hover:underline text-gray-600 text-xs rounded">Thay Dổi</button>
+                        </div>
                         <div className="">
                             {(isAddress === true && addressPaydata) ?
-                                <div className="flex gap-10 items-center">
+                                <div className="flex gap-10 ">
                                     {
                                         addressPaydata?.filter((item) => item.is_default === true).map((addressDefault, index) => (
-                                            <div key={index} className="flex gap-3">
-                                                <h3 className="font-bold text-xl">{addressDefault?.name}</h3>
-                                                <p>{addressDefault?.phone}</p>
-                                                <p>{addressDefault?.country}</p>
-                                                <p>{addressDefault?.address}</p>
-                                            </div>
+                                            < >
+                                                <div key={index} className="flex gap-3 items-center py-2">
+                                                    <h3 className="font-bold text-xl">{addressDefault?.name}</h3>
+                                                    <p>{addressDefault?.phone}</p>
+                                                    <p>{addressDefault?.country}</p>
+                                                    <p>{addressDefault?.address}</p>
+                                                </div>
+
+                                            </>
+
                                         ))
+
                                     }
-                                    <div>
-                                        <button onClick={showModal} className="hover:underline text-gray-600 text-xs rounded">Thay Dổi</button>
-                                    </div>
+
                                 </div>
                                 : 'Loading'}
                         </div>
@@ -241,55 +268,52 @@ const ShoppingPayment = () => {
                             <tbody>
                                 {(isLoadingOrderProduct === false && payloadOrderProduct !== null) ? payloadOrderProduct?.products.map((item) => (
                                     <React.Fragment key={item._id}>
-                                        <tr className="grid grid-cols-6 gap-x-2 text-center">
+                                        <tr className="grid grid-cols-6 gap-x-2  text-center border-[1px] p-2 my-2">
                                             <td className="col-span-3">
                                                 <div className="flex gap-10 w-full text-nowrap">
                                                     <div>
                                                         {/* <img src={item.imag e} alt="" /> */}
                                                     </div>
-                                                    <div>
+                                                    <div className="w-[200px] text-left">
                                                         <Tooltip title={item?.productId?.name ? item?.productId?.name : ""}>
                                                             <h2>{formatTitleLenght(item?.productId?.name, 15)}</h2>
                                                         </Tooltip>
                                                     </div>
-                                                    <div>
+                                                    <p>
                                                         Loại:
                                                         <span>
                                                             {item.variants[0]?.attributes?.map(({ name, value }) => (
                                                                 <span key={name}>{value}, </span>
                                                             ))}
                                                         </span>
-                                                    </div>
+                                                    </p>
                                                 </div>
                                             </td>
+
 
                                             <td className="col-span-1">{item?.price ?? formatPrice(item?.price)}</td>
                                             <td className="col-span-1">{item?.variants[0]?.quantity}</td>
                                             <td className="col-span-1">{formatPrice(item?.salePrice * item?.variants[0]?.quantity)}</td>
+                                            <td className="">
+                                                <div key={item._id}>
+                                                    <div className="py-10 space-x-1 flex text-nowrap items-center">
+                                                        <label htmlFor="note">Lời Nhắn</label>
+                                                        <input
+                                                            id="note"
+                                                            className="outline-none border-[1px] border-gray-500 text-[12px] p-2 rounded-sm"
+                                                            type="text"
+                                                            placeholder="Lưu ý cho người bán"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </React.Fragment>
 
                                 )) : 'Loading ..'}
                             </tbody>
                         </table>
-                        {isLoadingOrderProduct === false && payloadOrderProduct !== null && (
-                            payloadOrderProduct.products.map((item) => (
-                                <div key={item._id}>
-                                    <div className="py-10 space-x-1">
-                                        <label htmlFor="note">Lời Nhắn</label>
-                                        <input
-                                            id="note"
-                                            className="outline-none border-[1px] border-gray-500 text-[12px] p-2 rounded-sm"
-                                            type="text"
-                                            placeholder="Lưu ý cho người bán"
-                                        />
-                                    </div>
-                                </div>
-                            ))
-                        )}
-
-
-                    </div>
+               </div>
                 </section>
                 <section className="bg-slate-50">
                     <div className="px-10 py-5 m-10 bg-white drop-shadow-sm">
@@ -302,7 +326,8 @@ const ShoppingPayment = () => {
                                             {isStatus === "bank_ecom" ? "Thanh qua Ví E-com" : ''}
                                             {isStatus === "momo" ? "Thanh toán qua MoMo" : ''}
                                             {isStatus === "cod" ? "Thanh qua tiền mặt" : ''}
-                                            {isStatus === "paypal" ? "Thanh toan qua paypal": ''}
+                                            {isStatus === "paypal" ? "Thanh toan qua paypal" : ''}
+                                            {isStatus === "qrcode" ? "Thanh toan qua qrcode" : ''}
                                         </p>
                                         <button
                                             onClick={() => setIsPayment(true)}
@@ -313,7 +338,7 @@ const ShoppingPayment = () => {
 
                             {isPayment === true &&
                                 <div className="flex space-x-2">
-                                    {['bank_ecom', 'momo', 'paypal', 'cod'].map((method, index) => (
+                                    {['bank_ecom', 'momo', 'paypal', 'cod', 'qrcode'].map((method, index) => (
                                         <div key={index} className="flex gap-2">
                                             <Checkbox
                                                 name="payment"
@@ -326,7 +351,7 @@ const ShoppingPayment = () => {
                                                 {method === 'bank_ecom' ? 'Ví e-com' :
                                                     method === 'momo' ? 'Momo' :
                                                         method === 'paypal' ? 'Paypal' :
-                                                            'Thanh toán khi nhận hàng'}
+                                                            method === "qrcode" ? 'Thanh toán qua qrcode' : 'Thanh toán khi nhận hàng'}
                                             </Label>
                                         </div>
                                     ))}
@@ -369,23 +394,24 @@ const ShoppingPayment = () => {
                                             // toast({
                                             //     title: 'So tien khong khop',
                                             //     status: 'error'
-                                            // })
+                                            // }
                                         }
                                     }
+
                                     }
                                     createOrder={(data, actions) => {
                                         if (!totalAmount || totalAmount <= 0 || totalAmount === undefined || null || isNaN(totalAmount)) {
                                             return null
-                                        } 
+                                        }
                                         // Tạo đơn hàng khi người dùng nhấn nút
-                                     
-                                        
+
+
                                         return actions.order.create({
                                             purchase_units: [{
-                                                reference_id : "default",
+                                                reference_id: "default",
                                                 amount: {
                                                     currency_code: 'USD',
-                                                    value : totalAmount
+                                                    value: totalAmount
                                                 },
                                             }],
                                         });
@@ -401,27 +427,29 @@ const ShoppingPayment = () => {
                                             //     orderId: details.id
                                             // }
                                             // dispatch(orderCoinPayPal(data))
-                                        
-                                            if (details.payment === null ) {
+
+                                            if (details.payment === null) {
                                                 toast({
                                                     title: 'Thanh toan khong thanh cong',
-                                                    status: 'error'})
+                                                    status: 'error'
+                                                })
                                             }
-                                            if(details?.status === "COMPLETED"){
+                                            if (details?.status === "COMPLETED") {
                                                 const defaultAddress = addressPaydata.find(address => address.is_default === true)?.address;
                                                 const data = {
-                                                    paymentMeThod : "paypal",
-                                                    paymentSuccess : true,
-                                                    address : defaultAddress,
-                                                    totalAmount : totalAmount
+                                                    paymentMeThod: "paypal",
+                                                    paymentSuccess: true,
+                                                    address: defaultAddress,
+                                                    totalAmount: totalAmount
                                                 }
-                                                dispatch(editPaymentOrder({id : payloadOrderProduct._id , data} ))
+                                                dispatch(editPaymentOrder({ id: payloadOrderProduct._id, data }))
                                                 toast({
                                                     title: 'Thanh toan thanh cong',
-                                                    status: 'success'})
+                                                    status: 'success'
+                                                })
                                             }
-                                         
-                                            
+
+
 
                                         });
                                     }}

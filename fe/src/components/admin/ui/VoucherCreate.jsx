@@ -33,7 +33,7 @@ const VoucherCreate = () => {
     })
     return (
         <div className="p-2">
-            <h2 className="text-2xl font-bold"> 🎁 Tạo mã Thông báo Khuyến mãi</h2>
+            <h2 className="text-2xl font-bold"> 🎁 Tạo mã Voucher Khuyến mãi</h2>
             <form className="space-y-2" onSubmit={formik.handleSubmit}>
 
                 <div>

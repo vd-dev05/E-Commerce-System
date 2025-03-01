@@ -4,10 +4,11 @@ import { LogOut } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router'
+import ChatManager from './chatManager'
 
 const ManagerHome = () => {
     const dispatch = useDispatch()
-    const { manager, isAuthenticated } = useSelector(state => state.managerAuth)
+    const { manager, isAuthenticated  } = useSelector(state => state.managerAuth)
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -19,6 +20,9 @@ const ManagerHome = () => {
     }
     useEffect(() => {
         dispatch(checkAuthManager())
+        if (manager === "jwt expired") {
+            navigate('/manager/login')
+        }
     }, [dispatch])
 
     return (
@@ -43,6 +47,7 @@ const ManagerHome = () => {
                 <main className='p-6 bg-muted/40'>
                     <Outlet />
                 </main>
+                
             </div>
 
 

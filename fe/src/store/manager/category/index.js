@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
-const backendUrl = 'http://localhost:5000';
+const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
 export const createCategory = createAsyncThunk('/createCategory',
     async (formData) => {
