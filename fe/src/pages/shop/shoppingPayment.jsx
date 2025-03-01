@@ -385,20 +385,20 @@ const ShoppingPayment = () => {
                             <p>Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo Điều khoản Shopee</p>
                         </div>
 
-                        {(isStatus && currentPaymentMethod) === "paypal" ?
-                            <PayPalScriptProvider options={initialOptionsPayPal}>
+                        {(isStatus && currentPaymentMethod ) === "paypal" ?
+                            // <PayPalScriptProvider options={initialOptionsPayPal}>
 
                                 <PayPalButtons
-                                    onClick={() => {
-                                        if (totalAmount) {
-                                            // toast({
-                                            //     title: 'So tien khong khop',
-                                            //     status: 'error'
-                                            // }
-                                        }
-                                    }
+                                    // onClick={() => {
+                                    //     if (totalAmount) {
+                                    //         // toast({
+                                    //         //     title: 'So tien khong khop',
+                                    //         //     status: 'error'
+                                    //         // }
+                                    //     }
+                                    // }
 
-                                    }
+                                    // }
                                     createOrder={(data, actions) => {
                                         if (!totalAmount || totalAmount <= 0 || totalAmount === undefined || null || isNaN(totalAmount)) {
                                             return null
@@ -454,7 +454,7 @@ const ShoppingPayment = () => {
                                         });
                                     }}
                                 >ĐẶT HÀNG</PayPalButtons>
-                            </PayPalScriptProvider>
+                            // </PayPalScriptProvider>
                             :
                             <button
                                 onClick={handlePaymentPaid}

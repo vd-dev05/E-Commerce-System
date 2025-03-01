@@ -2,6 +2,7 @@ import { assets } from "@/assets/assets";
 
 export const initialOptionsPayPal = {
     clientId: import.meta.env.VITE_REACT_APP_PAYPAL_CLIENT_ID ,
+    components: 'buttons'
     // Add other options as needed
 };
 

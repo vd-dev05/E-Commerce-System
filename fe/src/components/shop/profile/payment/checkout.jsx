@@ -89,8 +89,6 @@ const CheckOutPayment = () => {
                 className="bg-black text-white p-2 rounded-sm"
             >Nạp tiền</button>
             <div>
-                <PayPalScriptProvider options={initialOptionsPayPal}>
-
                  <PayPalButtons
                         onClick={() => 
                         {if (!price) {
@@ -131,14 +129,10 @@ const CheckOutPayment = () => {
                                     status: details.status,
                                     orderId: details.id
                                 }
-                                dispatch( orderCoinPayPal(data) )
-                                // console.log(isSuccessCoin);
-                                
-                              
+                                dispatch( orderCoinPayPal(data) )   
                             });
                         }}
                     ></PayPalButtons> 
-                </PayPalScriptProvider>
             </div>
             <div>
                 <button>Nạp qua momo</button>

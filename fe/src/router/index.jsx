@@ -38,6 +38,8 @@ import UserChat from "@/components/shop/chat";
 import { useSelector } from "react-redux";
 import ChatManager from "@/pages/manager/chatManager";
 import SepayQr from "@/services/sepay";
+import { initialOptionsPayPal } from "@/config";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 const RootRouter = () => {
     const { role } = useSelector(state => state.shoppingAuth)
 
@@ -45,76 +47,81 @@ const RootRouter = () => {
     return (
         //  Navigation routes
         <div className="font-be flex flex-col w-full h-full ">
-            <Routes>
-                {/* Route block user componet */}
-                <Route path="/block" element={<BlockUserShop />} />
-                {/* Route test componet */}
-                <Route path="/test" element={<Test />} />
-                <Route path="/" element={<Navigate to="/shop/home" replace />} />
-                <Route path="/shop"  >
-                    <Route path="home" element={<ShoppingHome />} />
-                    <Route path="login" element={<ShoppingLogin />} />
-                    <Route path="register" element={<ShoppingRegsiter />} />
-                    <Route path="listing/:id" element={<ProductDetails />} />
-                    <Route path="listing/:id/:cardId" element={<CardProduct />} />
-                    <Route path="cart" element={<ShoppingCart />} />
-                    <Route path="checkout/:id" element={<ShoppingPayment />} />
-                    <Route path="all_categories" element={<AllCategory />} />
-                    <Route path="profile" element={<Profile />}>
-                        <Route path="user" element={<UserProfile />}>
-                            <Route path="account" element={< UserProfile />} />
-                            <Route path="password" element={<PasswordProfile />} />
-                            <Route path="address" element={< AddressProfile />} />
+            <PayPalScriptProvider options={initialOptionsPayPal}>
+                <Routes>
+                    {/* Route block user componet */}
+                    <Route path="/block" element={<BlockUserShop />} />
+                    {/* Route test componet */}
+                    <Route path="/test" element={<Test />} />
+                    <Route path="/" element={<Navigate to="/shop/home" replace />} />
+                    <Route path="/shop"  >
+                        <Route path="home" element={<ShoppingHome />} />
+                        <Route path="login" element={<ShoppingLogin />} />
+                        <Route path="register" element={<ShoppingRegsiter />} />
+                        <Route path="listing/:id" element={<ProductDetails />} />
+                        <Route path="listing/:id/:cardId" element={<CardProduct />} />
+                        <Route path="cart" element={<ShoppingCart />} />
+                        <Route path="checkout/:id" element={<ShoppingPayment />} />
+                        <Route path="all_categories" element={<AllCategory />} />
+                        <Route path="profile" element={<Profile />}>
+                            <Route path="user" element={<UserProfile />}>
+                                <Route path="account" element={< UserProfile />} />
+                                <Route path="password" element={<PasswordProfile />} />
+                                <Route path="address" element={< AddressProfile />} />
+                            </Route>
+                            <Route path="notifications" element={<NotificationUserPromotion />}>
+                                <Route path="promotion" element={<NotificationUserPromotion />} />
+                                <Route path="wallet" element={<NotificationWallet />} />
+                                <Route path="order" element={<NotificationOrder />} />
+                                <Route path="ecom" element={<NotificationEcom />} />
+
+                            </Route>
+
+                            <Route path="purchase" element={<OrderProfile />} />
+                            <Route path="voucher" element={<div>test</div>} />
+                            <Route path="payment" element={<PaymentProfile />} />
+                            <Route path="payment/checkout" element={<CheckOutPayment />} />
+                            <Route path="setting" element={<Setting />} />
                         </Route>
-                        <Route path="notifications" element={<NotificationUserPromotion />}>
-                            <Route path="promotion" element={<NotificationUserPromotion />} />
-                            <Route path="wallet" element={<NotificationWallet />} />
-                            <Route path="order" element={<NotificationOrder />} />
-                            <Route path="ecom" element={<NotificationEcom />} />
-
+                    </Route>
+                    {/* payment router  */}
+                    <Route path="/payment/sepay" element={<SepayQr />} />
+                    {/* manager router */}
+                    <Route path="/manager"  >
+                        <Route path="home" element={<ManagerHome />}>
+                            <Route path="category" element={<ManagerCategory />} />
+                            <Route path="product" element={<ManagerProduct />} />
+                            <Route path="customer/chat" element={<ChatManager />} />
                         </Route>
+                        <Route path="login" element={<ManagerLogin />} />
+                        <Route path="register" element={<ManagerRegister />} />
 
-                        <Route path="purchase" element={<OrderProfile />} />
-                        <Route path="voucher" element={<div>test</div>} />
-                        <Route path="payment" element={<PaymentProfile />} />
-                        <Route path="payment/checkout" element={<CheckOutPayment />} />
-                        <Route path="setting" element={<Setting />} />
                     </Route>
-                </Route>
-                {/* payment router  */}
-                <Route path="/payment/sepay" element={<SepayQr/>}/>
-                {/* manager router */}
-                <Route path="/manager"  >
-                    <Route path="home" element={<ManagerHome />}>
-                        <Route path="category" element={<ManagerCategory />} />
-                        <Route path="product" element={<ManagerProduct />} />
-                        <Route path="customer/chat" element={<ChatManager/>} />
-                    </Route>
-                    <Route path="login" element={<ManagerLogin />} />
-                    <Route path="register" element={<ManagerRegister />} />
-                  
-                </Route>
-                {/* admin router */}
-                <Route path="/admin"  >
-                    <Route path="home" element={<AdminHome />} >
-                        <Route path="trafic" element={<AdminTrafic />} />
-                        <Route path="user" element={<AdminUser />} />
-                        <Route path="manager" element={<AdminManager />} />
-                        <Route path="user/voucher" element={<VoucherAdmin />} />
-                        <Route path="manager/delete" element={<div>delete</div>} />
-                        <Route path="user/block" element={<BlockUser />} />
-                        <Route path="manager/block" element={<div></div>} />
-                        <Route path="*" element={<Navigate to="/admin/home" />} />
-                    </Route>
-                    <Route path="login" element={<AdminLogin />} />
+                    {/* admin router */}
+                    <Route path="/admin"  >
+                        <Route path="home" element={<AdminHome />} >
+                            <Route path="trafic" element={<AdminTrafic />} />
+                            <Route path="user" element={<AdminUser />} />
+                            <Route path="manager" element={<AdminManager />} />
+                            <Route path="user/voucher" element={<VoucherAdmin />} />
+                            <Route path="manager/delete" element={<div>delete</div>} />
+                            <Route path="user/block" element={<BlockUser />} />
+                            <Route path="manager/block" element={<div></div>} />
+                            <Route path="*" element={<Navigate to="/admin/home" />} />
+                        </Route>
+                        <Route path="login" element={<AdminLogin />} />
 
-                </Route>
-            </Routes>
+                    </Route>
+                </Routes>
+
+            </PayPalScriptProvider>
+
+
             {role === "user" ?
                 <div className="fixed bottom-0 right-[5px] bg-white drop-shadow-md ">
                     <UserChat />
-                </div>:''}
-            
+                </div> : ''}
+
 
         </div>
     );

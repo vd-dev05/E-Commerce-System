@@ -1,7 +1,6 @@
 # E-Commerce-System
 
-soucre public
-E-Com-project/
+
 
 ├─ .gitignore
 ├─ be/

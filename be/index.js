@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import RootRouter from './routes/index.js';
-import PayPalServices from './services/paypal.js';
+// import PayPalServices from './services/paypal.js';
 dotenv.config();
 
 // Utiles
