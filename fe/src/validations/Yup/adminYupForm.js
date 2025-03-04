@@ -22,3 +22,25 @@ export const adminVoucherSchema = Yup.object().shape({
     //   .oneOf(["all", "user_month", "user_year", "user_voucher"], "User type must be all, user_month, user_year, user_voucher")
     
 })
+export const  adminNotificationSchema = Yup.object().shape({
+  promotionTitle : Yup.string()
+    .required("Required")
+    .min(3, "Minimum 3 characters")
+    .max(100, "Maximum 50 characters"),
+    promotionDescription : Yup.string()
+    .required("Required")
+    .min(3, "Minimum 3 characters")
+    .max(1000, "Maximum 1000 characters"),
+  endDate: Yup.date()
+    .required("Required")
+    .min(new Date(), "Ngay ket thuc ko duoc nho hon ngay thuong")
+    .typeError("Invalid date")
+    .nullable(),
+  image : Yup.string()
+    .required("Required"),
+    
+  // userType : Yup.string()
+  //   .required("Required")
+  //   .oneOf(["all", "user_month", "user_year", "user_voucher"], "User type must be all, user_month, user_year, user_voucher")
+  
+})

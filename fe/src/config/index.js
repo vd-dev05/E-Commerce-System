@@ -52,12 +52,26 @@ export const shoppingHeaderItems = [
 
 // category list
 export const categoryList = [
-    { id: 1, label: "thoi trang nam", url: assets.men, path: "Thời Trang Nam" },
-    { id: 2, label: "thoi trang nu", url: assets.women, path: "Thời Trang Nữ" },
-    { id: 3, label: "giay dep nam", url: assets.shoes, path: "Giày Dép Nam" },
-    { id: 4, label: "dong ho", url: assets.clock, path: "Đồng Hồ" },
-    { id: 5, label: "thiet bi da dung", url: assets.appliances, path: "Thiết Bị Điện Gia Dụng" },
-    { id: 6, label: "dien thoai", url: assets.phone, path: "Điện Thoại Phụ Kiện" },
+    { id: 1, label: "thời trang nam", url: assets.men, path: "Thời Trang Nam" },
+    { id: 2, label: "thời trang nữ", url: assets.women, path: "Thời Trang Nữ" },
+    { id: 3, label: "giày dép nam", url: assets.shoes, path: "Giày Dép Nam" },
+    { id: 4, label: "đồng hồ", url: assets.clock, path: "Đồng Hồ" },
+    { id: 5, label: "thiết bị da dụng", url: assets.appliances, path: "Thiết Bị Điện Gia Dụng" },
+    { id: 6, label: "điện thoại", url: assets.phone, path: "Điện Thoại Phụ Kiện" },
+    { id: 7, label: "ba lô nam,túi ví nam", url: assets.balo_tuvinam, path: "Balo Túi Ví Nam" },
+    {id : 8 , label : "bách hóa online", url : assets.bach_hoa_online , path : "Bách Hóa Online"},
+    {id : 9 , label : "giày dep nữ", url : assets.giay_dep_nu , path : "Giayas Dep Nữ"},
+    {id : 10 , label : "oto, xe may, xe đạp", url : assets.car_motobike , path : "Oto, Xe May, Xế Dập"},
+    {id : 11 , label : "sức khỏe", url : assets.suc_khoe , path : "Sức Khỏe"},
+    {id : 12 , label : "sắc đẹp" , url : assets.sac_dep , path : "Sắc Đẹp"},
+    {id : 13 , label : "máy ảnh &quay phim", url : assets.may_anh , path : "Máy ảnh & Thiết Bị Quay Phim"},
+    {id : 14 , label : "mé & bé", url : assets.me_va_be , path : "Mé & Bé"},
+    {id : 15 , label : "túi ví nữ", url : assets.tui_vi_nu , path : "Túi Ví Nữ"},
+    {id : 16 , label : "nhà sách online", url : assets.nha_sach,path : "Nhà sách online"},
+    {id : 17 , label : "thời trang trẻ em",url : assets.thoi_trang_tre_em , path : "Thời Trang Trẻ Em"},
+    {id : 18 , label : "phụ kiện nữ" , url : assets.phu_kien_nu,path : "Phụ Kiện Nữ"},
+    {id : 19 , label : "thể thao & du lịch", url : assets.the_thao , path : "Thể thao và du lich"},
+    {id : 20 , label : "Voucher" ,url : assets.voucher, path : "Voucher"}
 ]
 
 export const allcategory = {
@@ -127,7 +141,7 @@ export const allcategory = {
         ]
     },
     G: {
-        "Giay_Dep_Nam": [
+        "Giày Dép Nam": [
             { id: 1, name: "Bốt", path: "bot", query: "bot", url: "/giay-dep-nam" },
             { id: 2, name: "Giày Thể Thao/ Sneakers", path: "giay-the-thao-sneakers", query: "giay-the-thao-sneakers", url: "/giay-dep-nam" },
             { id: 3, name: "Giày Sục", path: "giay-suc", query: "giay-suc", url: "/giay-dep-nam" },
@@ -137,7 +151,7 @@ export const allcategory = {
             { id: 7, name: "Phụ kiện giày dép", path: "phu-kien-giay-dep", query: "phu-kien-giay-dep", url: "/giay-dep-nam" },
             { id: 8, name: "Khác", path: "khac", query: "khac", url: "/giay-dep-nam" }
         ],
-        "Giay_Dep_Nu": [
+        "Giày Dép Nữ": [
             { id: 1, name: "Bốt", path: "bot", query: "bot", url: "/giay-dep-nu" },
             { id: 2, name: "Giày Thể Thao/ Sneaker", path: "giay-the-thao-sneaker", query: "giay-the-thao-sneaker", url: "/giay-dep-nu" },
             { id: 3, name: "Giày Đế Bằng", path: "giay-de-bang", query: "giay-de-bang", url: "/giay-dep-nu" },

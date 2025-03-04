@@ -90,7 +90,8 @@ const ShoppingCart = () => {
     ) ?? { totalAmount: 0, totalItems: 0 };
 
     const totalAmountUpdate = paymentEcom ? Math.max(0, coinUpdate - totalAmount) : totalAmount;
- 
+    // console.log(payloadCartProduct);
+    
 
     return (
         <div>
@@ -106,10 +107,7 @@ const ShoppingCart = () => {
 
             </header>
             <main className="px-10 py-2 bg-slate-50">
-                <div onClick={() => console.log(selectProduct, dataProduct, totalAmount, totalItems)
-                }>
-                    test
-                </div>
+       
                 <section>
                     <table className="w-full">
                         <thead>

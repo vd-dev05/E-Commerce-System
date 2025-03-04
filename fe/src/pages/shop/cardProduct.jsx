@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router";
 import React, { useEffect, useRef, useState } from "react";
 import ShoppingHeader from "@/components/shop/header";
-import { formatPrice, formatRatingLengt, locationPath, mapCategoryFromUrl } from "@/lib/utils";
+import { calculateAccountAge, checkOnlineStatus, formatPrice, formatRatingLengt, locationPath, mapCategoryFromUrl } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductFavorite, addToCartProduct, getProductById, removeProductFavorite } from "@/store/Shop/users/userThunk";
 import { addToCart, removeToCart, setProduct, } from "@/store/Shop/users";
@@ -18,23 +18,43 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { IoIosChatboxes } from "react-icons/io";
 
 
-const productImages = [
-  "https://images.pexels.com/photos/158827/field-corn-air-frisch-158827.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  "https://images.pexels.com/photos/210178/pexels-photo-210178.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-];
+// const productImages = [
+//   "https://images.pexels.com/photos/158827/field-corn-air-frisch-158827.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//   "https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//   "https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//   "https://images.pexels.com/photos/210178/pexels-photo-210178.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+// ];
 const CardProduct = () => {
   const split = locationPath().split("/")[4];
   const queryProductType = locationPath().split("/")[3]
   const dispatch = useDispatch()
   const nav = useNavigate()
-  const [mainImage, setMainImage] = useState(productImages[0]);
+  
   const { cartIndex, items, payloadProducts, isProducts, isAddToLove, isUnlikeLove } = useSelector((state) => state.shoppingProduct);
   const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
   const [select, setSelect] = useState()
   const [checkCart, setCheckCart] = useState()
   const [isLove, setIsLove] = useState(null)
+  let productImages = []
+  if (payloadProducts?.images) {
+    productImages.push(payloadProducts.images.mainImage)
+    payloadProducts.images.additionalImages.forEach((item) => {
+      productImages.push(item)
+    })
+
+   
+  }
+  useEffect(() => {
+    reloadImage(productImages)
+  }, [productImages])
+  
+  const reloadImage = (productImages) => {
+    productImages.forEach((item) => {
+      const img = new Image();
+      img.src = item
+    })
+  }
+  const [mainImage, setMainImage] = useState(productImages[0]);
 
   useEffect(() => {
     if (payloadProducts === null && isProducts === false) {
@@ -134,7 +154,8 @@ const CardProduct = () => {
 
   }
 
-
+  console.log(payloadProducts);
+  
   return (
     <div>
       <header>
@@ -152,9 +173,14 @@ const CardProduct = () => {
                   <img
                     key={index}
                     src={image}
+                   loading="lazy"
                     alt={`Thumbnail ${index + 1}`}
-                    className="w-full h-24 object-cover cursor-pointer border-2 border-transparent hover:border-blue-500 rounded-lg"
-                    onMouseEnter={() => setMainImage(image)}
+                    className="w-40 h-32 object-cover cursor-pointer border-2 border-transparent hover:border-blue-500 rounded-lg"
+                    onMouseEnter={() => {
+                      setMainImage(image)
+                      console.log(image);
+                      
+                    } }
                   />
                 ))}
               </div>
@@ -301,8 +327,8 @@ const CardProduct = () => {
                 </Avatar>
 
                 <div className="flex flex-col gap-3">
-                  <h4>KICHAELS</h4>
-                  <p>Online 33 phút trước</p>
+                  <h4>{payloadProducts?.managerId?.manager_name}</h4>
+                  <p>{checkOnlineStatus(payloadProducts?.managerId?.last_login)}</p>
                   <button
                     onClick={() => handleCreateChat()}
                     className="flex w-[140px] gap-2 border-[2px] border-red-500 text-red-700 p-2 items-center bg-[#ffd5c8] "
@@ -313,7 +339,7 @@ const CardProduct = () => {
               <div className="flex flex-col gap-10">
                 <div className="flex gap-5">
                   <p>Thời gian </p>
-                  <p>Đã tham gia 5 năm trước</p>
+                  <p>{calculateAccountAge(payloadProducts?.managerId?.createdAt)}</p>
                 </div>
                 <div className="flex gap-5">
                   <p>Đánh giá </p>

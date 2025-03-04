@@ -14,10 +14,12 @@ import {
     removeProductFavorite,
     getRoomChat,
     getMessageChat,
-    addMessageChat
+    addMessageChat,
+    createOrderPaymentSepay
 
 
 } from "./userThunk";
+
 
 const shoppingProduct = createSlice({
     name: 'shoppingProduct',
@@ -94,6 +96,10 @@ const shoppingProduct = createSlice({
         payloadCountChat : null,
 
         transition : null,
+        isSuccessSepay : false,
+        payloadSepay : null,
+        payloadMessageSepay : null
+
     },
     reducers: {
         setProduct: (state, action) => { },
@@ -155,13 +161,18 @@ const shoppingProduct = createSlice({
             localStorage.setItem("qrData", JSON.stringify(action.payload)); 
             // return action.payload
         },
-        clearDataTransition : () => {
+        clearDataTransition : (state,action) => {
+            state.transition = null
+            state.isSuccessSepay = false
+            state.payloadSepay = null
+            state.messageSepay = null
             localStorage.removeItem("qrData")
             return null
         }
 
     },
     extraReducers: (builder) => {
+        
         builder
             .addCase(getRouteData.pending, (state) => { state.isLoading = true })
             .addCase(getRouteData.fulfilled, (state, action) => {
@@ -327,13 +338,6 @@ const shoppingProduct = createSlice({
             .addCase(getOrderProductId.rejected, (state, action) => {
                 console.log(action);
             })
-        // builder 
-        //     .addCase(createPaymentOrder.pending, (state) => { state.isPaymentOrder = true })
-        //     .addCase(createPaymentOrder.fulfilled, (state, action) => {
-        //         state.isPaymentOrder = false
-        //         state.payloadPaymentOrder = action?.payload?.payment
-        //     })
-        //     .addCase(createPaymentOrder.rejected, (state) => { state.isPaymentOrder = false })
         builder
             .addCase(editPaymentOrder.pending, (state) => { state.isPaymentOrder = true, state.isPaymentSuccess = false, state.payloadPaymentSuccess = null })
             .addCase(editPaymentOrder.fulfilled, (state, action) => {
@@ -411,6 +415,15 @@ const shoppingProduct = createSlice({
             })
             .addCase(addMessageChat.rejected, (state) => { state.isLoadingCountChat = false, state.payloadCountChat = null })
         
+        builder
+            .addCase(createOrderPaymentSepay.pending, (state) => { state.isSuccessSepay = false, state.payloadSepay= null, state.payloadMessageSepay= null ,state.transition  = null })
+            .addCase(createOrderPaymentSepay.fulfilled, (state, action) => {
+                state.isSuccessSepay= true
+                state.payloadSepay= action?.payload?.data
+                state.payloadMessageSepay= action?.payload?.message
+                
+            })
+            .addCase(createOrderPaymentSepay.rejected, (state) => { state.isSuccessSepay = false, state.payloadSepay= null, state.payloadMessageSepay= null ,state.transition  = null })
         }
 
 })

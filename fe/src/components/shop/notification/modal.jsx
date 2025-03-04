@@ -1,31 +1,54 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router";
+import { chatMessage } from "../chat/details";
 
-const ModalNotification = () => {
+const ModalNotification = ({ dataNotification }) => {
+    // console.log(dataNotification);
+
     const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
-    const {isGetVoucherPromotion , payloadGetVoucherPromotion} = useSelector(state => state.shoppingProduct)
+    const { isGetVoucherPromotion, payloadGetVoucherPromotion } = useSelector(state => state.shoppingProduct)
+    const [payload, setPayload] = useState()
     // console.log(isGetVoucherPromotion ,payloadGetVoucherPromotion , isAuthenticated , user);
+    // useEffect(() => {
+
+    //   if (isAuthenticated === true && user !== null && isGetVoucherPromotion === false && payloadGetVoucherPromotion !== null && payloadGetVoucherPromotion?.length !== 0) {
+    //     setPayload(pre => [...pre,...payloadGetVoucherPromotion])
+    //   }
+    // }, [])
+    // useEffect(() => {
+    //     setPayload(pre => [...pre,...dataNotification])
+    // }, [chatMessage,isGetVoucherPromotion])
     
+    // console.log( payloadGetVoucherPromotion , isGetVoucherPromotion);
+
+
     return (
-        <div className="w-[400px] h-[400px] bg-white drop-shadow-md rounded-md absolute top-5 right-5 z-10 flex flex-col justify-between">
+        <div className="w-[400px] h-[420px] bg-white drop-shadow-md rounded-md absolute top-5 right-5 z-10 flex flex-col justify-between">
             {isAuthenticated === true && user !== null
                 ?
                 <div>
-                    {(isGetVoucherPromotion === false && payloadGetVoucherPromotion !== null && payloadGetVoucherPromotion?.length !== 0  )
-                     ? 
-                     <div>
-                        {payloadGetVoucherPromotion?.map((item) => {
-                            return (
-                                <div key={item?._id} className="p-2 border-b border-gray-300">
-                                    <h3 className="font-be text-[15px]">{item?.promotionTitle}</h3>
-                                    <p>{item?.promotionDescription}</p>
-                                </div>
-                            )
-                        })}
-                      
-                     </div>
-                     : 
-                    <div className="text-center flex items-center justify-center"> Bạn chưa có voucher nào </div>}
+                    {(isGetVoucherPromotion === false && payloadGetVoucherPromotion !== null && payloadGetVoucherPromotion?.length !== 0)
+                        ?
+                        <div>
+                            {dataNotification?.sort((a, b) => b?.readAt - a?.readAt).slice(0, 4).map((item, index) => {
+                                return (
+                                    <div key={index} className="p-2 border-b border-gray-300 flex gap-2 ">
+                                        <img
+                                            className="w-20 h-20 object-contain"
+                                            src={item?.promotionImage} alt="anh thong bao" />
+                                        <div>
+                                            <h3 className="font-be text-[15px]">{item?.promotionTitle}</h3>
+                                            <p>{item?.promotionDescription}</p>
+                                        </div>
+
+                                    </div>
+                                )
+                            })}
+
+                        </div>
+                        :
+                        <div className="text-center flex items-center justify-center"> Bạn chưa có voucher nào </div>}
 
                 </div>
                 :
@@ -50,10 +73,10 @@ const ModalNotification = () => {
                     </div>
                 </div>
             }
-              <Link 
-              to={'/shop/profile/notifications/promotion'}
-              className="w-full p-2 text-[14px] border-[1px]  flex justify-center items-center"
-              >Xem tất cả</Link>
+            <Link
+                to={'/shop/profile/notifications/promotion'}
+                className="w-full p-2 text-[14px] border-[1px]  flex justify-center items-center"
+            >Xem tất cả</Link>
         </div>
     );
 }

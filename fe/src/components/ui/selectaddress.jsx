@@ -2,16 +2,24 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AddressSelector = ({ cities, setCities, districts, setDistricts, wards, setWards, selectedCity, setSelectedCity, selectedDistrict, setSelectedDistrict, dataAddress, setDataAddress }) => {
-
+  const [isLoading,setIsLoading] = useState(false)
+  axios.defaults.withCredentials = false;
   useEffect(() => {
     // Fetch city data on component mount
-    axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json")
-      .then(response => {
-        setCities(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching city data:", error);
-      });
+    const fetechData = async () => {
+      try {
+          const response = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json")
+    
+          if (response.status === 200) {
+              setCities(response?.data);
+          }
+      } catch (error) {
+          console.log(error);
+      }
+          
+    }
+    fetechData();
+  
   }, []);
 
   const handleCityChange = (event) => {
@@ -50,6 +58,7 @@ const AddressSelector = ({ cities, setCities, districts, setDistricts, wards, se
   };
 
   return (
+    <>
     <div className="flex flex-col gap-2">
       <select
         className="form-select form-select-sm"
@@ -95,7 +104,9 @@ const AddressSelector = ({ cities, setCities, districts, setDistricts, wards, se
           </option>
         ))}
       </select>
-    </div>
+    </div> 
+    </>
+ 
   );
 };
 

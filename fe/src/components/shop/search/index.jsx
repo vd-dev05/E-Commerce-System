@@ -23,8 +23,8 @@ const SearchTop = () => {
     return (
         <div>
             <h2 className="text-xl font-normal">Top tìm kiếm hàng đầu </h2>
-            <div className="grid grid-cols-4 gap-4 mt-4">
-                {isLoading === false && data.slice(0, 4).map((item) => (
+            <div className="grid grid-cols-6 gap-4 mt-4">
+                {isLoading === false && data.slice(0, 6).map((item) => (
                     <div key={item.id} className="cursor-pointer w-[200px]">
                         <div className="relative w-full ">
                             <span className="bg-red-400 p-2 rounded-b-full absolute text-white -top-5 left-1">Top</span>

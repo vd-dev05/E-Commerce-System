@@ -194,7 +194,8 @@ const ShoppingPayment = () => {
            
             dispatch( setDataTransition({
                 amount : totalAmount,
-                dataOrder
+                dataOrder,
+                payloadOrderProduct
             }))
 
             nav('/payment/sepay')

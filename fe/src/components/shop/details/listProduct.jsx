@@ -111,7 +111,7 @@ const ProductDetails = ({payloadProducts ,isProducts , isGetQueryCategoryProduct
                     key={index} className="drop-shadow-2xl hover:border-red-500 hover:border-2 cursor-pointer duration-75 ">
                         <img
                             className="h-[200px] w-full"
-                            src="https://picsum.photos/200/300" alt="anh product" />
+                            src={item?.images?.mainImage || ''} alt="anh product" />
                         <div className="px-2">
                             <h3>{formatTitleLenght(item.name)}</h3>
 

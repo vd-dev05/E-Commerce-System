@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios'
-
+axios.defaults.withCredentials = true;
 const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
 export const registerUser = createAsyncThunk('/registerUser',
@@ -29,15 +29,9 @@ export const loginUser = createAsyncThunk('/loginUser',
 export const checkAuthUser = createAsyncThunk('/checkAuthUser',
     async () => {
         const response = await axios.get(`${backendUrl}/api/v1/auth/check-auth`,
-            {
-                withCredentials: true,
-                headers: {
-                    "Cache-Control":
-                        "no-store, no-cache, must-revalidate, proxy-revalidate",
-                },
-
-            }
         )
+   
+        
         return response.data
     }
 )

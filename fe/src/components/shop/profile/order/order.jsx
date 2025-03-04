@@ -11,49 +11,26 @@ const OrderProfile = () => {
     const query = queryString.parse(location.search);
     const dispatch = useDispatch()
     const {payloadPaymentProcess ,isPaymentProcess , payloadTotalPaymentProcess } = useSelector(state => state.shoppingProduct)
-    // console.log(payloadPaymentProcess , isPaymentProcess);  
-    
+
     useEffect(() => {
         dispatch(getOrderPaymentProcess())
+        // if (payloadPaymentProcess)
     }, [])
-    
-    // for (let index = 0; index < 10 ; index++) {
-    //     DataFake.push({
-    //         id : index + 1,
-    //         name : `${Math.random().toString(36).substring(7)}`
-    //     })
-    // }
-    // console.log(DataFake);
-    // let dataFakeSale = [];
-    // for (let i = 0; i < 12; i++) {
-    //     dataFakeSale.push({
-    //         hour: i + 1,
-    //         items: Array.from({ length: 6 }, (_, index) => ({
-    //             name: `${Math.random().toString(36).substring(7)}`,
-    //             url: 'https://img.lazcdn.com/g/p/28df49ba07be9ebbb67b275bfe5a635e.jpg_400x400q80.jpg_.avif',
-    //             price: Math.random() * 100000,
-    //             path: '/shop/men',
-    //             id: index + 1,
-    //             discount: Math.random() * 9000,
-    //             discount_type : `${Math.floor(Math.random() * 40)}`,
-    //         }))
-    //     });
-    // }
-    // console.log(payloadPaymentProcess);
-    
+    if (payloadPaymentProcess)
+
     return ( 
         <div>
             <div className="flex justify-between px-5">
                 {/* roure  */}
                 <Link 
                 to={'?id=allin'}
-                >Tất cả <span>({payloadTotalPaymentProcess  ? payloadTotalPaymentProcess  : 0})</span></Link>
+                >Tất cả <span>({payloadTotalPaymentProcess   ? payloadTotalPaymentProcess : 0})</span></Link>
                 <Link 
                 to={'?id=notbuy'}
-                >Chưa Đặt</Link>
+                >Chờ thanh toán   </Link>
                 <Link
                 to={'?id=success'}
-                >Đã Đặt</Link>
+                >Đã Đặt </Link>
                 <Link
                 to={'?id=progess'}
                 >Chờ Xác Nhận </Link>

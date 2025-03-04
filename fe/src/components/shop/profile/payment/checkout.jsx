@@ -85,9 +85,9 @@ const CheckOutPayment = () => {
 
             </div>
             <div id="paypal-button-container"></div>
-            <button
+            {/* <button
                 className="bg-black text-white p-2 rounded-sm"
-            >Nạp tiền</button>
+            >Nạp tiền</button> */}
             <div>
                  <PayPalButtons
                         onClick={() => 

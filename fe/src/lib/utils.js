@@ -114,8 +114,35 @@ function calculateLastSeen(lastSeenDate) {
   }
 }
 
+function calculateAccountAge(createdAt) {
+  const createdDate = new Date(createdAt);
+  const currentDate = new Date();
+  const diffInMs = currentDate - createdDate;
+  
+  const years = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 365));
+  if (years === 0) {
+    const months = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 30));
+    return `Đã tham gia ${months} tháng trước`;
+  }
+  
+  return `Đã tham gia ${years} năm trước`;
+}
+function checkOnlineStatus(lastSeenDate) {
+  const lastSeen = new Date(lastSeenDate);
+  const now = new Date();
+  const diff = now - lastSeen;
+  const minutes = Math.floor(diff / 1000 / 60);
+
+  if (minutes <= 1) {
+    return "Online";
+  } else {
+    return `${minutes} phút trước`;
+  }
+}
 
 export {
+  checkOnlineStatus,
+  calculateAccountAge,
   calculateLastSeen,
   formatPrice,
   formatTitle,

@@ -230,14 +230,14 @@ const PayPalServices = {
                     status: true,
                     transactionType: 'add'
                 })
-
+           
                 const updateCoin = await UserModel.findByIdAndUpdate(req.user.id, {
                     $inc: { coin: amount },
                     $push: { coinTransaction: bill._id }
                 }, { new: true })
 
                 if (bill) {
-                    res.status(201).json({
+                return   res.status(201).json({
                         success: true,
                         message: "Create coin user successfully",
                         data: {

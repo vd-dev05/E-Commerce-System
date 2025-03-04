@@ -5,8 +5,6 @@ export const createOrderPaymentSepay = createAsyncThunk('/createOrderPaymentSepa
     const response = await axios.get(`${import.meta.env.VITE_REACT_APP_PAYMENT_SEPAY}/payment/list?code=${data}`, {} , {
         withCredentials: true,
     })
-    console.log(response);
-    
     return response.data
 })
 
@@ -76,8 +74,6 @@ export const getOrderPaymentProcess = createAsyncThunk('/getOrderPaymentProcess'
 } )
 
 export const editPaymentOrder = createAsyncThunk('/editPaymentOrder', async ({ id, data }) => {
-   
-    
     const response = await axios.put(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/v1/users/products/order/${id}`, data, {
         withCredentials: true,
     })

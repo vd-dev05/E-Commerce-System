@@ -13,7 +13,7 @@ const transitionSchema = mongoose.Schema({
         required : true
     },
     status : {type : Boolean, default : false},
-    transactionType: { type: String, enum: ['add', 'subtract'], required: true },
+    transactionType: { type: String, enum: ['add', 'subtract' ,'transfer'], required: true },
 }, { timestamps: true })
 
 const Transition = mongoose.model('transition', transitionSchema)

@@ -11,6 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { message } from "antd";
 import { createSearch, getSearch, getToCartProduct, getVoucherPromotion } from "@/store/Shop/users/userThunk";
 import ModalNotification from "./notification/modal";
+import { chatMessage } from "./chat/details";
 
 
 const ShoppingHeader = ({count }) => {
@@ -20,11 +21,25 @@ const ShoppingHeader = ({count }) => {
     const [search, setSearch] = useState('')
     const { isAuthenticated, user } = useSelector(state => state.shoppingAuth)
     const { isSearch, payloadSearch, payloadCartProduct, totalCart, isAddToCart } = useSelector(state => state.shoppingProduct)
+    const [dataNotification, setDataNotification] = useState([])
+    
     useEffect(() => {
         dispatch(checkAuthUser())
         dispatch(getSearch(search))
     }, [dispatch])
+    useEffect(() => {
+    if (isAuthenticated === true && user !== null) {
+        chatMessage.on("userNotification" , (data) => {
+            setDataNotification(data)
+            message.success(`Bạn có ${data?.length} thông báo mới`);
+        })
 
+        return () => {
+            chatMessage.off("userNotification")
+        }
+    }
+    }, [isAuthenticated,user, dispatch])
+    
     useEffect(() => {
         if ( isHoverNotification === true) {
             dispatch(getVoucherPromotion())
@@ -64,9 +79,9 @@ const ShoppingHeader = ({count }) => {
                                             setIsHoverNotification(true)
                                         }}
                                         className="hover:text-red-500 cursor-pointer">
-                                        {item.label}
+                                        {item.label} {dataNotification ? dataNotification.length > 0 && <span className="text-red-500">({dataNotification.length})</span> : ''}
                                     </Link>
-                                    {isHoverNotification && <ModalNotification/>}
+                                    {isHoverNotification && <ModalNotification dataNotification={dataNotification}/>}
                                 </div>
 
                             ) : (

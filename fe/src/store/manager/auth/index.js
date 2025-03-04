@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios'
 
-const backendUrl = 'http://localhost:5000';
-
+const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL ;
+axios.defaults.withCredentials = true;
 export const registerManager = createAsyncThunk('/registerManager',
     async (formData) => {
         const response = await axios.post(`${backendUrl}/api/v1/manager/register`, formData,
@@ -31,10 +31,10 @@ export const checkAuthManager = createAsyncThunk('/checkAuthManager',
         const response = await axios.get(`${backendUrl}/api/v1/manager/check-auth`,
             {
                 withCredentials: true,
-                headers: {
-                    "Cache-Control":
-                        "no-store, no-cache, must-revalidate, proxy-revalidate",
-                },
+                // headers: {
+                //     "Cache-Control":
+                //         "no-store, no-cache, must-revalidate, proxy-revalidate",
+                // },
 
             }
         )

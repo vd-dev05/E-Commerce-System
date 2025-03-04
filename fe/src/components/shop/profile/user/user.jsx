@@ -11,7 +11,7 @@ import { checkAuthUser } from "@/store/Shop/auth";
 import { AvatarImage } from "@radix-ui/react-avatar";
 
 const UserProfile = () => {
-    const { user, isAuthenticated , isLoading } = useSelector(state => state.shoppingAuth)
+    const { user, isAuthenticated, isLoading } = useSelector(state => state.shoppingAuth)
 
     const [edit, setEdit] = useState(false)
     const [data, setData] = useState({
@@ -31,20 +31,20 @@ const UserProfile = () => {
     useEffect(() => {
         if (isAuthenticated === false) {
             dispath(checkAuthUser())
-       
+
         }
     }, [])
 
 
     useEffect(() => {
         if (isLoading === false && user) {
-            
-            setData({ ...data,...user })
+
+            setData({ ...data, ...user })
         }
     }, [isLoading])
 
     useEffect(() => {
-        if (isSuccesEdit === true ) {
+        if (isSuccesEdit === true) {
             // console.log(isSuccesEdit);
 
             message.success('Edit profile success')
@@ -52,15 +52,26 @@ const UserProfile = () => {
             setTimeout(() => {
                 dispath(checkAuthUser())
             }, 2000);
-      
+
         }
     }, [isSuccesEdit])
 
     const hanldeUpload = () => {
+
         if (!file) {
             message.error('Please select an image')
         } else {
-            dispath(uploadAvatar(file))
+
+            dispath(uploadAvatar(file)).then((data) => {
+
+                if (data.payload.success === true) {
+                    message.success("Upload avatar success")
+                    dispath(checkAuthUser())
+                }
+            }).catch((error) => {
+                console.log(error);
+
+            })
         }
 
     }
@@ -101,8 +112,9 @@ const UserProfile = () => {
     //         // }
     // },
     // };
-  
-    
+
+    console.log(data, isAuthenticated);
+
     return (
         <div className="py-5 px-5">
             {/* user profile */}
@@ -110,50 +122,68 @@ const UserProfile = () => {
                 <TypingEffectProfile nameUser={user?.username} />
             )}
             {
-               ( isAuthenticated === true && isLoading === false && data )  ?
-                 <div className="px-5 py-[1px]">
-                    <h2>Hồ sơ của tôi</h2>
-                    <p>Quản lí thông tin của bạn</p>
-                    <hr className="my-2" />
+                (isAuthenticated === true && isLoading === false && data) ?
+                    <div className="px-5 py-[1px]">
+                        <h2>Hồ sơ của tôi</h2>
+                        <p>Quản lí thông tin của bạn</p>
+                        <hr className="my-2" />
 
-                    <div className="flex gap-4 items-center">
-                        <div className="flex flex-col w-2/3 gap-2">
-                            <label htmlFor="name" className="text-sm font-medium">Tên đăng nhập</label>
-                            <input
-                                className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
-                                type="text" value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
+                        <div className="flex gap-4 items-center">
+                            <div className="flex flex-col w-2/3 gap-2">
+                                <label htmlFor="name" className="text-sm font-medium">Tên đăng nhập</label>
+                                <input
+                                    className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
+                                    type="text" value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
 
-                            <label htmlFor="email" className="text-sm font-medium">Email</label>
-                            <input
-                                className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
-                                type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
-                            <button
-                                onClick={handleEdit}
-                                style={{ width: "150px" }} className="hover:bg-red-700 text-white font-bol
+                                <label htmlFor="email" className="text-sm font-medium">Email</label>
+                                <input
+                                    className="p-2 border border-zinc-300 rounded-md outline-none focus:ring-1 focus:ring-zinc-900"
+                                    type="email" value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
+
+                                <button
+                                    onClick={handleEdit}
+                                    style={{ width: "150px" }} className="hover:bg-red-700 text-white font-bol
                                 d py-2 px-4 rounded text-xs bg-[#dc2626]">{edit ? <Spin size="small" /> : 'Luu thay doi'}</button>
+                            </div>
+
+                            <div className="flex flex-col gap-5 justify-center items-center">
+                                <h3>Thay đổi ảnh của bạn </h3>
+                                <Avatar>
+
+                                    <AvatarImage src={`${isAuthenticated === true && user ? user.avartar : data ? data.avartar : ''}`} alt="@shadcn" />
+                                  
+                                </Avatar>
+                                <div className="flex gap-2 items-center">
+                                    <Button
+                                        className="bg-white border border-zinc-300 p-2 rounded-md hover:bg-zinc-100"
+                                        icon={<UploadOutlined />}
+                                        onClick={() => {
+                                            setFile()
+                                            document.getElementById('upload-button').click()
+                                        }
+                                        }
+                                    >
+                                        Chon ảnh
+                                    </Button>
+                                    <input
+                                        type="file"
+                                        id="upload-button"
+                                        accept=".jpg,.jpeg,.png"
+                                        onChange={(e) => setFile(e.target.files[0])}
+                                        style={{ display: 'none' }}
+                                    />
+                                    <Button
+                                        className="bg-white border border-zinc-300 p-2 rounded-md hover:bg-zinc-100"
+                                        icon={<UploadOutlined />}
+                                        onClick={hanldeUpload}
+                                    >
+                                        Lưu ảnh
+                                    </Button>
+                                </div>
+
+                            </div>
                         </div>
-
-                        <div className="flex flex-col gap-5 justify-center items-center">
-                            <h3>Thay đổi ảnh của bạn </h3>
-                            <Avatar>
-                                <AvatarImage src={`${isAuthenticated === true && data.avartar !== undefined ? data.avartar : ''}`}alt="@shadcn" />
-
-                            </Avatar>
-                            <Upload
-                                beforeUpload={() => false}
-                                onChange={(info) => {
-                                    setFile(info.file)
-                                    //    console.log(info);
-
-                                }}
-                            >
-                                <Button
-                                    onClick={hanldeUpload}
-                                    icon={<UploadOutlined />}>Tai lên ảnh</Button>
-                            </Upload>
-                        </div>
-                    </div>
-                </div> : "Loading .."
+                    </div> : "Loading .."
             }
 
         </div>
