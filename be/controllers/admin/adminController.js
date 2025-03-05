@@ -24,6 +24,9 @@ const adminController = {
                 res.cookie("admin_token", token, {
                     httpOnly: true,
                     secure: true,
+                    domain: process.env.BASE_URL_DEPLOY,
+                    sameSite: 'None',
+                    path: '/'
                 }).json({
                     success: true,
                     message: "Admin logged in successfully",

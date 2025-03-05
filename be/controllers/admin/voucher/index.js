@@ -7,7 +7,7 @@ import { Notification } from "../../../models/shop/notificationModel.js";
 const Voucher = {
     createVoucher: async (req, res) => {
         try {
-            const { promotionTitle, discountCode, endDate, rolerVoucher, roleCustomer, promotionDescription } = req.body;
+            const { promotionTitle, discountCode, endDate, rolerVoucher, roleCustomer, promotionDescription , discountAmount } = req.body;
 
             
            
@@ -58,7 +58,8 @@ const Voucher = {
                     promotionDescription,
                     readStatus: arrUser !== undefined ? arrUser.map(user => ({ userID: user, read: true })) : [],
                     readAt: new Date(),
-                    totalUser
+                    totalUser,
+                    discountAmount
                 }
                 const pushVoucher = await Notification.create(data)
                 if ( pushVoucher) {
