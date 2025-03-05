@@ -14,6 +14,7 @@ const VoucherCreate = () => {
             rolerVoucher: 'all',
             roleCustomer: 'admin',
             promotionDescription: '',
+            discountAmount : ''
         },
         onSubmit: (values) => {      
             dispatch(createVoucher(values)).then((data) => {
@@ -117,6 +118,23 @@ const VoucherCreate = () => {
                             />
                             <div className="text-sm text-red-500">
                                 {formik.errors.discountCode}
+                            </div>
+                    
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                           Nhập giá giảm <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            id="discountAmount"
+                            type="text"
+                            placeholder="Ví dụ: 20 , 30  ,1000 , ...."
+                            className={`w-full px-3 py-2 border rounded-md`}
+                            value={formik.values.discountAmount}
+                            onChange={formik.handleChange}
+                            />
+                            <div className="text-sm text-red-500">
+                                {formik.errors.discountAmount}
                             </div>
                     
                     </div>

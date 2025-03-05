@@ -43,7 +43,13 @@ const SepayQr = () => {
     useEffect(() => {
         if (time > 0 && code) {
             console.log("Đã gửi dữ liệu");
-            dispatch(createOrderPaymentSepay("DH0168")).then(payload => {
+            if (time === 0) {
+                toast({
+                    title: 'Hết thời gian thanh toán',
+                    status: 'error'
+                })
+            }
+            dispatch(createOrderPaymentSepay(code)).then(payload => {
 
                 if (isSuccessSepay === true && payloadMessageSepay === "Chuyển khoản thành công") {  
                  

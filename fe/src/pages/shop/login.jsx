@@ -22,13 +22,21 @@ const ShoppingLogin = () => {
             password: '',
         },
         onSubmit: (values) => {
+            // console.log(values);
+            
             dispatch(loginUser(values)).then(data => {
-                // console.log(data);
+                console.log(data);
+                console.log("da check password");
+                
                 if (data?.payload?.success) {
                     toast({
                         title: data?.payload?.message
                     })
                     navigate('/shop/home')
+                }
+                else   if (data?.payload?.message === "Tài khoản bị block ") {
+                    message.error(data?.payload?.message)
+                    return
                 }
                 else {
                     toast({
@@ -38,7 +46,7 @@ const ShoppingLogin = () => {
                         action: <ToastAction altText="Try again">Thử lại</ToastAction>
                     })
                 }
-            })
+            }).catch(error => console.log(error))
         },
         validationSchema: userSchemaSignUpLogin
     })
