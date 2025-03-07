@@ -5,7 +5,7 @@ import { UnauthorizedError } from "../../../error/user/userError.js"
 const ChangePassword = async (req, res) => {
     try {
 
-        console.log(req.body);
+        // console.log(req.body);
         
 
         // res.status(200).json({success : true ,message:"Mat khau dung"})

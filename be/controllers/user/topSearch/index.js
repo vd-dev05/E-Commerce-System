@@ -27,7 +27,7 @@ const TopSearch = {
         ]);
         const mappedResponse = response.map(item => ({
             ...item,
-            search: mapSearchTerm(item.search)
+            search: mapSearchTerm(item.search),
         }));
         
     

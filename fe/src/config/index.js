@@ -60,14 +60,14 @@ export const categoryList = [
     { id: 6, label: "điện thoại", url: assets.phone, path: "Điện Thoại Phụ Kiện" },
     { id: 7, label: "ba lô nam,túi ví nam", url: assets.balo_tuvinam, path: "Balo Túi Ví Nam" },
     {id : 8 , label : "bách hóa online", url : assets.bach_hoa_online , path : "Bách Hóa Online"},
-    {id : 9 , label : "giày dep nữ", url : assets.giay_dep_nu , path : "Giayas Dep Nữ"},
-    {id : 10 , label : "oto, xe may, xe đạp", url : assets.car_motobike , path : "Oto, Xe May, Xế Dập"},
+    {id : 9 , label : "giày dép nữ", url : assets.giay_dep_nu , path : "Giày Dép Nữ"},
+    {id : 10 , label : "oto, xe may, xe đạp", url : assets.car_motobike , path : "Ô tô xe máy xe đạp"},
     {id : 11 , label : "sức khỏe", url : assets.suc_khoe , path : "Sức Khỏe"},
     {id : 12 , label : "sắc đẹp" , url : assets.sac_dep , path : "Sắc Đẹp"},
-    {id : 13 , label : "máy ảnh &quay phim", url : assets.may_anh , path : "Máy ảnh & Thiết Bị Quay Phim"},
-    {id : 14 , label : "mé & bé", url : assets.me_va_be , path : "Mé & Bé"},
+    {id : 13 , label : "máy ảnh &quay phim", url : assets.may_anh , path : "Máy ảnh Thiết Bị Quay Phim"},
+    {id : 14 , label : "mẹ & bé", url : assets.me_va_be , path : "Mẹ Bé"},
     {id : 15 , label : "túi ví nữ", url : assets.tui_vi_nu , path : "Túi Ví Nữ"},
-    {id : 16 , label : "nhà sách online", url : assets.nha_sach,path : "Nhà sách online"},
+    {id : 16 , label : "nhà sách online", url : assets.nha_sach,path : "Nhà Sách Online"},
     {id : 17 , label : "thời trang trẻ em",url : assets.thoi_trang_tre_em , path : "Thời Trang Trẻ Em"},
     {id : 18 , label : "phụ kiện nữ" , url : assets.phu_kien_nu,path : "Phụ Kiện Nữ"},
     {id : 19 , label : "thể thao & du lịch", url : assets.the_thao , path : "Thể thao và du lich"},
@@ -89,6 +89,11 @@ export const allcategory = {
             { id: 9, name: "Túi Đeo Chéo Nam", query: "tui-deo-cheo-nam", path: "tui-deo-cheo-nam", url: "/Balo Túi Ví Nam" },
             { id: 10, name: "Bóp/Ví Nam", query: "bop-vi-nam", path: "bop-vi-nam", url: "/Balo Túi Ví Nam" },
             { id: 11, name: "Khác", query: "khac", path: "khac", url: "/Balo Túi Ví Nam" }
+        ],
+        "Bách Hóa Online" : [
+            {id : 1 , name : "Nhu Yếu Phẩm" , path : "nhu-yeu-pham", query : "nhu-yeu-pham" , url : "/Bách Hóa Online"},
+            {id : 2 , name : "Đồ chế biến sẵn" ,path : "do-che-bien-san", query : "do-che-bien-san" ,  url : "/Bách Hóa Online"},
+            {id : 3 , name : "Các loại bánh" , path : "cac-loai-banh", query: "cac-loai-banh" ,url : "/Bách Hóa Online"}
         ]
     },
     D: {
@@ -185,15 +190,15 @@ export const allcategory = {
             { id: 8, name: "Laptop", path: "laptop", query: "laptop", url: "/may-tinh-laptop" },
             { id: 9, name: "Khác", path: "khac", query: "khac", url: "/may-tinh-laptop" }
         ],
-        "May_Anh_May_Quay_Phim": [
-            { id: 1, name: "Máy ảnh - Máy quay phim", path: "may-anh-may-quay-phim", query: "may-anh-may-quay-phim", url: "/may-anh-may-quay-phim" },
-            { id: 2, name: "Camera giám sát & Camera hệ thống", path: "camera-giam-sat-camera-he-thong", query: "camera-giam-sat-camera-he-thong", url: "/may-anh-may-quay-phim" },
-            { id: 3, name: "Thẻ nhớ", path: "the-nho", query: "the-nho", url: "/may-anh-may-quay-phim" },
-            { id: 4, name: "Ống kính", path: "ong-kinh", query: "ong-kinh", url: "/may-anh-may-quay-phim" },
-            { id: 5, name: "Phụ kiện máy ảnh", path: "phu-kien-may-anh", query: "phu-kien-may-anh", url: "/may-anh-may-quay-phim" },
-            { id: 6, name: "Máy bay camera & Phụ kiện", path: "may-bay-camera-phu-kien", query: "may-bay-camera-phu-kien", url: "/may-anh-may-quay-phim" }
+        "Máy ảnh Thiết Bị Quay Phim": [
+            { id: 1, name: "Máy ảnh - Máy quay phim", path: "Máy Ảnh Máy Quay Phim", query: "máy ảnh máy quay phim", url: "/Máy ảnh & Thiết Bị Quay Phim" },
+            { id: 2, name: "Camera giám sát & Camera hệ thống", path: "camera-giam-sat-camera-he-thong", query: "camera-giam-sat-camera-he-thong", url: "/Máy ảnh & Thiết Bị Quay Phim" },
+            { id: 3, name: "Thẻ nhớ", path: "the-nho", query: "the-nho", url: "/mMáy Ảnh Máy Quay Phim" },
+            { id: 4, name: "Ống kính", path: "ong-kinh", query: "ong-kinh", url: "/mMáy Ảnh Máy Quay Phim" },
+            { id: 5, name: "Phụ kiện máy ảnh", path: "phu-kien-may-anh", query: "phu-kien-may-anh", url: "/mMáy Ảnh Máy Quay Phim" },
+            { id: 6, name: "Máy bay camera & Phụ kiện", path: "may-bay-camera-phu-kien", query: "may-bay-camera-phu-kien", url: "/Máy ảnh & Thiết Bị Quay Phim" }
         ],
-        "Me_Be": [
+        "Mẹ Bé": [
             { id: 1, name: "Đồ dùng du lịch cho bé", path: "do-dung-du-lich-cho-be", query: "do-dung-du-lich-cho-be", url: "/me-be" },
             { id: 2, name: "Đồ dùng ăn dặm cho bé", path: "do-dung-an-dam-cho-be", query: "do-dung-an-dam-cho-be", url: "/me-be" },
             { id: 3, name: "Phụ kiện cho mẹ", path: "phu-kien-cho-me", query: "phu-kien-cho-me", url: "/me-be" },
@@ -241,7 +246,20 @@ export const allcategory = {
             { id: 26, name: "Các Loại Quà Lưu Niệm", path: "cac-loai-qua-luu-niem", query: "cac-loai-qua-luu-niem", url: "/nha-cua-doi-song" },
             { id: 27, name: "Nhạc cụ và phụ kiện âm nhạc", path: "nhac-cu-va-phu-kien-am-nhac", query: "nhac-cu-va-phu-kien-am-nhac", url: "/nha-cua-doi-song" },
             { id: 28, name: "Khác", path: "khac", query: "khac", url: "/nha-cua-doi-song" }
-        ],},
+        ],
+        "Nhà Sách Online" : [
+            { id: 1, name: 'Sách Tiếng Việt', path: 'sach-tieng-viet', query: 'sach-tieng-viet', url: "/Nhà Sách Online" },
+            { id: 2, name: 'Sách ngoại văn', path: 'sach-ngoai-van', query: 'sach-ngoai-van', url: "/Nhà Sách Online" },
+            { id: 3, name: 'Gói Quà', path: 'goi-qua', query: 'goi-qua', url: "/Nhà Sách Online" },
+            { id: 4, name: 'Bút viết', path: 'but-viet', query: 'but-viet', url: "/Nhà Sách Online" },
+            { id: 5, name: 'Dụng cụ học sinh & văn phòng', path: 'dung-cu-hoc-sinh-va-van-phong', query: 'dung-cu-hoc-sinh-va-van-phong', url: "/Nhà Sách Online" },
+            { id: 6, name: 'Màu, Họa Cụ và Đồ Thủ Công', path: 'mau-hoa-cu-va-do-thu-cong', query: 'mau-hoa-cu-va-do-thu-cong', url: "/Nhà Sách Online" },
+            { id: 7, name: 'Sổ và Giấy', path: 'so-va-giay', query: 'so-va-giay', url: "/Nhà Sách Online" },
+            { id: 8, name: 'Các Loại Quà Lưu Niệm', path: 'cac-loai-qua-luu-niem', query: 'cac-loai-qua-luu-niem', url: "/Nhà Sách Online" },
+            { id: 9, name: 'Nhạc cụ và phụ kiện âm nhạc', path: 'nhac-cu-va-phu-kien-am-nhac', query: 'nhac-cu-va-phu-kien-am-nhac', url: "/Nhà Sách Online" },
+        ]
+     
+    },
         T: {
             "Thiết Bị Điện Gia Dụng": [
                 { id: 1, name: 'do gia dung nha bep', path: 'do-gia-dung-nha-bep', query: 'do-gia-dung-nha-bep', url: '/thiet-bi-dien-gia-dung' },
@@ -340,6 +358,16 @@ export const allcategory = {
                 { id: 10, path: "khac", name: "Khác", url: "/tui-vi-nu", query: "khac" },
             ],
         },
+        S : {
+            "Sắc Đẹp" : [
+                {id : 1 , name : "son"  , path : "son" , query : "son" , url : "/Sắc Đẹp"},
+                {id : 2 , name : "dụng cụ trang điểm", path : "dung-cu-trang-diem" , query : "dung-cu-trang-diem" , url : "/Sắc Đẹp"},
+            ],
+            "Sức Khỏe" : [
+                {id : 1 , name : "Vật tư y tế" , path : "vat-tu-y-te" , query : "Vật tư y tế" , url : "/Sức Khỏe"},
+                {id : 2 , name : "Chống muỗi & xua đuổi côn trùng" , path : "Chống muỗi & xua đuổi côn trùn", query : "Chống muỗi & xua đuổi côn trùn" , url : "/Sức Khỏe"}
+            ]
+        },
         V: {
             "Voucher & Dịch Vụ": [
                 { id: 1, name: "Nhà hàng & Ăn uống", path: "nha-hang-an-uong", query: "nha-hang-an-uong", url: "/voucher-dich-vu" },
@@ -355,10 +383,20 @@ export const allcategory = {
                 { id: 11, name: "Dịch vụ khác", path: "dich-vu-khac", query: "dich-vu-khac", url: "/voucher-dich-vu" },
                 { id: 12, name: "Khác", path: "khac", query: "khac", url: "/voucher-dich-vu" }
             ]
+        },
+        O : {
+            "Ô tô xe máy xe đạp" : [
+                {id :1 , name : "Xe đạp , xe điện" , path : "xe đap xe điện" , query : "xe đap xe điện" , url : "/Ô tô xe máy xe đạp" },
+                {id : 2 , name : "Xe Ô tô" , path : "xe ô tô" ,query : "xe ô tô" ,url : "/Ô tô xe máy xe đạp"},
+                {id : 3 , name : "Mô tô , xe máy" , path : "mô tô xe máy" , url : "/Ô tô xe máy xe đạp"}
+            ]
         }
     }
 
 export const categoryMapping = {
+    "Mẹ Bé" : "M",
+    "Ô tô xe máy xe đạp" : "O",
+    "Giày Dép Nữ" : "G",
     "Balo Túi Ví Nam"  : "B",
     "Điện Thoại Phụ Kiện" : "D",
     "Điện Thoại Phụ Kiện" : "D",
@@ -366,20 +404,23 @@ export const categoryMapping = {
     "Chăm Sóc Thú Cưng" : "C",
     "Dụng Cụ Và Thiết Bị Tiện Ích" : "D",
     'Đồng Hồ': 'D',
+    "Máy ảnh Thiết Bị Quay Phim" : "M",
     "do-choi-so-thich-su-tam Đồ Chơi Sở Thích Sưu Tầm" : "G",
     "Giày Dép Nam" : "G",
     "giay-dep-nu" : "G",
     "gia-tien-va-cham-soc-nha-cua" : "G",
     "may-tinh-laptop" : "M",
     "me-va-be" : "M",
+    "Nhà Sách Online" : "N",
     "nha-cua-va-doi-song" : "N",
     "nhac-cu-va-phu-kien-am-nhac" : "O",
     "phu-kien-va-trang-suc-nu" : "P",
-    "sac-dep" : "S",
+    "Sắc Đẹp" : "S",
+    "Sức Khỏe" : "S",
     "Thiết Bị Điện Gia Dụng" : "T",
     "Thời Trang Nam" : "T",
     "Thời Trang Nữ" : "T",
     "Thời Trang Trẻ Em" : "T",
-    "tui-vi-nu" : "V",
+    "Túi Ví Nữ" : "T",
     "voucher-va-dich-vu" : "V"
 }

@@ -25,9 +25,7 @@ const ShoppingLogin = () => {
             // console.log(values);
             
             dispatch(loginUser(values)).then(data => {
-                console.log(data);
-                console.log("da check password");
-                
+    
                 if (data?.payload?.success) {
                     toast({
                         title: data?.payload?.message

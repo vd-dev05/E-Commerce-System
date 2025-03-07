@@ -1,7 +1,7 @@
 import express from "express";
 import CountDown from "../../../controllers/user/countdown/index.js";
 import OrderController from "../../../controllers/user/card/orderControllers.js";
-import { authMiddleware } from "../../../middlewares/authMiddleware.js";
+import { authMiddleware, saleProductAuthMiddleware } from "../../../middlewares/authMiddleware.js";
 import { uploadUser } from "../../../config/cloundAvartar.js";
 import AvartarController from "../../../controllers/user/edit/avartar.js";
 import  PayPalServices from '../../../services/paypal.js'
@@ -23,6 +23,7 @@ const usersRouter = express.Router();
 
 // usersRouter.post('/countdown/start',CountDown.getTimeStart)
 // usersRouter.get('/countdown/end',CountDown.getTimeCountdownEndTime)
+usersRouter.post("/products/sale" ,saleProductAuthMiddleware, Products.createProductSale)
 usersRouter.post('/chat/:id/list',authMiddleware,ChatManager.createMessageList)
 usersRouter.get('/chat/:id/roomId',authMiddleware,ChatManager.getMessageId)
 usersRouter.get('/room',authMiddleware,ChatManager.getRoomListId)

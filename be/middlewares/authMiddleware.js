@@ -4,7 +4,7 @@ import ManagerModel from '../models/shop/managerModel.js';
 import { UnauthorizedError } from '../error/user/userError.js';
 
 const validateUserInput = async (req, res, next) => {
-    const { username, email, password, gender, birthday, phone , isLoginGoogle } = req.body;
+    const { username, email, password, gender, birthday, phone, isLoginGoogle } = req.body;
     try {
         const emailExists = await UserModel.findOne({ email })
         if (emailExists) {
@@ -13,7 +13,7 @@ const validateUserInput = async (req, res, next) => {
                 message: "Địa chỉ email này đã tồn tại"
             });
         }
-        
+
         if (isLoginGoogle === true) {
             return next()
         }
@@ -37,7 +37,7 @@ const validateUserInput = async (req, res, next) => {
                 message: 'Định dạng email không hợp lệ'
             });
         }
-        const phoneRegex =  /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
         if (!phoneRegex.test(Number(phone))) {
             return res.json({
                 success: false,
@@ -45,7 +45,7 @@ const validateUserInput = async (req, res, next) => {
             });
         }
 
-     
+
         const phoneExists = await UserModel.findOne({ phone })
         if (phoneExists) {
             return res.json({
@@ -63,15 +63,17 @@ const validateUserInput = async (req, res, next) => {
     }
 }
 const authMiddleware = async (req, res, next) => {
-    
+
     const token = req.cookies.token;
 
-    
-    try {        
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = decoded;
-            
-            next()
+
+    try {
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        req.user = decoded;
+
+        next()
     } catch (error) {
         res.json({
             success: false,
@@ -132,7 +134,7 @@ const validateManagerInput = async (req, res, next) => {
 
 const managerAuthMiddleware = async (req, res, next) => {
     const token = req.cookies.manager_token;
-  
+
     if (!token) return res.json({
         success: false,
         message: 'Unauthorised user !'
@@ -141,7 +143,7 @@ const managerAuthMiddleware = async (req, res, next) => {
     try {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-     
+
         req.manager = decoded;
         next()
     } catch (error) {
@@ -153,4 +155,29 @@ const managerAuthMiddleware = async (req, res, next) => {
     }
 }
 
-export { authMiddleware, validateUserInput, validateManagerInput, managerAuthMiddleware }
+const saleProductAuthMiddleware = async (req, res, next) => {
+    try {
+        if (req.headers['authorization'] === undefined) throw new Error('Authentication required')
+        const token = req.headers['authorization'];
+        const split = token.split(' ')[1]
+
+        const decoded = jwt.verify(split, process.env.JWT_SECRET_SALE);
+
+        if (!decoded) {
+            return res.json({
+                success: false,
+                message: 'Unauthorised Sale not found !'
+            })
+        }
+        req.socketSale = decoded;
+        next()
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+export { authMiddleware, validateUserInput, validateManagerInput, managerAuthMiddleware, saleProductAuthMiddleware }

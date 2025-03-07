@@ -13,9 +13,6 @@ import { server } from './index.js';
 
 // Xử lý kết nối của Socket.IO
 io.on("connection", (socket) => {  
-    console.log(socket);
-      
-    console.log("A user connected!");
     countdownController.handleSocketConnection(socket);  // Ví dụ: xử lý sự kiện khi client kết nối
 });
 

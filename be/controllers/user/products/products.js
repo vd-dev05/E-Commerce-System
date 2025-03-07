@@ -84,6 +84,42 @@ const Products = {
         } catch (error) {
             ErrorNotFoundResponse(res, error)
         }
+    },
+    createProductSale : async (req,res) => {
+
+        try {
+           
+            const products = await getNewSaleProducts();
+            res.json({
+                products,
+                count : products.length
+            });
+            // console.log(products);
+         
+            
+            
+        } catch (error) {
+            ErrorNotFoundResponse(res, error)
+        }
     }
+}
+let usedCategories = new Set(); // Lưu danh mục đã dùng
+
+async function getNewSaleProducts() {
+    let availableCategories = await ProductModel.aggregate([
+        { $group: { _id: "$category" } }, // Lấy tất cả danh mục
+        { $match: { _id: { $nin: Array.from(usedCategories) } } }, // Loại bỏ danh mục đã dùng
+        { $sample: { size: 12 } } // Lấy 12 danh mục mới
+    ]);
+
+    if (availableCategories.length < 12) {
+        usedCategories.clear(); // Reset nếu hết danh mục
+        return getNewSaleProducts(); // Gọi lại để lấy danh mục mới
+    }
+
+    let newCategories = availableCategories.map(c => c._id);
+    usedCategories = new Set([...usedCategories, ...newCategories]); // Cập nhật danh mục đã dùng
+
+    return ProductModel.find({ category: { $in: newCategories } }).limit(12);
 }
 export default Products

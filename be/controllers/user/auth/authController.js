@@ -66,6 +66,7 @@ const register = async (req, res) => {
             
             res.cookie('token', token, {
                 httpOnly: true,
+                // secure: false,
                 secure: true,
                 domain: process.env.BASE_URL_DEPLOY,
                 sameSite: 'None',
@@ -140,10 +141,10 @@ const login = async (req, res , next) => {
         
         res.cookie('token', token , {
             httpOnly: true,
-            secure: true,
-            domain: process.env.BASE_URL_DEPLOY,
-            sameSite: 'None',
-            path: '/'
+            secure: false,
+            // domain: process.env.BASE_URL_DEPLOY,
+            // sameSite: 'None',
+            // path: '/'
         }).json({
             success: true,
             message: 'Đăng nhập thành công',

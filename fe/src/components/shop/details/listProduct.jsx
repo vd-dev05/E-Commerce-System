@@ -108,16 +108,17 @@ const ProductDetails = ({payloadProducts ,isProducts , isGetQueryCategoryProduct
                     onClick={() => {
                         window.location.href=`${location.pathname}/${item._id}/`
                     }}
-                    key={index} className="drop-shadow-2xl hover:border-red-500 hover:border-2 cursor-pointer duration-75 ">
+                    key={index} className="drop-shadow-2xl hover:border-red-500 hover:border-[1px] cursor-pointer duration-75 ">
                         <img
                             className="h-[200px] w-full"
                             src={item?.images?.mainImage || ''} alt="anh product" />
                         <div className="px-2">
-                            <h3>{formatTitleLenght(item.name)}</h3>
+                            <h3>{formatTitleLenght(item.name ,18)}</h3>
 
                             <div className="flex items-center gap-2" >
                                 <span>{formatPrice(item.salePrice)}</span>
-                                <span className="bg-[#ffeeec] text-orange-400 px-2 py-1 rounded line-through">{formatPrice(item.price)}</span>
+                                <span className={`bg-[#ffeeec] text-orange-400 px-2 py-1 rounded line-through
+                                ${Number(item.price) > 100 ? 'text-xs' : ''}`}>{formatPrice(item.price)}</span>
                             </div>
 
                             <div className="text-xs flex justify-start gap-5">

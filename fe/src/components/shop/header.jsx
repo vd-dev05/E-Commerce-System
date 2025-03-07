@@ -112,7 +112,7 @@ const ShoppingHeader = ({count }) => {
                                     if (!search && e.key === 'Enter') message.error("không tìm thấy giá trị tìm kiếm ")
                                     if (e.key === 'Enter') {
                                         dispatch(createSearch({ search }))
-                                        navigate(`/shop/search?q=${search}`)
+                                        navigate(`?q=${search}`)
 
                                     }
                                 }}

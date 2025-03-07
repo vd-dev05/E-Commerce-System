@@ -30,25 +30,32 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cors({
-    origin: process.env.BASE_URL_FE,
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    allowedHeaders: [
-        "Content-Type",
-        "Authorization",
-        "Cache-Control",
-        "Expires",
-        "Pragma",
-    ],
-    credentials: true,
-}));
 app.use(cookieParser());
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", process.env.BASE_URL_FE);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
+// app.use(cors({
+//     origin: "http://localhost:5173",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     allowedHeaders: "Content-Type, Authorization",
+//     exposedHeaders: "Authorization",
+//     credentials: true   
+// }))
+
 
 // Route mặc định
 app.get("/", async (req, res) => {
     res.send('API Working');
- 
-    
+
+
 });
 
 // Sử dụng các router của bạn

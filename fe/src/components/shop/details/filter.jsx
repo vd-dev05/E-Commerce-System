@@ -65,6 +65,7 @@ const FilterProduct = ({ checkQuery, location, payloadProducts, isProducts, isGe
                 {isLoading === false ? routeData?.slice(0, visibleItems).map((item, index) => (
                     <div key={index} >
                         <Link
+                            className="text-[14px]"
                             to={`?categrory=${item.query}`}> {item.name}
                         </Link>
 

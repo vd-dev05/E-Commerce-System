@@ -1,4 +1,4 @@
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatTitleLenght } from "@/lib/utils";
 import { clickRecommend } from "@/store/Shop/users";
 import { recommendProduct } from "@/store/Shop/users/userThunk";
 import { useEffect, useState } from "react";
@@ -42,9 +42,9 @@ const Recommend = () => {
                                         src={item?.images?.mainImage} alt="" />
                                     <div className="absolute bottom-0 w-full p-2 bg-white">
                                         <div className="flex flex-col items-start">
-                                            <div className="flex items-center justify-center text-black">{item?.name}</div>
+                                            <div className="flex items-center justify-center text-black">{formatTitleLenght( item?.name,18)}</div>
                                             <div className="flex items-center justify-center">
-                                                <span>{item.price ? formatPrice(item?.price) : 0}</span>
+                                                <span>{item.price ? formatPrice(item?.price) : "1.000 đ"}</span>
                                                 <sup>- 30%</sup>
                                             </div>
                                         </div>

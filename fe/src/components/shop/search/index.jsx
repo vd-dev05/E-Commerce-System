@@ -30,12 +30,12 @@ const SearchTop = () => {
                             <span className="bg-red-400 p-2 rounded-b-full absolute text-white -top-5 left-1">Top</span>
                             <img
                                 className="w-full h-[200px] object-cover rounded-md"
-                                src={item.image} alt="" />
+                                src={item?.search?.img} alt="" />
                             <div className="absolute bottom-0  w-full bg-black bg-opacity-50 p-2  ">
-                                <div className=" flex items-center justify-center text-white">Da ban 3k</div>
+                                <div className=" flex items-center justify-center text-white">{item?.count} lượt tìm kiếm</div>
                             </div>
                         </div>
-                        <p className="mt-2 text-center">{item.search}</p>
+                        <p className="mt-2 text-center">{item?.search?.name}</p>
 
                     </div>
                 ))}

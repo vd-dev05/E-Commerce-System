@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
-import { formatPrice, formatTimeCountDown, formatTitle } from '@/lib/utils';
+import { formatPrice, formatTimeCountDown, formatTitle, formatTitleLenght } from '@/lib/utils';
 import { Link, useNavigate } from "react-router";
 import { HeartIcon } from 'lucide-react';
 import { isAction } from '@reduxjs/toolkit';
@@ -14,33 +14,34 @@ const SaleProducts = ({increment,count,auth}) => {
 
     
     // Dữ liệu giả lập (12 giờ, mỗi giờ có 6 hay nhieu  sản phẩm)
-    let dataFakeSale = [];
-    for (let i = 0; i < 12; i++) {
-        dataFakeSale.push({
-            hour: i + 1,
-            items: Array.from({ length: 6 }, (_, index) => ({
-                name: `${Math.random().toString(36).substring(7)}`,
-                url: 'https://img.lazcdn.com/g/p/28df49ba07be9ebbb67b275bfe5a635e.jpg_400x400q80.jpg_.avif',
-                price: Math.random() * 100000,
-                path: '/shop/men',
-                id: index + 1,
-                discount: Math.random() * 9000,
-                discount_type : `${Math.floor(Math.random() * 40)}`,
-            }))
-        });
-    }
+    // let dataFakeSale = [];
+    // for (let i = 0; i < 12; i++) {
+    //     dataFakeSale.push({
+    //         hour: i + 1,
+    //         items: Array.from({ length: 6 }, (_, index) => ({
+    //             name: `${Math.random().toString(36).substring(7)}`,
+    //             url: 'https://img.lazcdn.com/g/p/28df49ba07be9ebbb67b275bfe5a635e.jpg_400x400q80.jpg_.avif',
+    //             price: Math.random() * 100000,
+    //             path: '/shop/men',
+    //             id: index + 1,
+    //             discount: Math.random() * 9000,
+    //             discount_type : `${Math.floor(Math.random() * 40)}`,
+    //         }))
+    //     });
+    // }
 
     // Khi kết nối với socket
     useEffect(() => {
         const socket = io(`${import.meta.env.VITE_REACT_APP_SOCKET_APP}`);
         socket.on('countdown', (time) => {
-        
+            // console.log(time);
             
             
-            if (time && time.timeStart > 0 && timeLeft >= 0) {
+            
+            if (time && time.timeStart > 0 && timeLeft >= 0 && time.dataSale) {
                 // Lọc dữ liệu theo giờ và lấy 6 phần tử
-                const filteredData = dataFakeSale.filter(item => item.hour === time.timeStart);
-                setData(filteredData[0]?.items || []); // Lấy mảng sản phẩm của giờ hiện tại
+                // const filteredData = dataFakeSale.filter(item => item.hour === time.timeStart);
+                setData(time.dataSale || []); // Lấy mảng sản phẩm của giờ hiện tại
 
                 setTimeLeft(time.timeLeft);      // Cập nhật thời gian còn lại từ server
 
@@ -77,11 +78,11 @@ const SaleProducts = ({increment,count,auth}) => {
                 {isLoading ? (
                     <div>Loading...</div>
                 ) : (
-                    data.map((item) => (
+                    data?.slice(0, 6).map((item) => (
                         <div key={item.id} className="flex items-center gap-2 flex-col  ">
                             <div className="w-full h-4/6 bg-gray-200 rounded-md overflow-hidden relative hover:scale-105 group">
-                                <span className='absolute top-2 left-2 bg-red-500 text-white text-xs py-1 px-4 rounded-lg'>{item.discount_type ? '-' + item.discount_type + '%' : ''}</span>
-                                <img src={item.url} alt={item.name} className="w-full h-full object-cover " />
+                                <span className='absolute top-2 left-2 bg-red-500 text-white text-xs py-1 px-4 rounded-lg'>{item.discount_type ? '-' + item.discount_type + '%' : '100 %'}</span>
+                                <img src={item?.images?.mainImage} alt={item.name} className="w-full h-full object-cover " />
                                 <button
                                 onClick={() => {
                                     if (auth === true) {
@@ -114,7 +115,7 @@ const SaleProducts = ({increment,count,auth}) => {
                             onClick={() => console.log(item)
                             }
                             >
-                                <h3 className="text-lg">{item.name ? formatTitle(item.name) : ''}</h3>
+                                <h3 className="text-lg">{item.name ? formatTitleLenght(item.name, 19) : ''}</h3>
                                 <div className="flex items-center justify-between">
                                     <p className="text-[17px]">{item.price ? formatPrice(item.price) : 0} VNĐ</p>
                                     <span className="text-xs text-red-500 line-through">

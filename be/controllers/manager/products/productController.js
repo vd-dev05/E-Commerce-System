@@ -63,8 +63,6 @@ export const createProduct = async (req, res) => {
             attributes,
             totalStock
         } = req.body;
-        console.log(req.body);
-
 
 
         const manager = await ManagerModel.findById(managerId);
