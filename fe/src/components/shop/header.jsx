@@ -120,7 +120,10 @@ const ShoppingHeader = ({count }) => {
                                 type="text" placeholder="Tìm kiếm sản phẩm" className="py-2 pl-8 w-full " />
                             < Search
                                 onClick={() => {
-                                    if (search) dispatch(createSearch(search))
+                                    if (isAuthenticated === false) return message.error("Vui lòng đăng nhập để sử dụng chức năng tìm kiếm")
+                                    if (search) {
+                                        dispatch(createSearch(search))
+                                    } 
                                     else {
                                         message.error("không tìm thấy giá trị tìm kiếm ")
                                     }
